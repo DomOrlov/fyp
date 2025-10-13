@@ -43,39 +43,25 @@ t0 = Time(start_dt); t1 = Time(end_dt)
 # ---------------------------------------------------
 # helper: read STUDY_ID / PROGRAM_ID from EIS header
 # ---------------------------------------------------
-def read_study_id(hdr_path: str):
+def read_study_id(hdr_path):
     with h5py.File(hdr_path, "r") as f:
-        # common dataset locations (cover different capitalizations/aliases)
-        for p in (
-            "/header/study_id", "/header/STUDY_ID",
-            "/eis_header/study_id", "/eis_header/STUDY_ID",
-            "/header/program_id", "/header/PROGRAM_ID",
-            "/header/PROG_NUM"
-        ):
+        # ✔ the location in your files
+        if "index/study_id" in f:
+            v = f["index/study_id"][()]
+            if hasattr(v, "shape") and v.shape != ():
+                v = v.reshape(()).item()  # handles array([437], dtype=int32)
+            return int(v)
+        # fallbacks (some datasets use these)
+        for p in ("/header/STUDY_ID","/header/study_id",
+                  "/eis_header/STUDY_ID","/eis_header/study_id",
+                  "/header/PROGRAM_ID","/header/PROG_NUM"):
             if p in f:
-                try:
-                    val = f[p][()]
-                    # handle scalar/array/bytes
-                    if hasattr(val, "shape") and val.shape != ():
-                        val = val[0]
-                    if isinstance(val, bytes):
-                        val = val.decode("utf-8", "ignore")
-                    return int(str(val).strip())
-                except Exception:
-                    pass
-        # sometimes as an attribute
-        for gname in ("header", "eis_header"):
-            if gname in f:
-                g = f[gname]
-                for k, v in g.attrs.items():
-                    if k.lower() in ("study_id","studyid","studynum","program_id","prog_num"):
-                        try:
-                            if isinstance(v, bytes):
-                                v = v.decode("utf-8","ignore")
-                            return int(str(v).strip())
-                        except Exception:
-                            continue
+                val = f[p][()]
+                if hasattr(val, "shape") and val.shape != ():
+                    val = val.reshape(()).item()
+                return int(val)
     return None
+
 
 # ----------------
 # 1) EIS HEADERS
@@ -101,6 +87,8 @@ if hdr_cnt == 0:
 # fetch headers (small)
 hdr_files = Fido.fetch(eis_hdr_res)
 print("downloaded headers:", len(hdr_files))
+
+print("example study_id from first header:", read_study_id(hdr_files[0]))
 
 # time column from the header results table
 tcol = [c for c in eis_hdr_res[0].colnames if "time" in c.lower()][0]
