@@ -72,8 +72,8 @@ def get_closest_aia(date_time_obj, wavelength = 193):
     aia_start_str = aia_start.strftime(DATE_FORMAT)[:-3]
     aia_end_str = aia_end.strftime(DATE_FORMAT)[:-3]
     
-    aia_local_dir = "/home/ug/orlovsd2/gazelle/pfss/AIA/" #change this to your local directory
-    aia_files = sorted(glob.glob(f"{aia_local_dir}/*.fits"))
+    aia_local_dir = "/home/ug/orlovsd2/sunpy/data" #change this to your local directory
+    aia_files = sorted(glob.glob(f"{aia_local_dir}/aia.lev1.193A_*.fits"))
 
     for aia_file in aia_files:
         match = re.search(r"(\d{4}_\d{2}_\d{2}T\d{2}_\d{2}_\d{2})", aia_file)
