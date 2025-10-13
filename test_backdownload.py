@@ -15,6 +15,7 @@ from eispac.net.attrs import FileType
 
 from pfss.functions_data import hmi_daily_download
 from iris_get_pfss_utils import get_closest_aia as closest_aia_193
+from parfive import Downloader
 
 # -----------------------------------------
 # parse AR line and build study allow-list
@@ -148,6 +149,8 @@ if len(kept_data_files) > 10:
 # --------------------------------------
 # 4) NEAREST AIA 193 FOR EACH KEPT TIME
 # --------------------------------------
+dlr_aia = Downloader(max_conn=3, retry=5, progress=True)
+
 print("\nnearest AIA 193 (local first; else online ±30 s)")
 for t in kept_times[:30]:
     row = closest_aia_193(t.datetime)  # local lookup
@@ -162,10 +165,14 @@ for t in kept_times[:30]:
         # pick nearest
         best = min(range(n), key=lambda j: abs(Time(str(r[0]['Start Time'][j])) - t))
         sel = r[0][best:best+1]
-        files = Fido.fetch(sel)
-        print("EIS", t, "-> AIA (fetched):", files[0] if len(files) else sel)
+        files = Fido.fetch(sel, downloader=dlr_aia)
+        if files and len(files):
+            print("EIS", t, "-> AIA (fetched):", files[0])
+        else:
+            print("EIS", t, "-> AIA: fetch FAILED (timeout/no file)")
     else:
         print("EIS", t, "-> AIA (local):", row)
+
 
 # --------------------------------------
 # 5) NEAREST DAILY HMI (TODAY vs YEST)
@@ -175,14 +182,35 @@ for t in kept_times[:30]:
     hmi_today = hmi_daily_download(t)
     hmi_yest  = hmi_daily_download(t - 1*u.day)
 
-    def time_of(row):
-        if row is None:
+    def time_of(obj):
+        # Return astropy Time or None
+        if obj is None:
             return None
-        cnames = list(row.colnames)
-        tcols = [c for c in cnames if "time" in c.lower()]
-        if not tcols:
+
+        # Case A: SunPy Map-like (e.g., HMIMap)
+        if hasattr(obj, "meta"):
+            # many Maps expose .date directly
+            if hasattr(obj, "date") and obj.date is not None:
+                return obj.date
+            # fall back to common header keys
+            for k in ("T_REC", "DATE-OBS", "DATE_OBS", "DATE"):
+                if k in obj.meta:
+                    try:
+                        return Time(obj.meta[k])
+                    except Exception:
+                        pass
             return None
-        return Time(str(row[tcols[0]]))
+
+        # Case B: Table-like
+        if hasattr(obj, "colnames"):
+            tcols = [c for c in list(obj.colnames) if "time" in c.lower()]
+            if tcols:
+                try:
+                    return Time(str(obj[tcols[0]]))
+                except Exception:
+                    return None
+
+        return None
 
     Tt = time_of(hmi_today)
     Ty = time_of(hmi_yest)
@@ -197,5 +225,6 @@ for t in kept_times[:30]:
         choice = hmi_today if abs(Tt - t) <= abs(Ty - t) else hmi_yest
 
     print("EIS", t, "-> HMI:", "none" if choice is None else choice)
+
 
 print("====================================")
