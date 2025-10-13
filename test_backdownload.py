@@ -153,16 +153,16 @@ if len(kept_data_files) > 10:
 dlr_aia = Downloader(max_conn=3, progress=True)
 dlr_aia.retry = 5
 
-print("\nnearest AIA 193 (local first; else online ±30 s)")
-for t in kept_times[:30]:
+print("\nnearest AIA 193")
+for t in kept_times:
     row = closest_aia_193(t.datetime)  # local lookup
     if row is None:
-        w0 = t - 30*u.s
-        w1 = t + 30*u.s
+        w0 = t - 60*u.s
+        w1 = t + 60*u.s
         r  = Fido.search(a.Time(w0, w1), a.Instrument.aia, a.Wavelength(193*u.angstrom))
         n  = len(r[0]) if len(r) > 0 else 0
         if n == 0:
-            print("EIS", t, "-> AIA:", "none (no online match ±30 s)")
+            print("EIS", t, "-> AIA:", "none")
             continue
         # pick nearest
         best = min(range(n), key=lambda j: abs(Time(str(r[0]['Start Time'][j])) - t))
@@ -180,7 +180,7 @@ for t in kept_times[:30]:
 # 5) NEAREST DAILY HMI (TODAY vs YEST)
 # --------------------------------------
 print("\nnearest HMI (daily: today vs yesterday)")
-for t in kept_times[:30]:
+for t in kept_times:
     hmi_today = hmi_daily_download(t)
     hmi_yest  = hmi_daily_download(t - 1*u.day)
 
