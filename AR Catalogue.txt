@@ -1,0 +1,161 @@
+=======================================================
+https://solarmonitor.org/full_disk.php?date=20140205&type=saia_00193&region=&indexnum=1
+https://www.spaceweatherlive.com/en/solar-activity/region/11652.html
+https://solarb.mssl.ucl.ac.uk/SolarB/estudylist.jsp
+
+Dropped = H-alpha Plages without Spots.
+
+AR 11967 2014-01-28 -> 2014-02-10 ~ Beta -> Beta-Gamma -> Beta-Gamma-Delta ~ 437, 403 
+
+AR 12434 2015-10-14 -> 2015-10-26 ~ (Till 25) Beta -> Beta-Gamma -> Beta-Gamma-Delta -> Beta ~ 544
+
+AR 12436 2015-10-18 -> 2015-10-30 ~ Beta-Gamma -> Beta-Delta -> Beta-Gamma -> Beta ~ 544
+
+AR 11504 2012-06-10 -> 2012-06-22 ~ Beta -> Beta-Gamma-Delta Beta-Gamma -> Beta ~ 404, 420 
+
+AR 12665 2017-07-05 -> 2017-07-17 ~ (06) Alpha -> Beta -> Beta-Gamma -> Beta ~ 544
+
+AR 12759 2020-04-01 -> 2020-04-06 ~ (Till 05) Alpha ~ 569, 544
+
+AR 12351 2015-05-20 -> 2015-05-28 ~ Beta -> Dropped -> Alpha -> Dropped (For the rest of the days) -> ~ 437, 414
+
+AR 12107 2014-06-30 -> 2014-07-13 ~ Beta -> Beta-Gamma -> Beta-Delta -> Beta -> Beta-Gamma -> Beta -> Alpha ~ 404, 420
+
+AR 12132 2014-08-05 -> 2014-08-07 ~ Beta-Gamma -> Beta ~ 404, 420
+
+AR 12519 2016-03-12 -> 2016-03-17 ~ Beta -> Alpha -> Beta ~ 404, 520
+
+AR 12564 2016-07-09 -> 2016-07-21 ~ Alpha -> Beta -> Beta-Gamma -> Beta -> Alpha -> Beta -> Alpha -> Dropped ~ 404
+
+AR 12546 2016-05-20 -> 2016-05-27 ~ Beta -> Alpha ~ 404, 520, 403
+
+AR 12289 2015-02-21 -> 2015-02-27 ~ Alpha -> Dropped -> Beta -> Alpha ~ 520, 523 (two)
+
+AR 12297 2015-03-07 -> 2015-03-15 ~ Alpha -> Beta-Gamma ->  Beta-Gamma-Delta -> Beta-Delta -> Beta-Gamma-Delta -> Beta-Gamma~ 520 (eight)
+
+AR 12387 2015-07-19 -> 2015-07-27 ~ Beta -> Dropped ~ 520, 404, 522
+
+AR 12401 2015-08-16 -> 2015-08-25 ~ Beta -> Alpha -> Dropped ~ 520
+
+AR 12429 2015-10-08 -> 2015-10-17 ~ Beta -> Dropped(10th) ~ 520
+
+AR 11944 2014-01-02 -> 2014-01-15 ~ Beta -> Beta-Gamma -> Beta-Gamma-Delta -> Beta-Gamma -> Beta ~ 403, 437
+
+AR 12381 2015-07-05 -> 2015-07-16 ~ Beta -> Beta-Gamma -> Beta  ~ 522, 404
+
+AR 12470 2015-12-19 -> 2015-12-26 ~ Beta -> Alpha ~ 522 (three), 404 (three), 520 (four), 437 (one)
+
+AR 12687 2017-11-20 -> 2017-11-25 ~ Dropped ~ 569
+
+AR 12685 2017-10-25 -> 2017-11-01 ~ Alpha -> Dropped ~ 569
+
+AR 12680 2017-09-14 -> 2017-09-21 ~ Alpha ~ 569
+
+AR 12602 2016-10-15 -> 2016-10-21 ~ Beta ~ 544
+
+AR 12532 2016-04-21 -> 2016-04-26 ~ Beta -> Alpha -> Dropped -> Beta ~ 522
+
+AR 12592 2016-09-17 -> 2016-09-21 ~ Beta -> Dropped ~ 522
+
+AR 12672 2017-08-26 -> 2017-08-30 ~ Beta-Gamma -> Beta ~ 521
+
+AR 12376 2015-06-30 -> 2015-07-07 ~ (01) Beta-Gamma -> Beta ->  ~ 521
+
+AR 12335 2015-05-02 -> 2015-05-06 ~ Beta -> Beta-Gamma ~ 521
+
+AR 12524 2016-03-17 -> 2016-03-28 ~ Alpha -> Beta -> Alpha ~ 520
+
+AR (No Class) 2012-08-06 -> 2012-08-13 ~ ~ 454
+
+AR 11548 2012-08-25 -> 2012-08-28 ~ Beta -> Dropped ~ 454
+
+AR 11575 2012-09-25 -> 2012-09-28 ~ Beta-Gamma -> Alpha ~ 454
+
+AR 11593 2012-10-18 -> 2012-10-21 ~ Alpha -> Beta ~ 454
+
+AR 12362 2015-06-09 -> 2015-06-15 ~ Beta -> Alpha ~ 454
+
+AR 12553 2016-06-14 -> 2016-06-18 ~ Alpha ~ 454
+
+AR 12574 2016-08-10 -> 2016-08-16 ~ Beta ~ 454
+
+AR 11176 2011-03-24 -> 2011-04-02 ~ Beta-Gamma -> Beta ~ 437
+
+AR 11204 2011-05-04 -> 2011-05-09 ~ Beta ~ 437
+
+AR 11330 2011-10-26 -> 2011-10-31 ~ Beta-Gamma ~ 437
+
+AR 11633 2012-12-16 -> 2012-12-24 ~ Beta -> Beta-Gamma -> Beta -> Beta-Gamma ~ 437
+
+AR 11490 2012-05-29 -> 2012-06-01 ~ Beta ~ 428
+
+AR 11799/800 2013-07-23 -> 2013-07-27 ~ Alpha/Beta -> Alpha/Beta-Gamma -> Dropped/Beta-Gamma ~ 428
+
+AR 12063 2014-05-17 -> 2014-05-22 ~ Beta -> Alpha -> Dropped ~ 428
+
+AR 12135 2014-08-09 -> 2014-08-14 ~ Beta-Gamma -> Beta ~ 428
+
+AR 11512 2012-06-25 -> 2012-06-28 ~ (26) Beta -> Beta-Gamma ~ 420
+
+AR 11584 2012-09-29 -> 2012-10-05 ~ (01) Beta -> Alpha ~ 420
+
+AR 11739 2013-05-07 -> 2013-05-11 ~ Beta-Gamma -> Beta ~ 420
+
+AR 12087 2014-06-15 -> 2014-06-20 ~ Beta-Gamma -> Beta -> Beta-Gamma -> Beta ~ 420
+
+AR 12104/07 2014-07-01 -> 2014-07-07 ~ Beta-Gamma-Delta/Beta-Gamma -> Beta-Gamma-Delta/Beta -> Beta-Gamma/Beta ->  Beta-Gamma/Beta-Gamma ~ 420 404
+
+AR 12282 2015-02-14 -> 2015-02-20 ~ Beta-Gamma -> Beta -> Alpha ~ 420
+
+AR 12333 2015-04-25 -> 2015-05-02 ~ Alpha -> Beta -> Dropped~ 420
+
+AR 12371 2015-06-20 -> 2015-06-29 ~ Beta-Gamma-Delta -> Beta-Gamma -> Beta ~ 420
+
+AR 12539 2016-05-01 -> 2016-05-06 ~ Beta -> Alpha ~ 420
+
+AR 11785 2013-07-08 -> 2013-07-13 ~ Beta-Gamma-Delta -> Beta-Gamma ~ 404
+
+AR 11838 2013-09-07 -> 2013-09-11 ~ Alpha ~ 404
+
+AR 12573 2016-08-12 -> 2016-08-16 ~ [(08-09) Beta] ~ 404
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
