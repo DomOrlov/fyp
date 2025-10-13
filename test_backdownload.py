@@ -149,7 +149,9 @@ if len(kept_data_files) > 10:
 # --------------------------------------
 # 4) NEAREST AIA 193 FOR EACH KEPT TIME
 # --------------------------------------
-dlr_aia = Downloader(max_conn=3, retry=5, progress=True)
+#dlr_aia = Downloader(max_conn=3, retry=5, progress=True)
+dlr_aia = Downloader(max_conn=3, progress=True)
+dlr_aia.retry = 5
 
 print("\nnearest AIA 193 (local first; else online ±30 s)")
 for t in kept_times[:30]:
