@@ -191,21 +191,46 @@ dlr_aia.retry = 5
 # main loop over ARs
 # ---------------------------------------------------
 
+#for ar_line in ar_catalogue:
+#	# -----------------------------------------
+#	# parse AR line and build study allow-list
+#	# -----------------------------------------
+#	m_id  = re.search(r"AR\s+(\d+)", ar_line)
+#	#if not m_id:
+#	#	print(f"SKIP: no numeric AR id in line: {ar_line}")
+#	#	continue
+#	#m_rng = re.search(r"(\d{4}-\d{2}-\d{2})\s*->\s*(\d{4}-\d{2}-\d{2})", ar_line)
+
+
+#	#ar_id    = m_id.group(1)
+#	#start_dt = datetime.strptime(m_rng.group(1), "%Y-%m-%d")
+#	m_id = re.search(r"AR\s+(\d+)", ar_line)
+#	ar_id = m_id.group(1) if m_id else "(No Class)"
+
+#	m_rng = re.search(r"(\d{4}-\d{2}-\d{2})\s*->\s*(\d{4}-\d{2}-\d{2})", ar_line)
+#	if not m_rng:
+#		print(f"SKIP: no date range in line: {ar_line}")
+#		continue
+
+#	start_dt = datetime.strptime(m_rng.group(1), "%Y-%m-%d")
+
+#	end_dt   = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
+
 for ar_line in ar_catalogue:
 	# -----------------------------------------
 	# parse AR line and build study allow-list
 	# -----------------------------------------
-	m_id  = re.search(r"AR\s+(\d+)", ar_line)
-	#if not m_id:
-	#	print(f"SKIP: no numeric AR id in line: {ar_line}")
-	#	continue
+	m_id = re.search(r"AR\s+(\d+)", ar_line)
 	ar_id = m_id.group(1) if m_id else "(No Class)"
+
 	m_rng = re.search(r"(\d{4}-\d{2}-\d{2})\s*->\s*(\d{4}-\d{2}-\d{2})", ar_line)
+	if not m_rng:
+		print(f"SKIP: no date range in line: {ar_line}")
+		continue
 
-
-	ar_id    = m_id.group(1)
 	start_dt = datetime.strptime(m_rng.group(1), "%Y-%m-%d")
-	end_dt   = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
+	end_dt = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
+
 
 	study_id = [
 		654,653,652,648,645,632,624,620,616,613,608,593,592,591,590,589,587,586,583,581,
@@ -247,7 +272,13 @@ for ar_line in ar_catalogue:
 	hdr_files = Fido.fetch(eis_hdr_res)
 	print("downloaded headers:", len(hdr_files))
 
-	print("example study_id from first header:", read_study_id(hdr_files[0]))
+	#print("example study_id from first header:", read_study_id(hdr_files[0]))
+	if hdr_files:
+		print("example study_id from first header:", read_study_id(hdr_files[0]))
+	else:
+		print("no header files fetched (network/cache issue)")
+
+
 
 	# time column from the header results table
 	tcol = [c for c in eis_hdr_res[0].colnames if "time" in c.lower()][0]
