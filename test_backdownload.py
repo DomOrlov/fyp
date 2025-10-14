@@ -11,11 +11,12 @@ from astropy.time import Time
 import astropy.units as u
 from sunpy.net import Fido, attrs as a
 from eispac.net.attrs import FileType
-from pfss.functions_data import hmi_daily_download
+from pfss.functions_data import PrepHMIdaily, hmi_daily_download
 from iris_get_pfss_utils import get_closest_aia as closest_aia_193
 from parfive import Downloader
 import glob
 import sunpy.map as smap
+from astropy.io import fits
 
 
 # -----------------------------------------
@@ -67,22 +68,57 @@ def read_study_id(hdr_path):
 _hmi_mem_cache = {}  # in-memory per-run cache
 
 def hmi_day_cached(day_time):
+    """
+    Return a prepped HMI daily synoptic Map closest to `day_time`,
+    searching multiple on-disk roots before falling back to JSOC.
+    Always run the file through PrepHMIdaily to fix headers (avoids 'sin(deg)' unit error).
+    """
     day = Time(day_time).strftime("%Y-%m-%d")
     if day in _hmi_mem_cache:
         return _hmi_mem_cache[day]
 
-    # on-disk cache: look in ./data first
-    pat = f"./data/hmi.mrdailysynframe_720s.{day.replace('-','')}*.fits"
-    files = sorted(glob.glob(pat))
-    if files:
-        m = smap.Map(files[-1])    # load latest matching file
+    # Where to look
+    roots = [
+        Path("./data"),
+        Path.home() / "sunpy" / "data",
+        Path.home() / "fyp" / "data",
+        Path.home() / "intra" / "pfss" / "data",
+    ]
+    from os import getenv
+    sdd = getenv("SUNPY_DOWNLOAD_DIR")
+    if sdd:
+        roots.append(Path(sdd))
+
+    # What to look for (cover compact + dotted dates; allow extra suffixes like .data.fits)
+    y, m, d = day.split("-")
+    pats_rel = [
+        f"hmi.mrdailysynframe_720s.{y}{m}{d}_*.fits",   # e.g. ...20151022_120000_TAI.data.fits
+        f"hmi.mrdailysynframe_720s.{y}{m}{d}*.fits",    # compact without underscore-time (belt & braces)
+        f"hmi.mrdailysynframe_720s.{y}.{m}.{d}*.fits",  # dotted date variant
+        f"*mrdailysynframe*{y}{m}{d}*.fits",            # safety nets
+        f"*mrdailysynframe*{y}.{m}.{d}*.fits",
+    ]
+
+    hits = []
+    for root in roots:
+        for pat in pats_rel:
+            hits.extend(glob.glob(str(root / pat)))
+
+    hits = sorted(set(hits))
+    if hits:
+        chosen = str(Path(hits[-1]))  # latest if multiple
+        print(f"[HMI cache] using disk: {chosen}")
+        # IMPORTANT: run through your header-fixing routine
+        m = PrepHMIdaily(chosen)
         _hmi_mem_cache[day] = m
         return m
 
-    # fall back to your existing downloader (does the JSOC request)
+    # Fallback: download (this already calls PrepHMIdaily inside hmi_daily_download)
+    print("[HMI cache] JSOC download")
     m = hmi_daily_download(Time(day_time))
     _hmi_mem_cache[day] = m
     return m
+
 
 # ----------------
 # 1) EIS HEADERS
@@ -201,9 +237,10 @@ for t in kept_times:
 # --------------------------------------
 print("\nnearest HMI (daily: today vs yesterday)")
 for t in kept_times:
+    #hmi_today = hmi_daily_download(t)
+    #hmi_yest  = hmi_daily_download(t - 1*u.day)
     hmi_today = hmi_day_cached(t)
     hmi_yest  = hmi_day_cached(t - 1*u.day)
-
     def time_of(obj):
         # Return astropy Time or None
         if obj is None:
