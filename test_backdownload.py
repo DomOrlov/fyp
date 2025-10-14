@@ -7,15 +7,16 @@ import re
 from datetime import datetime, timedelta
 from pathlib import Path
 import h5py
-
 from astropy.time import Time
 import astropy.units as u
 from sunpy.net import Fido, attrs as a
 from eispac.net.attrs import FileType
-
 from pfss.functions_data import hmi_daily_download
 from iris_get_pfss_utils import get_closest_aia as closest_aia_193
 from parfive import Downloader
+import glob
+import sunpy.map as smap
+
 
 # -----------------------------------------
 # parse AR line and build study allow-list
@@ -42,7 +43,7 @@ print("date range:", start_dt, "->", end_dt)
 t0 = Time(start_dt); t1 = Time(end_dt)
 
 # ---------------------------------------------------
-# helper: read STUDY_ID / PROGRAM_ID from EIS header
+# helper
 # ---------------------------------------------------
 def read_study_id(hdr_path):
     with h5py.File(hdr_path, "r") as f:
@@ -63,6 +64,25 @@ def read_study_id(hdr_path):
                 return int(val)
     return None
 
+_hmi_mem_cache = {}  # in-memory per-run cache
+
+def hmi_day_cached(day_time):
+    day = Time(day_time).strftime("%Y-%m-%d")
+    if day in _hmi_mem_cache:
+        return _hmi_mem_cache[day]
+
+    # on-disk cache: look in ./data first
+    pat = f"./data/hmi.mrdailysynframe_720s.{day.replace('-','')}*.fits"
+    files = sorted(glob.glob(pat))
+    if files:
+        m = smap.Map(files[-1])    # load latest matching file
+        _hmi_mem_cache[day] = m
+        return m
+
+    # fall back to your existing downloader (does the JSOC request)
+    m = hmi_daily_download(Time(day_time))
+    _hmi_mem_cache[day] = m
+    return m
 
 # ----------------
 # 1) EIS HEADERS
@@ -181,8 +201,8 @@ for t in kept_times:
 # --------------------------------------
 print("\nnearest HMI (daily: today vs yesterday)")
 for t in kept_times:
-    hmi_today = hmi_daily_download(t)
-    hmi_yest  = hmi_daily_download(t - 1*u.day)
+    hmi_today = hmi_day_cached(t)
+    hmi_yest  = hmi_day_cached(t - 1*u.day)
 
     def time_of(obj):
         # Return astropy Time or None
