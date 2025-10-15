@@ -15,6 +15,17 @@ import glob
 import sunpy.map as smap
 from astropy.io import fits
 
+import os
+import traceback  # for stack traces in excepts
+
+error_log = []
+
+def log(msg: str):
+    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    line = f"{ts} | {msg}"
+    print(msg)                  # keep console output as-is
+    error_log.append(line)      # store timestamped line
+
 
 #ar_line = "AR 12436 2015-10-18 -> 2015-10-30 ~ Beta-Gamma -> Beta-Delta -> Beta-Gamma -> Beta ~ 544"
 
@@ -263,10 +274,12 @@ for ar_line in ar_catalogue:
 	print("total headers:", hdr_cnt)
 
 	if hdr_cnt == 0:
+		log(f"[{ar_id}] No EIS headers found for {t0} -> {t1}")
 		print("kept: 0")
 		print("====================================")
-		#raise SystemExit(0)
+		# raise SystemExit(0)
 		continue
+
 
 	# fetch headers (small)
 	hdr_files = Fido.fetch(eis_hdr_res)
@@ -276,7 +289,7 @@ for ar_line in ar_catalogue:
 	if hdr_files:
 		print("example study_id from first header:", read_study_id(hdr_files[0]))
 	else:
-		print("no header files fetched (network/cache issue)")
+		log(f"[{ar_id}] Fido.fetch returned no header files (network/cache issue)")
 
 
 
@@ -345,11 +358,12 @@ for ar_line in ar_catalogue:
 	for t in kept_times:
 		row = closest_aia_193(t.datetime)  # local lookup
 		if row is None:
-			w0 = t - 60*u.s
-			w1 = t + 60*u.s
+			w0 = t - 120*u.s
+			w1 = t + 120*u.s
 			r  = Fido.search(a.Time(w0, w1), a.Instrument.aia, a.Wavelength(193*u.angstrom))
 			n  = len(r[0]) if len(r) > 0 else 0
 			if n == 0:
+				log(f"[{ar_id}] No AIA 193 within ±120 s for {t}")
 				print("EIS", t, "-> AIA:", "none")
 				continue
 			# pick nearest
@@ -360,6 +374,8 @@ for ar_line in ar_catalogue:
 				print("EIS", t, "-> AIA (fetched):", files[0])
 			else:
 				print("EIS", t, "-> AIA: fetch FAILED (timeout/no file)")
+				log(f"[{ar_id}] AIA fetch failed (timeout/no file) for {t}")
+
 		else:
 			print("EIS", t, "-> AIA (local):", row)
 
@@ -386,6 +402,8 @@ for ar_line in ar_catalogue:
 		else:
 			choice = hmi_today if abs(Tt - t) <= abs(Ty - t) else hmi_yest
 
+		if choice is None:
+			log(f"[{ar_id}] No HMI daily map (today/yesterday) suitable for {t}")
 		print("EIS", t, "-> HMI:", "none" if choice is None else choice)
 
 
