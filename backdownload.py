@@ -19,13 +19,23 @@ import os
 import traceback  # for stack traces in excepts
 
 error_log = []
+LOG_FILE = Path("errorlog.txt")
 
 def log(msg: str):
     ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     line = f"{ts} | {msg}"
     print(msg)                  # keep console output as-is
-    error_log.append(line)      # store timestamped line
+    error_log.append(line)      # keep in-memory copy
 
+    # also persist to disk
+    try:
+        with LOG_FILE.open("a", encoding="utf-8") as f:
+            f.write(line + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+    except Exception as e:
+        # last-resort: show why logging failed
+        print(f"!! failed to write to {LOG_FILE}: {e}")
 
 #ar_line = "AR 12436 2015-10-18 -> 2015-10-30 ~ Beta-Gamma -> Beta-Delta -> Beta-Gamma -> Beta ~ 544"
 
