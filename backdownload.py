@@ -104,7 +104,7 @@ ar_catalogue = [
 # ---------------------------------------------------
 def read_study_id(hdr_path):
     with h5py.File(hdr_path, "r") as f:
-        # ✔ the location in your files
+        # the location in your files
         if "index/study_id" in f:
             v = f["index/study_id"][()]
             if hasattr(v, "shape") and v.shape != ():
