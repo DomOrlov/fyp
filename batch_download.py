@@ -8,7 +8,7 @@ from astropy.time import Time
 import astropy.units as u
 from sunpy.net import Fido, attrs as a
 from eispac.net.attrs import FileType
-from pfss.functions_data import PrepHMIdaily, hmi_daily_download
+
 from iris_get_pfss_utils import get_closest_aia as closest_aia_193
 from parfive import Downloader
 import glob
@@ -22,6 +22,7 @@ import traceback  # for stack traces in excepts
 scratch = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
 scratch.mkdir(parents=True, exist_ok=True)
 os.environ["SUNPY_DOWNLOAD_DIR"] = str(scratch)
+from pfss.functions_data import PrepHMIdaily, hmi_daily_download
 
 error_log = []
 LOG_FILE = Path("errorlog.txt")
@@ -139,14 +140,16 @@ def hmi_day_cached(day_time):
         return _hmi_mem_cache[day]
 
     # Where to look
-    roots = [
-        scratch,
-        Path("./hmi_data"),
-        Path.home() / "sunpy" / "data",
-        Path.home() / "fyp" / "data",
-        Path.home() / "intra" / "pfss" / "data",
-    ]
-    
+    #roots = [
+    #    scratch, # /mnt/scratch/data/orlovsd2/sunpy/data
+    #    Path("./hmi_data"),
+    #    Path.home() / "sunpy" / "data",
+    #    Path.home() / "fyp" / "data",
+    #    Path.home() / "intra" / "pfss" / "data",
+    #]
+    roots = [scratch] # /mnt/scratch/data/orlovsd2/sunpy/data
+
+
     from os import getenv
     sdd = getenv("SUNPY_DOWNLOAD_DIR")
     if sdd:

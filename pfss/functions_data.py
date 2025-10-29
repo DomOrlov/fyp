@@ -13,6 +13,9 @@ from reproject import reproject_interp
 import numpy as np
 import pfsspy
 from astropy.visualization import ImageNormalize, quantity_support
+from pathlib import Path
+import os
+scratch = Path(os.environ.get("SUNPY_DOWNLOAD_DIR", "/mnt/scratch/data/orlovsd2/sunpy/data"))
 # from asheis import asheis
 # from functions_pickle import *
 
@@ -123,7 +126,8 @@ def hmi_daily_download(date_obs):
     )
     print('Downloading Data to ./data/...')
     print(q)
-    f = Fido.fetch(q, path='./data/')
+    #f = Fido.fetch(q, path='./data/')
+    f = Fido.fetch(q, path=str(scratch / "{file}"))
     print('Transforming Data to the Correct Frame...')
     m_hmi = PrepHMIdaily(f[0])
     # m_hmi.peek()
