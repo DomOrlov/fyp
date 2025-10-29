@@ -36,6 +36,7 @@ from astropy.visualization import ImageNormalize, SqrtStretch
 from matplotlib.colors import LogNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.patches import Rectangle
+from pathlib import Path
 
 warnings.filterwarnings('ignore')
 
@@ -72,7 +73,7 @@ def get_closest_aia(date_time_obj, wavelength = 193):
     aia_start_str = aia_start.strftime(DATE_FORMAT)[:-3]
     aia_end_str = aia_end.strftime(DATE_FORMAT)[:-3]
     
-    aia_local_dir = "/home/ug/orlovsd2/sunpy/data" #change this to your local directory
+    aia_local_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
     aia_files = sorted(glob.glob(f"{aia_local_dir}/aia.lev1.193A_*.fits"))
 
     for aia_file in aia_files:
@@ -231,16 +232,26 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     ## hmi synoptic maps provide a global magentic map of the sun to trace fieldlines
     #m_hmi = hmi_daily_download(map.date.value)
 
-    # Get both HMI maps
-    m_hmi_today = hmi_daily_download(map.date)
-    m_hmi_yesterday = hmi_daily_download(map.date - timedelta(days=1))
+    ##( old download check, we now have it predownloaded) 
+    ## Get both HMI maps
+    #m_hmi_today = hmi_daily_download(map.date)
+    #m_hmi_yesterday = hmi_daily_download(map.date - timedelta(days=1))
 
-    # Choose the one closest in time to the EIS observation
-    delta_today = abs(m_hmi_today.date - map.date)
-    delta_yesterday = abs(m_hmi_yesterday.date - map.date)
+    ## Choose the one closest in time to the EIS observation
+    #delta_today = abs(m_hmi_today.date - map.date)
+    #delta_yesterday = abs(m_hmi_yesterday.date - map.date)
 
-    m_hmi = m_hmi_today if delta_today < delta_yesterday else m_hmi_yesterday
-    print(f"Selected HMI date: {m_hmi.date} (closer to EIS time {map.date})")
+    #m_hmi = m_hmi_today if delta_today < delta_yesterday else m_hmi_yesterday
+    #print(f"Selected HMI date: {m_hmi.date} (closer to EIS time {map.date})")
+
+    # Using closest pre-downloaded HMI map (no downloads)
+
+    hmi_dir = "hmi_data"
+    cands = sorted(glob.glob(os.path.join(hmi_dir, "hmi.mrdailysynframe_720s.*TAI.data.fits")))
+    if not cands:
+        raise FileNotFoundError(f"No HMI synoptic maps found in '{hmi_dir}'")
+    eis_time
+
 
     m_hmi.plot()
     plt.title("Raw HMI Magnetogram")

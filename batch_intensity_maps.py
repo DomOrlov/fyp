@@ -147,7 +147,8 @@ def make_intensity_maps_for_file(filename, line_databases, ncpu=4, test_mode=Fal
             except Exception as e:
                 print(f"Error generating intensity for line={line} in {filename}: {e}")
 
-data_dir = (Path.home() / "sunpy" / "data").resolve()
+#data_dir = (Path.home() / "sunpy" / "data").resolve()
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 
 def main():
     parser = argparse.ArgumentParser(description="Generate intensity maps for lines used in composition.")

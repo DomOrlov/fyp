@@ -18,6 +18,11 @@ from astropy.io import fits
 import os
 import traceback  # for stack traces in excepts
 
+# Set SUNPY_DOWNLOAD_DIR to a scratch location
+scratch = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
+scratch.mkdir(parents=True, exist_ok=True)
+os.environ["SUNPY_DOWNLOAD_DIR"] = str(scratch)
+
 error_log = []
 LOG_FILE = Path("errorlog.txt")
 
@@ -135,11 +140,13 @@ def hmi_day_cached(day_time):
 
     # Where to look
     roots = [
+        scratch,
         Path("./hmi_data"),
         Path.home() / "sunpy" / "data",
         Path.home() / "fyp" / "data",
         Path.home() / "intra" / "pfss" / "data",
     ]
+    
     from os import getenv
     sdd = getenv("SUNPY_DOWNLOAD_DIR")
     if sdd:
@@ -206,11 +213,11 @@ def time_of(obj):
     return None
 
 dlr_aia = Downloader(max_conn=3, progress=True)
-dlr_aia.retry = 5
+dlr_aia.retry = 2
 
 from parfive import Downloader
 eis_dlr = Downloader(max_conn=1, max_splits=1, progress=True)
-eis_dlr.retry = 5
+eis_dlr.retry = 2
 
 
 # ---------------------------------------------------
@@ -297,7 +304,7 @@ for ar_line in ar_catalogue:
 
 
 	# fetch headers (small)
-	hdr_files = Fido.fetch(eis_hdr_res, downloader=eis_dlr)
+	hdr_files = Fido.fetch(eis_hdr_res, downloader=eis_dlr, path=scratch / "{file}")
 	print("downloaded headers:", len(hdr_files))
 
 	#print("example study_id from first header:", read_study_id(hdr_files[0]))
@@ -354,7 +361,7 @@ for ar_line in ar_catalogue:
 			FileType("HDF5 data"),
 		)
 		if len(r) and len(r[0]):
-			files = Fido.fetch(r[0][0:1], downloader=eis_dlr)
+			files = Fido.fetch(r[0][0:1], downloader=eis_dlr, path=scratch / "{file}")
 			if len(files):
 				kept_data_files.append(files[0])
 
@@ -384,7 +391,7 @@ for ar_line in ar_catalogue:
 			# pick nearest
 			best = min(range(n), key=lambda j: abs(Time(str(r[0]['Start Time'][j])) - t))
 			sel = r[0][best:best+1]
-			files = Fido.fetch(sel, downloader=dlr_aia)
+			files = Fido.fetch(sel, downloader=dlr_aia, path=scratch / "{file}")
 			if files and len(files):
 				print("EIS", t, "-> AIA (fetched):", files[0])
 			else:
