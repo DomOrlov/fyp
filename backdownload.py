@@ -208,6 +208,11 @@ def time_of(obj):
 dlr_aia = Downloader(max_conn=3, progress=True)
 dlr_aia.retry = 5
 
+from parfive import Downloader
+eis_dlr = Downloader(max_conn=1, max_splits=1, progress=True)
+eis_dlr.retry = 5
+
+
 # ---------------------------------------------------
 # main loop over ARs
 # ---------------------------------------------------
@@ -292,7 +297,7 @@ for ar_line in ar_catalogue:
 
 
 	# fetch headers (small)
-	hdr_files = Fido.fetch(eis_hdr_res)
+	hdr_files = Fido.fetch(eis_hdr_res, downloader=eis_dlr)
 	print("downloaded headers:", len(hdr_files))
 
 	#print("example study_id from first header:", read_study_id(hdr_files[0]))
@@ -349,7 +354,7 @@ for ar_line in ar_catalogue:
 			FileType("HDF5 data"),
 		)
 		if len(r) and len(r[0]):
-			files = Fido.fetch(r[0][0:1])
+			files = Fido.fetch(r[0][0:1], downloader=eis_dlr)
 			if len(files):
 				kept_data_files.append(files[0])
 
