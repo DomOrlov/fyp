@@ -11,7 +11,7 @@ import argparse  # for -c/--cores
 import multiprocessing  # for Pool
 from astropy.coordinates import SkyCoord      # WHY: submap needs coords in AIA frame
 import numpy as np                            # WHY: z-normalization before xcorr
-
+from sunpy.coordinates.utils import SphericalScreen  # WHY: avoid issues near limb
 
 # File to log non-aligned files
 non_aligned_log = Path("non_aligned_files.txt")
@@ -128,9 +128,14 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
     # --- Crop AIA to the EIS FoV (+ margin) so xcorr sees the same scene
     # WHY: Matching scene removes unrelated features that break xcorr.
-    eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
-    eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
+    #eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
+    #eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
 
+
+
+    with SphericalScreen(frame=aia_map.coordinate_frame):
+        eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
+        eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
 
 
 
