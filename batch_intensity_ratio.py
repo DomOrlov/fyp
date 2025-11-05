@@ -51,6 +51,8 @@ import h5py
 from skimage.registration import phase_cross_correlation
 from scipy.ndimage import shift as imshift
 from eispac.instr import ccd_offset
+import argparse  # for -c/--cores
+
 
 # Intensity ratio + CCD fix + scalling for G(T)
 
@@ -272,10 +274,37 @@ ratios = [
     ('s_11_188.68',  'ar_11_188.81'),  # S XI / Ar XI
 ]
 
+def _work(task):
+    ts, e1, e2 = task
+    try:
+        return plot_composition_map(ts, e1, e2)
+    except FileNotFoundError as e:
+        print(e)
+        return None
+
+
+#if __name__ == "__main__":
+#    for timestamp in timestamps:
+#        for elem1, elem2 in ratios:
+#            try:
+#                plot_composition_map(timestamp, elem1, elem2)
+#            except FileNotFoundError as e:
+#                print(e)
+
 if __name__ == "__main__":
-    for timestamp in timestamps:
-        for elem1, elem2 in ratios:
-            try:
-                plot_composition_map(timestamp, elem1, elem2)
-            except FileNotFoundError as e:
-                print(e)
+    # (A) parse cores like the other script
+    parser = argparse.ArgumentParser(description="Make composition ratio maps")
+    parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
+    args = parser.parse_args()
+
+    # (B) build the job list (cartesian product of timestamps × ratios)
+    jobs = [(ts, e1, e2) for ts in timestamps for (e1, e2) in ratios]
+
+    # (C) parallel map, Andy-style: simple Pool with processes=args.cores
+    if args.cores == 1:
+        for task in tqdm(jobs, total=len(jobs)):
+            _work(task)
+    else:
+        with multiprocessing.Pool(processes=args.cores) as pool:   # <— added line
+            for _ in tqdm(pool.imap_unordered(_work, jobs, chunksize=1), total=len(jobs)):
+                pass
