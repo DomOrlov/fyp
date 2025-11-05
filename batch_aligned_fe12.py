@@ -133,11 +133,15 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
 
 
-    with SphericalScreen(frame=aia_map.coordinate_frame):
+    #with SphericalScreen(frame=aia_map.coordinate_frame):
+    #    eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
+    #    eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
+
+    # Use a spherical screen so off-disk EIS corners don't turn into NaNs when
+    # transforming into the AIA frame. Center it on the AIA observer.
+    with SphericalScreen(aia_map.observer_coordinate, only_off_disk=False):
         eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
         eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
-
-
 
 
     # DEBUG: check EIS corners in AIA frame and ordering
