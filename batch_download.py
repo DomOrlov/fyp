@@ -17,6 +17,9 @@ from astropy.io import fits
 
 import os
 import traceback  # for stack traces in excepts
+import argparse  # for -c/--cores
+import multiprocessing  # for Pool
+
 
 # Set SUNPY_DOWNLOAD_DIR to a scratch location
 scratch = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
@@ -218,7 +221,6 @@ def time_of(obj):
 dlr_aia = Downloader(max_conn=3, progress=True)
 dlr_aia.retry = 2
 
-from parfive import Downloader
 eis_dlr = Downloader(max_conn=1, max_splits=1, progress=True)
 eis_dlr.retry = 2
 
@@ -252,7 +254,191 @@ eis_dlr.retry = 2
 
 #	end_dt   = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
 
-for ar_line in ar_catalogue:
+
+
+#for ar_line in ar_catalogue:
+	## -----------------------------------------
+	## parse AR line and build study allow-list
+	## -----------------------------------------
+	#m_id = re.search(r"AR\s+(\d+)", ar_line)
+	#ar_id = m_id.group(1) if m_id else "(No Class)"
+
+	#m_rng = re.search(r"(\d{4}-\d{2}-\d{2})\s*->\s*(\d{4}-\d{2}-\d{2})", ar_line)
+	#if not m_rng:
+	#	print(f"SKIP: no date range in line: {ar_line}")
+	#	continue
+
+	#start_dt = datetime.strptime(m_rng.group(1), "%Y-%m-%d")
+	#end_dt = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
+
+
+	#study_id = [
+	#	654,653,652,648,645,632,624,620,616,613,608,593,592,591,590,589,587,586,583,581,
+	#	569,565,564,561,557,546,544,525,524,523,522,521,520,519,496,468,462,454,437,428,
+	#	427,426,420,405,404,403,362,351,272,263,240,237,230,228,227,195,194,145,110,109,
+	#	108,102,101,98,50,49,39,33,17
+	#]
+	#study_set = set(study_id)
+
+	#print("====================================")
+	#print("ar id     :", ar_id)
+	#print("date range:", start_dt, "->", end_dt)
+
+	#t0 = Time(start_dt); t1 = Time(end_dt)
+
+	## ----------------
+	## 1) EIS HEADERS
+	## ----------------
+	#print("\nEIS search (Level-1 headers)…")
+	#eis_hdr_res = Fido.search(
+	#	a.Time(t0, t1),
+	#	a.Instrument("EIS"),
+	#	a.Physobs.intensity,
+	#	a.Source("Hinode"),
+	#	a.Provider("NRL"),
+	#	a.Level("1"),
+	#	FileType("HDF5 header")
+	#)
+	#hdr_cnt = len(eis_hdr_res[0]) if len(eis_hdr_res) else 0
+	#print("total headers:", hdr_cnt)
+
+	#if hdr_cnt == 0:
+	#	log(f"[{ar_id}] No EIS headers found for {t0} -> {t1}")
+	#	print("kept: 0")
+	#	print("====================================")
+	#	# raise SystemExit(0)
+	#	continue
+
+
+	## fetch headers (small)
+	#hdr_files = Fido.fetch(eis_hdr_res, downloader=eis_dlr, path=scratch / "{file}")
+	#print("downloaded headers:", len(hdr_files))
+
+	##print("example study_id from first header:", read_study_id(hdr_files[0]))
+	#if hdr_files:
+	#	print("example study_id from first header:", read_study_id(hdr_files[0]))
+	#else:
+	#	log(f"[{ar_id}] Fido.fetch returned no header files (network/cache issue)")
+
+
+
+	## time column from the header results table
+	#tcol = [c for c in eis_hdr_res[0].colnames if "time" in c.lower()][0]
+
+	## ------------------------------
+	## 2) FILTER BY STUDY_ID FROM HDR
+	## ------------------------------
+	#kept_idx     = []
+	#kept_times   = []
+	#kept_hdrpath = []
+
+	#for i, hdr_path in enumerate(hdr_files):
+	#	sid = read_study_id(hdr_path)
+	#	if (sid is not None) and (sid in study_set):
+	#		kept_idx.append(i)
+	#		kept_times.append(Time(str(eis_hdr_res[0][tcol][i])))
+	#		kept_hdrpath.append(hdr_path)
+
+	#print("kept (by STUDY_ID):", len(kept_idx))
+	#for i in kept_idx[:10]:
+	#	print(" -", Path(hdr_files[i]).name)
+	#if len(kept_idx) > 10:
+	#	print(" - …")
+
+	#if not kept_times:
+	#	print("No headers matched allowed study IDs; done.")
+	#	print("====================================")
+	#	#raise SystemExit(0)
+	#	continue
+
+	## ----------------------------------------
+	## 3) DOWNLOAD MATCHING EIS LEVEL-1 *DATA*
+	## ----------------------------------------
+	#print("\nFetching matching EIS Level-1 DATA…")
+	#kept_data_files = []
+	#for t in kept_times:
+	#	# tight window around header time to get corresponding data file
+	#	r = Fido.search(
+	#		a.Time(t - 1*u.s, t + 1*u.s),
+	#		a.Instrument("EIS"),
+	#		a.Physobs.intensity,
+	#		a.Source("Hinode"),
+	#		a.Provider("NRL"),
+	#		a.Level("1"),
+	#		FileType("HDF5 data"),
+	#	)
+	#	if len(r) and len(r[0]):
+	#		files = Fido.fetch(r[0][0:1], downloader=eis_dlr, path=scratch / "{file}")
+	#		if len(files):
+	#			kept_data_files.append(files[0])
+
+	#print("downloaded data files:", len(kept_data_files))
+	#for p in kept_data_files[:10]:
+	#	print(" -", Path(p).name)
+	#if len(kept_data_files) > 10:
+	#	print(" - …")
+
+	## --------------------------------------
+	## 4) NEAREST AIA 193 FOR EACH KEPT TIME
+	## --------------------------------------
+	##dlr_aia = Downloader(max_conn=3, retry=5, progress=True)
+
+	#print("\nnearest AIA 193")
+	#for t in kept_times:
+	#	row = closest_aia_193(t.datetime)  # local lookup
+	#	if row is None:
+	#		w0 = t - 120*u.s
+	#		w1 = t + 120*u.s
+	#		r  = Fido.search(a.Time(w0, w1), a.Instrument.aia, a.Wavelength(193*u.angstrom))
+	#		n  = len(r[0]) if len(r) > 0 else 0
+	#		if n == 0:
+	#			log(f"[{ar_id}] No AIA 193 within ±120 s for {t}")
+	#			print("EIS", t, "-> AIA:", "none")
+	#			continue
+	#		# pick nearest
+	#		best = min(range(n), key=lambda j: abs(Time(str(r[0]['Start Time'][j])) - t))
+	#		sel = r[0][best:best+1]
+	#		files = Fido.fetch(sel, downloader=dlr_aia, path=scratch / "{file}")
+	#		if files and len(files):
+	#			print("EIS", t, "-> AIA (fetched):", files[0])
+	#		else:
+	#			print("EIS", t, "-> AIA: fetch FAILED (timeout/no file)")
+	#			log(f"[{ar_id}] AIA fetch failed (timeout/no file) for {t}")
+
+	#	else:
+	#		print("EIS", t, "-> AIA (local):", row)
+
+
+	## --------------------------------------
+	## 5) NEAREST DAILY HMI (TODAY vs YEST)
+	## --------------------------------------
+	#print("\nnearest HMI (daily: today vs yesterday)")
+	#for t in kept_times:
+	#	#hmi_today = hmi_daily_download(t)
+	#	#hmi_yest  = hmi_daily_download(t - 1*u.day)
+	#	hmi_today = hmi_day_cached(t)
+	#	hmi_yest  = hmi_day_cached(t - 1*u.day)
+
+	#	Tt = time_of(hmi_today)
+	#	Ty = time_of(hmi_yest)
+
+	#	if (Tt is None) and (Ty is None):
+	#		choice = None
+	#	elif (Tt is not None) and (Ty is None):
+	#		choice = hmi_today
+	#	elif (Tt is None) and (Ty is not None):
+	#		choice = hmi_yest
+	#	else:
+	#		choice = hmi_today if abs(Tt - t) <= abs(Ty - t) else hmi_yest
+
+	#	if choice is None:
+	#		log(f"[{ar_id}] No HMI daily map (today/yesterday) suitable for {t}")
+	#	print("EIS", t, "-> HMI:", "none" if choice is None else choice)
+
+
+	#print("====================================")
+
+def _work(ar_line):
 	# -----------------------------------------
 	# parse AR line and build study allow-list
 	# -----------------------------------------
@@ -262,7 +448,7 @@ for ar_line in ar_catalogue:
 	m_rng = re.search(r"(\d{4}-\d{2}-\d{2})\s*->\s*(\d{4}-\d{2}-\d{2})", ar_line)
 	if not m_rng:
 		print(f"SKIP: no date range in line: {ar_line}")
-		continue
+		return
 
 	start_dt = datetime.strptime(m_rng.group(1), "%Y-%m-%d")
 	end_dt = datetime.strptime(m_rng.group(2), "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
@@ -303,7 +489,7 @@ for ar_line in ar_catalogue:
 		print("kept: 0")
 		print("====================================")
 		# raise SystemExit(0)
-		continue
+		return
 
 
 	# fetch headers (small)
@@ -345,7 +531,7 @@ for ar_line in ar_catalogue:
 		print("No headers matched allowed study IDs; done.")
 		print("====================================")
 		#raise SystemExit(0)
-		continue
+		return
 
 	# ----------------------------------------
 	# 3) DOWNLOAD MATCHING EIS LEVEL-1 *DATA*
@@ -433,3 +619,18 @@ for ar_line in ar_catalogue:
 
 
 	print("====================================")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Fetch EIS L1 hdr/data, nearest AIA/HMI per AR/date window")
+    parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
+    args = parser.parse_args()
+
+    jobs = ar_catalogue  # one task per AR line
+
+    if args.cores == 1:
+        for line in jobs:
+            _work(line)
+    else:
+        with multiprocessing.Pool(processes=args.cores) as pool:
+            for _ in pool.imap_unordered(_work, jobs, chunksize=1):
+                pass

@@ -7,6 +7,8 @@ import os
 from astropy.io import fits
 import glob
 from pathlib import Path
+import argparse  # for -c/--cores
+import multiprocessing  # for Pool
 
 # File to log non-aligned files
 non_aligned_log = Path("non_aligned_files.txt")
@@ -157,6 +159,10 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     aligned_fe12_map.save(output_path.as_posix(), overwrite=True)
     print(f"Saved aligned map to {output_path}")
 
+def _work(eis_fit):
+    # one-arg wrapper so Pool can call alignment on each filename
+    return alignment(eis_fit)
+
 # Test mode to only process the specified file
 fe12_directory = Path("nonaligned_fe12_intensity_maps")
 
@@ -167,7 +173,26 @@ else:
 
 
 
-for num, fit in tqdm(enumerate(eis_files), total=len(eis_files)):
-    alignment(fit)
+#for num, fit in tqdm(enumerate(eis_files), total=len(eis_files)):
+#    alignment(fit)
 
-print(f"Non-aligned files have been logged to {non_aligned_log}")
+#print(f"Non-aligned files have been logged to {non_aligned_log}")
+if __name__ == "__main__":
+    # (A) parse cores like your other scripts
+    parser = argparse.ArgumentParser(description="Align EIS Fe XII maps to AIA 193")
+    parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
+    args = parser.parse_args()
+
+    # (B) job list = the filenames we discovered (already strings)
+    jobs = eis_files
+
+    # (C) Andy-style pooling
+    if args.cores == 1:
+        for fit in tqdm(jobs, total=len(jobs)):
+            _work(fit)
+    else:
+        with multiprocessing.Pool(processes=args.cores) as pool:
+            for _ in tqdm(pool.imap_unordered(_work, jobs, chunksize=1), total=len(jobs)):
+                pass
+
+    print(f"Non-aligned files have been logged to {non_aligned_log}")
