@@ -11,7 +11,7 @@ import argparse  # for -c/--cores
 import multiprocessing  # for Pool
 from astropy.coordinates import SkyCoord      # WHY: submap needs coords in AIA frame
 import numpy as np                            # WHY: z-normalization before xcorr
-from sunpy.coordinates.utils import SphericalScreen  # WHY: avoid issues near limb
+from sunpy.coordinates import SphericalScreen  # WHY: avoid issues near limb
 
 # File to log non-aligned files
 non_aligned_log = Path("non_aligned_files.txt")
