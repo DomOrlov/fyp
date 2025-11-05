@@ -115,17 +115,61 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
             print(f"Error fetching AIA data for {eis_fit}: {e}")
             return
 
+
+
+
+
+
+
+
+
+
+
+
     # --- Crop AIA to the EIS FoV (+ margin) so xcorr sees the same scene
     # WHY: Matching scene removes unrelated features that break xcorr.
     eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
     eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
 
+
+
+
+
+    # DEBUG: check EIS corners in AIA frame and ordering
+    print(f"[{eis_fit}] EIS->AIA corners:"
+        f" BL(Tx,Ty)=({eis_bl.Tx.to(u.arcsec).value:.1f},{eis_bl.Ty.to(u.arcsec).value:.1f}),"
+        f" TR(Tx,Ty)=({eis_tr.Tx.to(u.arcsec).value:.1f},{eis_tr.Ty.to(u.arcsec).value:.1f})")
+
+    # If ordering is flipped in either axis, fix it (submap expects BL<TopRight)
+    Tx_min = np.minimum(eis_bl.Tx, eis_tr.Tx)
+    Tx_max = np.maximum(eis_bl.Tx, eis_tr.Tx)
+    Ty_min = np.minimum(eis_bl.Ty, eis_tr.Ty)
+    Ty_max = np.maximum(eis_bl.Ty, eis_tr.Ty)
+
+
+
+
+
+
     margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
-    blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
-    trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
+    #blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
+    #trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
+    blm = SkyCoord(Tx_min - margin, Ty_min - margin, frame=aia_map.coordinate_frame)
+    trm = SkyCoord(Tx_max + margin, Ty_max + margin, frame=aia_map.coordinate_frame)
 
     try:
         aia_crop = aia_map.submap(blm, top_right=trm)
+
+
+        print(f"[{eis_fit}] AIA crop shape: {getattr(aia_crop.data, 'shape', None)}")
+        if aia_crop.data.size == 0 or aia_crop.data.shape[0] == 0 or aia_crop.data.shape[1] == 0:
+            print(f"[SKIP] empty AIA crop for {eis_fit}")
+            with open(non_aligned_log.as_posix(), 'a') as f:
+                f.write(f"{eis_fit} - Empty AIA crop\n")
+            return
+
+
+
     except Exception as e:
         print(f"[WARN] AIA submap failed ({e}); continuing un-cropped (less robust)")
         aia_crop = aia_map
@@ -140,6 +184,17 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     # --- Match pixel geometry for xcorr: same shape as EIS
     ny, nx = fe12_map.data.shape
     aia_map_r = aia_crop.resample(u.Quantity([nx, ny], u.pixel))
+    print(f"[{eis_fit}] EIS shape: {fe12_map.data.shape}, AIA resampled shape: {aia_map_r.data.shape}")
+
+
+    if aia_map_r.data.shape != fe12_map.data.shape or aia_map_r.data.size == 0:
+        print(f"[SKIP] bad resample for {eis_fit}")
+        with open(non_aligned_log.as_posix(), 'a') as f:
+            f.write(f"{eis_fit} - Bad resample (shape {aia_map_r.data.shape} vs {fe12_map.data.shape})\n")
+        return
+
+
+
 
     # --- Z-normalize arrays for a cleaner correlation peak
     def _znorm(a):
@@ -153,10 +208,45 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     A[~np.isfinite(A)] = 0.0
     B[~np.isfinite(B)] = 0.0
 
+
+
+
+
+    print(f"[{eis_fit}] finite A/B: {np.isfinite(A).sum()}/{np.isfinite(B).sum()}, "
+        f"std A/B: {np.nanstd(A):.3g}/{np.nanstd(B):.3g}")
+
+    if not np.isfinite(A).any() or not np.isfinite(B).any():
+        print(f"[SKIP] no finite pixels {eis_fit}")
+        with open(non_aligned_log.as_posix(), 'a') as f:
+            f.write(f"{eis_fit} - No finite pixels after z-norm\n")
+        return
+
+    # extremely uniform images produce useless correlation
+    if np.nanstd(A) < 1e-9 or np.nanstd(B) < 1e-9:
+        print(f"[SKIP] near-constant image {eis_fit}")
+        with open(non_aligned_log.as_posix(), 'a') as f:
+            f.write(f"{eis_fit} - Near-constant image (std too small)\n")
+        return
+
+
     # Calculate the shift in coordinates between the AIA and EIS maps
     #yshift, xshift = calculate_shift(aia_map_r.data, fe12_map.data)
 
-    yshift_pix, xshift_pix = calculate_shift(A, B)  # returns pixel shifts (A→B)
+    #yshift_pix, xshift_pix = calculate_shift(A, B)  # returns pixel shifts (A→B)
+
+
+
+    try:
+        yshift_pix, xshift_pix = calculate_shift(A, B)
+    except Exception as e:
+        print(f"[WARN] xcorr failed for {eis_fit}: {e}")
+        with open(non_aligned_log.as_posix(), 'a') as f:
+            f.write(f"{eis_fit} - xcorr failed: {e}\n")
+        return
+
+
+
+
 
     # Convert the shift in coordinates to world coordinates
     #reference_coord = aia_map_r.pixel_to_world(xshift, yshift)
