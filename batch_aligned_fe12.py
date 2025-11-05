@@ -9,6 +9,9 @@ import glob
 from pathlib import Path
 import argparse  # for -c/--cores
 import multiprocessing  # for Pool
+from astropy.coordinates import SkyCoord      # WHY: submap needs coords in AIA frame
+import numpy as np                            # WHY: z-normalization before xcorr
+
 
 # File to log non-aligned files
 non_aligned_log = Path("non_aligned_files.txt")
@@ -112,22 +115,61 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
             print(f"Error fetching AIA data for {eis_fit}: {e}")
             return
 
+    # --- Crop AIA to the EIS FoV (+ margin) so xcorr sees the same scene
+    # WHY: Matching scene removes unrelated features that break xcorr.
+    eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
+    eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
+
+    margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
+    blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
+    trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
+
+    try:
+        aia_crop = aia_map.submap(blm, top_right=trm)
+    except Exception as e:
+        print(f"[WARN] AIA submap failed ({e}); continuing un-cropped (less robust)")
+        aia_crop = aia_map
 
 
-    # Calculate the resampling factors for aligning the maps
-    n_x = (aia_map.scale.axis1 * aia_map.dimensions.x) / eis_map_int.scale.axis1
-    n_y = (aia_map.scale.axis2 * aia_map.dimensions.y) / eis_map_int.scale.axis2
+    ## Calculate the resampling factors for aligning the maps
+    #n_x = (aia_map.scale.axis1 * aia_map.dimensions.x) / eis_map_int.scale.axis1
+    #n_y = (aia_map.scale.axis2 * aia_map.dimensions.y) / eis_map_int.scale.axis2
     
-    # Resample the AIA map
-    aia_map_r = aia_map.resample(u.Quantity([n_x, n_y]))
-    
+    ## Resample the AIA map
+    #aia_map_r = aia_map.resample(u.Quantity([n_x, n_y]))
+    # --- Match pixel geometry for xcorr: same shape as EIS
+    ny, nx = fe12_map.data.shape
+    aia_map_r = aia_crop.resample(u.Quantity([nx, ny], u.pixel))
+
+    # --- Z-normalize arrays for a cleaner correlation peak
+    def _znorm(a):
+        a = np.asarray(a, dtype=np.float64)
+        a -= np.nanmean(a)
+        s = np.nanstd(a)
+        return a / s if s > 0 else a
+
+    A = _znorm(aia_map_r.data)
+    B = _znorm(fe12_map.data)
+    A[~np.isfinite(A)] = 0.0
+    B[~np.isfinite(B)] = 0.0
+
     # Calculate the shift in coordinates between the AIA and EIS maps
-    yshift, xshift = calculate_shift(aia_map_r.data, fe12_map.data)
+    #yshift, xshift = calculate_shift(aia_map_r.data, fe12_map.data)
+
+    yshift_pix, xshift_pix = calculate_shift(A, B)  # returns pixel shifts (A→B)
 
     # Convert the shift in coordinates to world coordinates
-    reference_coord = aia_map_r.pixel_to_world(xshift, yshift)
-    Txshift = reference_coord.Tx - fe12_map.bottom_left_coord.Tx
-    Tyshift = reference_coord.Ty - fe12_map.bottom_left_coord.Ty
+    #reference_coord = aia_map_r.pixel_to_world(xshift, yshift)
+    #Txshift = reference_coord.Tx - fe12_map.bottom_left_coord.Tx
+    #Tyshift = reference_coord.Ty - fe12_map.bottom_left_coord.Ty
+    # --- Pixel → world conversion using resampled AIA scale
+    Txshift = xshift_pix * aia_map_r.scale.axis1
+    Tyshift = yshift_pix * aia_map_r.scale.axis2
+
+    #print(eis_map_int.date)
+    #print(f"px shift: (x,y)=({xshift_pix:.2f},{yshift_pix:.2f})")
+    #print(f"arcsec shift: (Tx,Ty)=({Txshift.to(u.arcsec):.2f},{Tyshift.to(u.arcsec):.2f})")
+
 
     
     # Print the date and shift values for debugging
@@ -136,12 +178,26 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     print(f"Shift in arcsec: |Tx| = {abs(Txshift.to(u.arcsec).value)}, |Ty| = {abs(Tyshift.to(u.arcsec).value)}")
 
     # Check if the shift is within a certain range
-    if (abs(Tyshift / u.arcsec) < 150) and (abs(Txshift / u.arcsec) < 150):
-        aligned_fe12_map = fe12_map.shift_reference_coord(Txshift, Tyshift)
-        print(f'shifted - Tx:{Txshift}, Ty:{Tyshift}')
+    #if (abs(Tyshift / u.arcsec) < 150) and (abs(Txshift / u.arcsec) < 150):
+    #    aligned_fe12_map = fe12_map.shift_reference_coord(Txshift, Tyshift)
+    #    print(f'shifted - Tx:{Txshift}, Ty:{Tyshift}')
+    #else:
+    #    aligned_fe12_map = fe12_map
+    #    print(f'not shifted - Tx:{Txshift}, Ty:{Tyshift}')
+    #    with open(non_aligned_log, 'a') as log_file:
+    #        log_file.write(
+    #            f"{eis_fit} - Not shifted, "
+    #            f"Tx: {Txshift}, Ty: {Tyshift}, "
+    #            f"|Tx| (arcsec): {abs(Txshift.to(u.arcsec).value)}, "
+    #            f"|Ty| (arcsec): {abs(Tyshift.to(u.arcsec).value)}\n"
+    #        )
+    max_abs = 150 * u.arcsec  # WHY: reject obviously bad correlations
+    if (abs(Txshift) < max_abs) and (abs(Tyshift) < max_abs):
+        aligned_fe12_map = fe12_map.shift_reference_coord(-Txshift, -Tyshift)
+        print(f"shifted - Tx:{Txshift}, Ty:{Tyshift}")
     else:
         aligned_fe12_map = fe12_map
-        print(f'not shifted - Tx:{Txshift}, Ty:{Tyshift}')
+        print(f"not shifted - Tx:{Txshift}, Ty:{Tyshift}")
         with open(non_aligned_log, 'a') as log_file:
             log_file.write(
                 f"{eis_fit} - Not shifted, "
@@ -149,6 +205,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
                 f"|Tx| (arcsec): {abs(Txshift.to(u.arcsec).value)}, "
                 f"|Ty| (arcsec): {abs(Tyshift.to(u.arcsec).value)}\n"
             )
+
 
     # Apply the Fe XII header to the hacked map
     aligned_fe12_map.meta.update(header_fe12)
