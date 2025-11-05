@@ -2,13 +2,12 @@ from astropy.io import fits
 import numpy as np
 import astropy.coordinates
 import astropy.units as u
-from pfss.functions_data import aia_download_from_date, hmi_daily_download, aia_correction, PrepHMIdaily
+from pfss.functions_data import aia_download_from_date, hmi_daily_download, aia_correction, PrepHMIdaily, scratch # /mnt/scratch/data/orlovsd2/sunpy/data
 import matplotlib.pyplot as plt
 import pfsspy
 import sunpy
 from sunpy.map import Map
 from tqdm import tqdm
-from glob import glob
 from aiapy.calibrate import correct_degradation, update_pointing
 from os import makedirs
 from astropy.coordinates import SkyCoord
@@ -26,8 +25,10 @@ from sunpy.coordinates import Helioprojective
 from astropy.coordinates import BaseCoordinateFrame
 from datetime import timedelta
 from sunpy.physics.differential_rotation import solar_rotate_coordinate
-
-
+import os
+from pathlib import Path
+from astropy.time import Time
+from datetime import timedelta
 
 # Additional imports that might be required based on the code context
 from sunpy.net import attrs as a
@@ -36,8 +37,6 @@ from astropy.visualization import ImageNormalize, SqrtStretch
 from matplotlib.colors import LogNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.patches import Rectangle
-from pathlib import Path
-
 warnings.filterwarnings('ignore')
 
 def get_closest_aia(date_time_obj, wavelength = 193):
@@ -218,15 +217,32 @@ def plot_context_pfss(eis_map):
     # Show the plot
     plt.tight_layout()
     plt.show()
-    
+
+def _hmi_day_local_strict(day_time, root):
+    """
+    Strict local-only lookup for HMI daily synoptic map on the same day.
+    Returns a prepped SunPy Map via PrepHMIdaily.
+    Raises FileNotFoundError if none found.
+    """
+    day = Time(day_time).strftime("%Y%m%d")
+    # your files are consistent: hmi.mrdailysynframe_720s.YYYYMMDD_HHMMSS_TAI.data.fits
+    pat = f"hmi.mrdailysynframe_720s.{day}_*.fits"
+    hits = sorted(glob.glob(str(Path(root) / pat)))
+    if not hits:
+        raise FileNotFoundError(f"No HMI daily synoptic file for {day} under {root}")
+    chosen = hits[-1]  # if multiple times per day, take the latest
+    print(f"[HMI local] using: {chosen}")
+    return PrepHMIdaily(chosen)
+
+
 def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 540)):
     
-    map.plot()
-    plt.title("Raw EIS Map")
-    plt.show() # This is the region of interest, the EIS map, that we want to trace fieldlines.
+    #map.plot()
+    #plt.title("Raw EIS Map")
+    #plt.show() # This is the region of interest, the EIS map, that we want to trace fieldlines.
 
-    print(f"EIS map shape: {map.data.shape}")
-    print(f"WCS dimensions: {map.dimensions}")
+    #print(f"EIS map shape: {map.data.shape}")
+    #print(f"WCS dimensions: {map.dimensions}")
 
 
     ## hmi synoptic maps provide a global magentic map of the sun to trace fieldlines
@@ -246,16 +262,14 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     # Using closest pre-downloaded HMI map (no downloads)
 
-    hmi_dir = "hmi_data"
-    cands = sorted(glob.glob(os.path.join(hmi_dir, "hmi.mrdailysynframe_720s.*TAI.data.fits")))
-    if not cands:
-        raise FileNotFoundError(f"No HMI synoptic maps found in '{hmi_dir}'")
-    eis_time
+    scratch_root = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
+    eis_time = Time(map.date)
+    m_hmi = _hmi_day_local_strict(eis_time, scratch_root)
 
 
-    m_hmi.plot()
-    plt.title("Raw HMI Magnetogram")
-    plt.show() # Confirms it covers the area of interest.
+    #m_hmi.plot()
+    #plt.title("Raw HMI Magnetogram")
+    #plt.show() # Confirms it covers the area of interest.
 
     # Define functions to change the observer time and frame
     change_obstime = lambda x,y: SkyCoord( # x original Skycoord, y = new time
@@ -264,12 +278,7 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
             obstime=y # sets the new time for the copy of x
         )
     )
-    #change_obstime = lambda x, y: SkyCoord(
-    #    x.replicate(
-    #        observer=x.observer if isinstance(x.observer, BaseCoordinateFrame) else x.observer.frame,
-    #        obstime=y
-    #    )
-    #)
+
 
     change_obstime_frame = lambda x,y: x.replicate_without_data( #original frame, y = new time
         observer=x.observer.replicate(obstime=y), # Makes a copy of the frame without copying any coordinate data inside.
@@ -282,9 +291,9 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     # Resample the HMI data to a specific resolution
     m_hmi_resample = m_hmi.resample(dimension * u.pix) # .resample changes the number of pixels in the map, and stretching/compressing the coordinate system to match the new pixel size.
 
-    m_hmi_resample.plot()
-    plt.title("Resampled HMI Magnetogram")
-    plt.show() # Check that resampling didn't distort or lose critical details, if it matches better the EIS map scale (pixels).
+    #m_hmi_resample.plot()
+    #plt.title("Resampled HMI Magnetogram")
+    #plt.show() # Check that resampling didn't distort or lose critical details, if it matches better the EIS map scale (pixels).
 
     # Synchronize again guaranteeing that the HMI data is in the same frame as the EIS map.
     new_frame = change_obstime_frame(m_hmi_resample.coordinate_frame, map.date)
