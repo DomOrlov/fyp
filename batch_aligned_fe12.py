@@ -265,8 +265,15 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     #Txshift = reference_coord.Tx - fe12_map.bottom_left_coord.Tx
     #Tyshift = reference_coord.Ty - fe12_map.bottom_left_coord.Ty
     # --- Pixel → world conversion using resampled AIA scale
-    Txshift = xshift_pix * aia_map_r.scale.axis1
-    Tyshift = yshift_pix * aia_map_r.scale.axis2
+    #Txshift = xshift_pix * aia_map_r.scale.axis1
+    #Tyshift = yshift_pix * aia_map_r.scale.axis2
+
+    Txshift = (xshift_pix * u.pixel) * aia_map_r.scale.axis1
+    Tyshift = (yshift_pix * u.pixel) * aia_map_r.scale.axis2
+
+    print(eis_map_int.date)
+    print(f"Date: {eis_map_int.date}, Txshift: {Txshift}, Tyshift: {Tyshift}")
+    print(f"Shift in arcsec: |Tx| = {abs(Txshift.to_value(u.arcsec))}, |Ty| = {abs(Tyshift.to_value(u.arcsec))}")
 
     #print(eis_map_int.date)
     #print(f"px shift: (x,y)=({xshift_pix:.2f},{yshift_pix:.2f})")
@@ -275,9 +282,6 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
     
     # Print the date and shift values for debugging
-    print(eis_map_int.date)
-    print(f"Date: {eis_map_int.date}, Txshift: {Txshift}, Tyshift: {Tyshift}")
-    print(f"Shift in arcsec: |Tx| = {abs(Txshift.to(u.arcsec).value)}, |Ty| = {abs(Tyshift.to(u.arcsec).value)}")
 
     # Check if the shift is within a certain range
     #if (abs(Tyshift / u.arcsec) < 150) and (abs(Txshift / u.arcsec) < 150):
