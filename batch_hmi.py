@@ -13,7 +13,7 @@ import multiprocessing  # for Pool
 iris_dir = "pfss_pickles"
 Path(iris_dir).mkdir(parents=True, exist_ok=True)
 
-test_mode = True
+test_mode = False
 test_target = "2014_02_05__10_41_27"
 
 fe12_dir = "aligned_fe12_intensity_maps"
