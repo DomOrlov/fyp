@@ -2,7 +2,8 @@ import sunpy.map
 from sunpy.net import Fido, attrs as a
 from astropy import units as u
 from tqdm import tqdm
-from sunkit_image.coalignment import _calculate_shift as calculate_shift
+#from sunkit_image.coalignment import _calculate_shift as calculate_shift
+from skimage.registration import phase_cross_correlation
 import os
 from astropy.io import fits
 import glob
@@ -245,15 +246,17 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
 
 
-    try:
-        yshift_pix, xshift_pix = calculate_shift(A, B)
-    except Exception as e:
-        print(f"[WARN] xcorr failed for {eis_fit}: {e}")
-        with open(non_aligned_log.as_posix(), 'a') as f:
-            f.write(f"{eis_fit} - xcorr failed: {e}\n")
-        return
+    #try:
+    #    yshift_pix, xshift_pix = calculate_shift(A, B)
+    #except Exception as e:
+    #    print(f"[WARN] xcorr failed for {eis_fit}: {e}")
+    #    with open(non_aligned_log.as_posix(), 'a') as f:
+    #        f.write(f"{eis_fit} - xcorr failed: {e}\n")
+    #    return
 
-
+    (dy, dx), error, _ = phase_cross_correlation(A, B, upsample_factor=10)
+    yshift_pix, xshift_pix = float(dy), float(dx)
+    print(f"[{eis_fit}] phase_xcorr shift (px): dy={yshift_pix:.2f}, dx={xshift_pix:.2f}, error={error:.3g}")
 
 
 
