@@ -7,8 +7,18 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")  
 from sunpy.map import Map
-
+from astropy.io import fits
 import re
+
+def save_error_map_like(int_map: Map, err_array, out_path: Path):
+    """
+    Save an error map to FITS using the same WCS/header as int_map.
+    """
+    h = int_map.meta.copy()
+    h["BUNIT"] = h.get("BUNIT", "") + " (error)"
+    fits.writeto(out_path, data=err_array.astype(float), header=fits.Header(h), overwrite=True)
+
+
 
 def list_eis_data_files(data_dir: Path) -> list[Path]:
     """
@@ -93,22 +103,52 @@ def make_intensity_maps_for_file(filename, line_databases, ncpu=4, test_mode=Fal
                 "s_11_188.68":  "s11188_68",
                 "ar_11_188.81": "ar11188_81",
             }
+            #out_fits = Path(custom_intensity_dir) / f"{datetime_str}_{alias.get(line, line.replace('.', '_'))}.fits"
+            #if out_fits.exists():
+            #    print(f"[SKIP] already exists: {out_fits.name}")
+            #    continue
             out_fits = Path(custom_intensity_dir) / f"{datetime_str}_{alias.get(line, line.replace('.', '_'))}.fits"
-            if out_fits.exists():
-                print(f"[SKIP] already exists: {out_fits.name}")
+            err_fits = out_fits.with_name(out_fits.stem + "_err.fits")
+
+            # Skip only if BOTH intensity and error already exist
+            if out_fits.exists() and err_fits.exists():
+                print(f"[SKIP] already exists: {out_fits.name} (+err)")
                 continue
             try:
-                m = a.ash.get_intensity(
+                #m = a.ash.get_intensity(
+                #    line,
+                #    outdir=custom_intensity_dir,  
+                #    refit=False,
+                #    plot=True,
+                #    mcmc=False,
+                #    calib=True,
+                #    calib_year="2014"
+                #)
+                # First: get arrays with per-pixel uncertainty (this performs the fit once)
+                I_data, I_err = a.ash.get_intensity(
                     line,
                     outdir=custom_intensity_dir,  
-                    refit=False,
+                    refit=(not out_fits.exists() or not err_fits.exists()),  # << only refit if needed
                     plot=True,
-                    mcmc=False,
+                    mcmc=True,      # returns (I, sigma_I) when we refit
                     calib=True,
                     calib_year="2014"
                 )
-                print(f"DEBUG: Intensity Stats for {line} -> Min={m.data.min()}, Max={m.data.max()}, Mean={m.data.mean()}")
-                print(f"DEBUG: Nonzero pixel count for {line}: {m.data.nonzero()[0].size}")
+
+
+                # Second: cheaply load a Map (header/WCS) without refitting or plotting
+                m = a.ash.get_intensity(
+                    line,
+                    outdir=custom_intensity_dir,
+                    refit=False,
+                    plot=False,
+                    mcmc=False,         # returns a Map object
+                    calib=True,
+                    calib_year="2014"
+                )
+
+                #print(f"DEBUG: Intensity Stats for {line} -> Min={m.data.min()}, Max={m.data.max()}, Mean={m.data.mean()}")
+                #print(f"DEBUG: Nonzero pixel count for {line}: {m.data.nonzero()[0].size}")
                 # Force-save FITS file
                 # === Convert line (e.g., 'ca_14_193.87') into compact label (e.g., 'ca14193_87') ===
                 element_label = (
@@ -128,16 +168,41 @@ def make_intensity_maps_for_file(filename, line_databases, ncpu=4, test_mode=Fal
                 # === Final filename ===
                 fits_filename = f"{datetime_str}_{element_label}.fits"
                 fits_path = os.path.join(custom_intensity_dir, fits_filename)
-                if m.data is None:
+                #if m.data is None:
+                #    print(f"ERROR: No data returned for line={line}")
+                #elif not np.any(np.isfinite(m.data)):
+                #    print(f"ERROR: Data for line={line} is all NaNs or non-finite values")
+                #elif np.all(m.data == 0):
+                #    print(f"WARNING: Data for line={line} is all zeros")
+                #else:
+                #    print(f"Data looks valid — attempting to save FITS")
+
+                #    # Save intensity using the same header
+                #    Map(I_data, m.meta).save(fits_path, overwrite=True)
+
+                #    # Save the matching error map next to it: *_err.fits
+                #    err_fits_path = Path(fits_path).with_name(Path(fits_path).stem + "_err.fits")
+                #    save_error_map_like(Map(I_data, m.meta), I_err, err_fits_path)
+
+
+                print(f"DEBUG: Intensity Stats for {line} -> Min={np.nanmin(I_data)}, Max={np.nanmax(I_data)}, Mean={np.nanmean(I_data)}")
+                print(f"DEBUG: Nonzero pixel count for {line}: {np.count_nonzero(np.isfinite(I_data) & (I_data != 0))}")
+
+                if I_data is None:
                     print(f"ERROR: No data returned for line={line}")
-                elif not np.any(np.isfinite(m.data)):
+                elif not np.any(np.isfinite(I_data)):
                     print(f"ERROR: Data for line={line} is all NaNs or non-finite values")
-                elif np.all(m.data == 0):
+                elif np.all(I_data == 0):
                     print(f"WARNING: Data for line={line} is all zeros")
                 else:
                     print(f"Data looks valid — attempting to save FITS")
 
-                    Map(m.data, m.meta).save(fits_path, overwrite=True)
+                    # Save intensity using the Map header
+                    Map(I_data, m.meta).save(out_fits.as_posix(), overwrite=True)
+
+                    # Save the matching error map next to it: *_err.fits
+                    save_error_map_like(Map(I_data, m.meta), I_err, err_fits.as_posix())
+
 
                 print("============================================")
                 print(f"Saved intensity map for line={line} in file={filename}")
