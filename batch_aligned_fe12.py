@@ -297,7 +297,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     #            f"|Tx| (arcsec): {abs(Txshift.to(u.arcsec).value)}, "
     #            f"|Ty| (arcsec): {abs(Tyshift.to(u.arcsec).value)}\n"
     #        )
-    max_abs = 150 * u.arcsec  # WHY: reject obviously bad correlations
+    max_abs = 200 * u.arcsec  # WHY: reject obviously bad correlations
     if (abs(Txshift) < max_abs) and (abs(Tyshift) < max_abs):
         aligned_fe12_map = fe12_map.shift_reference_coord(-Txshift, -Tyshift)
         print(f"shifted - Tx:{Txshift}, Ty:{Tyshift}")
