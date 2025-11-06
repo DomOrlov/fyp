@@ -156,16 +156,29 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     Ty_min = np.minimum(eis_bl.Ty, eis_tr.Ty)
     Ty_max = np.maximum(eis_bl.Ty, eis_tr.Ty)
 
+    # keep crop corners strictly inside valid Helioprojective latitude/longitude
+    lim_deg = 89.8 * u.deg
+    lim_arcsec = lim_deg.to(u.arcsec)
 
 
 
 
 
-    margin = 200 * u.arcsec  # give xcorr a little context without letting other ARs dominate
+    margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
     #blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
     #trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
-    blm = SkyCoord(Tx_min - margin, Ty_min - margin, frame=aia_map.coordinate_frame)
-    trm = SkyCoord(Tx_max + margin, Ty_max + margin, frame=aia_map.coordinate_frame)
+    #blm = SkyCoord(Tx_min - margin, Ty_min - margin, frame=aia_map.coordinate_frame)
+    #trm = SkyCoord(Tx_max + margin, Ty_max + margin, frame=aia_map.coordinate_frame)
+
+    # clamp the requested crop box to <±90° to avoid SkyCoord latitude errors
+    Tx_lo = np.clip((Tx_min - margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
+    Ty_lo = np.clip((Ty_min - margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
+    Tx_hi = np.clip((Tx_max + margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
+    Ty_hi = np.clip((Ty_max + margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
+
+    blm = SkyCoord(Tx_lo, Ty_lo, frame=aia_map.coordinate_frame)
+    trm = SkyCoord(Tx_hi, Ty_hi, frame=aia_map.coordinate_frame)
+
 
     try:
         aia_crop = aia_map.submap(blm, top_right=trm)
@@ -297,7 +310,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     #            f"|Tx| (arcsec): {abs(Txshift.to(u.arcsec).value)}, "
     #            f"|Ty| (arcsec): {abs(Tyshift.to(u.arcsec).value)}\n"
     #        )
-    max_abs = 200 * u.arcsec  # WHY: reject obviously bad correlations
+    max_abs = 250 * u.arcsec  # WHY: reject obviously bad correlations
     if (abs(Txshift) < max_abs) and (abs(Tyshift) < max_abs):
         aligned_fe12_map = fe12_map.shift_reference_coord(-Txshift, -Tyshift)
         print(f"shifted - Tx:{Txshift}, Ty:{Tyshift}")
