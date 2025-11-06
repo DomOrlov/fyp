@@ -161,7 +161,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
 
 
-    margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
+    margin = 200 * u.arcsec  # give xcorr a little context without letting other ARs dominate
     #blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
     #trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
     blm = SkyCoord(Tx_min - margin, Ty_min - margin, frame=aia_map.coordinate_frame)
