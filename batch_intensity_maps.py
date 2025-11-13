@@ -10,6 +10,15 @@ from sunpy.map import Map
 from astropy.io import fits
 import re
 
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
+#fe12_dir = Path("nonaligned_fe12_intensity_maps")  # raw Fe XII from ashmcmc
+fe12_dir = data_dir / "fe12_intensity_maps"
+#aligned_fe12_dir = Path("aligned_fe12_intensity_maps") # produced by your aligner later
+aligned_fe12_dir = data_dir / "aligned_fe12_intensity_maps"
+#custom_intensity_dir = "intensity_map"
+custom_intensity_dir = data_dir / "intensity_map"
+
+
 def save_error_map_like(int_map: Map, err_array, out_path: Path):
     """
     Save an error map to FITS using the same WCS/header as int_map.
@@ -40,17 +49,12 @@ def eis_filename_to_timestamp(file_path: Path) -> str:
     Y, M, D, h, m, s = m.groups()
     return f"{Y}_{M}_{D}__{h}_{m}_{s}"
 
-fe12_dir = Path("nonaligned_fe12_intensity_maps")  # raw Fe XII from ashmcmc
-aligned_fe12_dir = Path("aligned_fe12_intensity_maps") # produced by your aligner later
-
 def make_intensity_maps_for_file(filename, line_databases, ncpu=4, test_mode=False):
     """
     Generate intensity maps for all lines in `line_databases`, or just one in test mode.
     """
     a = ashmcmc(filename, ncpu=ncpu)
     print(f"DEBUG: ashmcmc outdir => {a.outdir}")
-
-    custom_intensity_dir = "intensity_map"
 
     if test_mode:
         #line_databases = {"CaAr": ["ca_14_193.87"], "FeS": ["fe_16_262.98"]}
@@ -213,7 +217,7 @@ def make_intensity_maps_for_file(filename, line_databases, ncpu=4, test_mode=Fal
                 print(f"Error generating intensity for line={line} in {filename}: {e}")
 
 #data_dir = (Path.home() / "sunpy" / "data").resolve()
-data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
+
 
 def main():
     parser = argparse.ArgumentParser(description="Generate intensity maps for lines used in composition.")

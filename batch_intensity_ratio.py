@@ -55,9 +55,12 @@ import argparse  # for -c/--cores
 
 
 # Intensity ratio + CCD fix + scalling for G(T)
-
-intens_dir = Path("intensity_map")
-ratio_out_dir = Path("intensity_ratio")
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
+    
+#intens_dir = Path("intensity_map")
+#ratio_out_dir = Path("intensity_ratio")
+intens_dir = data_dir / "intensity_map"
+ratio_out_dir = data_dir / "intensity_ratio"
 ratio_out_dir.mkdir(parents=True, exist_ok=True)
 alias = {
     "ca_14_193.87": "ca14193_87",
@@ -150,8 +153,8 @@ def plot_composition_map(timestamp, element1, element2):
     den_path = intens_dir / f"{timestamp}_{alias[element2]}.fits"
     if not num_path.exists() or not den_path.exists():
         print(f"[SKIP] {timestamp} missing inputs for {element1}/{element2}:")
-        print(f"num: {num_path}  exists={num_path.exists()}")
-        print(f"den: {den_path}  exists={den_path.exists()}")
+        print(f"num:{num_path} exists={num_path.exists()}")
+        print(f"den:{den_path} exists={den_path.exists()}")
         return
 
     # Error maps saved by batch_intensity_maps.py alongside intensities
@@ -159,8 +162,8 @@ def plot_composition_map(timestamp, element1, element2):
     err_den_path = intens_dir / f"{timestamp}_{alias[element2]}_err.fits"
     if not err_num_path.exists() or not err_den_path.exists():
         print(f"[SKIP] {timestamp} missing error FITS for {element1}/{element2}:")
-        print(f"       num_err: {err_num_path}  exists={err_num_path.exists()}")
-        print(f"       den_err: {err_den_path}  exists={err_den_path.exists()}")
+        print(f"num_err:{err_num_path} exists={err_num_path.exists()}")
+        print(f"den_err:{err_den_path} exists={err_den_path.exists()}")
         return
 
     m_num = Map(str(num_path))
@@ -173,11 +176,12 @@ def plot_composition_map(timestamp, element1, element2):
     print(f"[{timestamp}] {element2} unit:", m_den.meta.get("BUNIT"),
           "| exptime:", m_den.meta.get("EXPTIME"))
 
-    fe12_path = Path(f"aligned_fe12_intensity_maps/aligned_eis_{timestamp}_intensity.fits")
-    if not fe12_path.exists():
-        print(f"[SKIP] Missing Fe XII aligned map for {timestamp}: {fe12_path}")
+    #fe12_dir = Path(f"aligned_fe12_intensity_maps/aligned_eis_{timestamp}_intensity.fits")
+    fe12_dir = data_dir / f"aligned_fe12_intensity_maps/aligned_eis_{timestamp}_intensity.fits"
+    if not fe12_dir.exists():
+        print(f"[SKIP] Missing Fe XII aligned map for {timestamp}: {fe12_dir}")
         return
-    fe12_map = Map(str(fe12_path))
+    fe12_map = Map(str(fe12_dir))
 
 
 
