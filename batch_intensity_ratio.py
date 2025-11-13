@@ -50,7 +50,7 @@ from reproject import reproject_interp
 import h5py
 from skimage.registration import phase_cross_correlation
 from scipy.ndimage import shift as imshift
-from eispac.instr import ccd_offset
+#from eispac.instr import ccd_offset
 import argparse  # for -c/--cores
 
 
@@ -150,14 +150,23 @@ def plot_composition_map(timestamp, element1, element2):
     den_path = intens_dir / f"{timestamp}_{alias[element2]}.fits"
     if not num_path.exists() or not den_path.exists():
         print(f"[SKIP] {timestamp} missing inputs for {element1}/{element2}:")
-        print(f"       num: {num_path}  exists={num_path.exists()}")
-        print(f"       den: {den_path}  exists={den_path.exists()}")
+        print(f"num: {num_path}  exists={num_path.exists()}")
+        print(f"den: {den_path}  exists={den_path.exists()}")
+        return
+
+    # Error maps saved by batch_intensity_maps.py alongside intensities
+    err_num_path = intens_dir / f"{timestamp}_{alias[element1]}_err.fits"
+    err_den_path = intens_dir / f"{timestamp}_{alias[element2]}_err.fits"
+    if not err_num_path.exists() or not err_den_path.exists():
+        print(f"[SKIP] {timestamp} missing error FITS for {element1}/{element2}:")
+        print(f"       num_err: {err_num_path}  exists={err_num_path.exists()}")
+        print(f"       den_err: {err_den_path}  exists={err_den_path.exists()}")
         return
 
     m_num = Map(str(num_path))
     m_den = Map(str(den_path))
-
-
+    m_err_num = Map(str(err_num_path))
+    m_err_den  = Map(str(err_den_path))
 
     print(f"[{timestamp}] {element1} unit:", m_num.meta.get("BUNIT"),
           "| exptime:", m_num.meta.get("EXPTIME"))
@@ -171,9 +180,23 @@ def plot_composition_map(timestamp, element1, element2):
     fe12_map = Map(str(fe12_path))
 
 
+
+
     num_reproj, _ = reproject_interp(m_num, fe12_map.wcs, shape_out=fe12_map.data.shape)
     den_reproj, _ = reproject_interp(m_den, fe12_map.wcs, shape_out=fe12_map.data.shape)
-    
+    err_num_reproj, _ = reproject_interp(m_err_num, fe12_map.wcs, shape_out=fe12_map.data.shape)
+    err_den_reproj, _ = reproject_interp(m_err_den, fe12_map.wcs, shape_out=fe12_map.data.shape)
+
+
+    '''
+    Asheis actually already does offset to headers in batch_intensity_maps.py
+    '''
+    # CCD offset already applied in WCS by asheis; use reprojected arrays as-is
+    num = num_reproj.astype(float)
+    den = den_reproj.astype(float)
+    err_num = err_num_reproj.astype(float)
+    err_den = err_den_reproj.astype(float)
+
     # CCD offset handling (to match asheis) 
     # asheis does NOT estimate a shift from the image data (no phase-correlation).
     # Instead, it applies a fixed, wavelength-dependent CCD Y-offset from the
@@ -184,38 +207,38 @@ def plot_composition_map(timestamp, element1, element2):
     # - Stable across rasters; not fooled by low-SNR/patchy lines (e.g., Fe XVI 262.98).
     # - Preserves numerator/denominator co-registration for same-CCD pairs.
 
-    wave_num = float(element1.split('_')[-1])   # e.g. 'fe_16_262.98' -> 262.98
-    wave_den = float(element2.split('_')[-1])
+    #wave_num = float(element1.split('_')[-1])   # e.g. 'fe_16_262.98' -> 262.98
+    #wave_den = float(element2.split('_')[-1])
     
-    # Model CCD offsets relative to Fe XII 195.119 Å (may be scalar OR 2-vector)
-    off_ref = np.asarray(ccd_offset(195.119*u.AA).to_value('pixel'), dtype=float)
-    off_num = np.asarray(ccd_offset(wave_num*u.AA).to_value('pixel'), dtype=float)
-    off_den = np.asarray(ccd_offset(wave_den*u.AA).to_value('pixel'), dtype=float)
+    ## Model CCD offsets relative to Fe XII 195.119 Å (may be scalar OR 2-vector)
+    #off_ref = np.asarray(ccd_offset(195.119*u.AA).to_value('pixel'), dtype=float)
+    #off_num = np.asarray(ccd_offset(wave_num*u.AA).to_value('pixel'), dtype=float)
+    #off_den = np.asarray(ccd_offset(wave_den*u.AA).to_value('pixel'), dtype=float)
 
 
-    delta_num = off_ref - off_num   # desired shift for numerator: (dy, dx) or scalar
-    delta_den = off_ref - off_den   # desired shift for denominator
+    #delta_num = off_ref - off_num   # desired shift for numerator: (dy, dx) or scalar
+    #delta_den = off_ref - off_den   # desired shift for denominator
     
-    # Normalize to (dy, dx) floats (don’t use absolute; sign matters)
-    if delta_num.ndim == 0:
-        dy_num, dx_num = float(delta_num), 0.0
-    else:
-        dy_num = float(delta_num[0])
-        dx_num = float(delta_num[1]) if delta_num.size > 1 else 0.0
+    ## Normalize to (dy, dx) floats (don’t use absolute; sign matters)
+    #if delta_num.ndim == 0:
+    #    dy_num, dx_num = float(delta_num), 0.0
+    #else:
+    #    dy_num = float(delta_num[0])
+    #    dx_num = float(delta_num[1]) if delta_num.size > 1 else 0.0
     
-    if delta_den.ndim == 0:
-        dy_den, dx_den = float(delta_den), 0.0
-    else:
-        dy_den = float(delta_den[0])
-        dx_den = float(delta_den[1]) if delta_den.size > 1 else 0.0
+    #if delta_den.ndim == 0:
+    #    dy_den, dx_den = float(delta_den), 0.0
+    #else:
+    #    dy_den = float(delta_den[0])
+    #    dx_den = float(delta_den[1]) if delta_den.size > 1 else 0.0
     
 
-    # Shift along image axes: (axis-0, axis-1) == (dy, dx)
-    num = imshift(num_reproj, shift=(dy_num, dx_num), order=1, mode="nearest", prefilter=False).astype(float)
-    den = imshift(den_reproj, shift=(dy_den, dx_den), order=1, mode="nearest", prefilter=False).astype(float)
+    ## Shift along image axes: (axis-0, axis-1) == (dy, dx)
+    #num = imshift(num_reproj, shift=(dy_num, dx_num), order=1, mode="nearest", prefilter=False).astype(float)
+    #den = imshift(den_reproj, shift=(dy_den, dx_den), order=1, mode="nearest", prefilter=False).astype(float)
     
-    print(f"{timestamp} {element1}/{element2} model CCD Δ(dy,dx) num=({dy_num:.2f},{dx_num:.2f})px "
-          f"den=({dy_den:.2f},{dx_den:.2f})px")
+    #print(f"{timestamp} {element1}/{element2} model CCD Δ(dy,dx) num=({dy_num:.2f},{dx_num:.2f})px "
+    #      f"den=({dy_den:.2f},{dx_den:.2f})px")
     
     valid = np.isfinite(num) & np.isfinite(den) & (den > 0)
     ratio = np.full(fe12_map.data.shape, np.nan, dtype=float)
@@ -231,6 +254,11 @@ def plot_composition_map(timestamp, element1, element2):
     # 2) compute S = 1/R and apply
     norm_factor = 1.0 / r_theory
     ratio *= norm_factor
+    # σ_R = |R| * sqrt( (σ_num/num)^2 + (σ_den/den)^2 )
+    ratio_err = np.full(fe12_map.data.shape, np.nan, dtype=float)
+    ratio_err[valid] = np.abs(ratio[valid]) * np.sqrt(
+        (err_num[valid] / num[valid])**2 + (err_den[valid] / den[valid])**2
+    )
     # 3) record provenance
     norm_used = f"theory(logt0={ref_info['logt0']}, ne0={ref_info['ne0']})"
 
@@ -244,6 +272,13 @@ def plot_composition_map(timestamp, element1, element2):
     ratio_map.meta['ratio_ref_logt0'] = ref_info['logt0']
     ratio_map.meta['ratio_ref_ne0']   = ref_info['ne0']
     ratio_map.meta['ratio_ref_r']     = r_theory  # store the r you read from the plot
+    fits_err_filename = str(ratio_out_dir / f"intensity_map_ratio_{timestamp}_{safe_pair}_err.fits")
+    ratio_err_map = Map(ratio_err, fe12_map.meta.copy())
+    ratio_err_map.meta.pop('bunit', None)
+    ratio_err_map.meta['measurement'] = f"{element1}/{element2} (error)"
+    ratio_err_map.meta['ratio_norm'] = norm_used
+    ratio_err_map.meta['ratio_norm_factor'] = norm_factor
+    ratio_err_map.save(fits_err_filename, overwrite=True)
 
     # Fixed ranges: S/Ar vs others
     is_s_ar = (element1.startswith("s_11_") and element2.startswith("ar_11_"))
