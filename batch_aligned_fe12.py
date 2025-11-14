@@ -14,7 +14,9 @@ from astropy.coordinates import SkyCoord      # WHY: submap needs coords in AIA 
 import numpy as np                            # WHY: z-normalization before xcorr
 from sunpy.coordinates import SphericalScreen  # WHY: avoid issues near limb
 
-# File to log non-aligned files
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
+
+
 non_aligned_log = Path("non_aligned_files.txt")
 
 # Enable test mode
@@ -33,8 +35,8 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     sunpy.map.Map: The aligned EIS map.
     """
     
-    fe12_directory = Path("nonaligned_fe12_intensity_maps")     # raw Fe XII from maker
-    aligned_fe12_directory = Path("aligned_fe12_intensity_maps") # aligner output
+    fe12_directory = data_dir / "nonaligned_fe12_intensity_maps"     # raw Fe XII from maker
+    aligned_fe12_directory = data_dir / "aligned_fe12_intensity_maps" # aligner output
     aia_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()  # AIA 
 
 
