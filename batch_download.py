@@ -625,7 +625,9 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
     args = parser.parse_args()
 
-    jobs = ar_catalogue  # one task per AR line
+    #jobs = ar_catalogue  # one task per AR line
+    jobs = [ar_catalogue[1]]  # just AR 12434 while testing
+
 
     if args.cores == 1:
         for line in jobs:
