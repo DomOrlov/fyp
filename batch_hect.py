@@ -5,21 +5,21 @@ import pickle
 import numpy as np
 import sunpy.map
 import astropy.units as u
+from pathlib import Path
 import argparse  # for -c/--cores
 import multiprocessing
 
 
 
-
-fyp_dir = "/home/ug/orlovsd2/fyp"
-pickle_files = sorted(glob.glob(f"{fyp_dir}/pfss_pickles/*_closed_fieldlines.pickle"))
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
+pickle_files = sorted(glob.glob(f"{data_dir}/pfss_pickles/*_closed_fieldlines.pickle"))
 
 
 #for closed_pickle_path in pickle_files:
 #    #date_time = "_".join(os.path.basename(closed_pickle_path).split("_")[2:9])
-#    #fe12_path = f"{fyp_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
+#    #fe12_path = f"{data_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
 #    date_time = os.path.basename(closed_pickle_path)[len("eis_"):-len("_closed_fieldlines.pickle")]
-#    fe12_path = f"{fyp_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
+#    fe12_path = f"{data_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
 
 #    print(f"\nProcessing date_time = {date_time}")
 #    print(f"Closed fieldline pickle: {closed_pickle_path}")
@@ -94,11 +94,11 @@ pickle_files = sorted(glob.glob(f"{fyp_dir}/pfss_pickles/*_closed_fieldlines.pic
 
 #    loop_map_closed_smap = sunpy.map.Map(loop_map_closed, meta)
 #    loop_map_closed_smap.meta["BUNIT"] = "km"
-#    loop_map_closed_smap.save(f"{fyp_dir}/loop_length/loop_length_map_closed_{date_time}.fits", overwrite=True)
+#    loop_map_closed_smap.save(f"{data_dir}/loop_length/loop_length_map_closed_{date_time}.fits", overwrite=True)
     
 #    loop_map_open_smap = sunpy.map.Map(loop_map_open, meta)
 #    loop_map_open_smap.meta["BUNIT"] = "km"
-#    loop_map_open_smap.save(f"{fyp_dir}/loop_length/loop_length_map_open_{date_time}.fits", overwrite=True)
+#    loop_map_open_smap.save(f"{data_dir}/loop_length/loop_length_map_open_{date_time}.fits", overwrite=True)
 
 #    n_valid_closed = np.count_nonzero(np.isfinite(loop_map_closed))
 #    n_valid_open = np.count_nonzero(np.isfinite(loop_map_open))
@@ -127,18 +127,18 @@ pickle_files = sorted(glob.glob(f"{fyp_dir}/pfss_pickles/*_closed_fieldlines.pic
 #    # Save mean-B combined and open/closed mask
 #    mean_B_smap = sunpy.map.Map(mean_B_map_combined, meta)
 #    mean_B_smap.meta["BUNIT"] = "Gauss"
-#    mean_B_smap.save(f"{fyp_dir}/mean_B/mean_B_map_combined_{date_time}.fits", overwrite=True)
+#    mean_B_smap.save(f"{data_dir}/mean_B/mean_B_map_combined_{date_time}.fits", overwrite=True)
 
 #    mask_smap = sunpy.map.Map(open_mask_map, meta)
 #    mask_smap.meta["BUNIT"] = "1"
-#    mask_smap.save(f"{fyp_dir}/mean_B/mean_B_open_mask_map_{date_time}.fits", overwrite=True)
+#    mask_smap.save(f"{data_dir}/mean_B/mean_B_open_mask_map_{date_time}.fits", overwrite=True)
 
 #    print(f"Saved closed/open loop-length, mean-B, and mask for {date_time}")
 
 def _work(closed_pickle_path):
     # Extract date_time and paths
     date_time = os.path.basename(closed_pickle_path)[len("eis_"):-len("_closed_fieldlines.pickle")]
-    fe12_path = f"{fyp_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
+    fe12_path = f"{data_dir}/aligned_fe12_intensity_maps/aligned_eis_{date_time}_intensity.fits"
 
     print(f"\nProcessing date_time = {date_time}")
     print(f"Closed fieldline pickle: {closed_pickle_path}")
@@ -205,11 +205,11 @@ def _work(closed_pickle_path):
     # Save loop-length maps
     loop_map_closed_smap = sunpy.map.Map(loop_map_closed, meta)
     loop_map_closed_smap.meta["BUNIT"] = "km"
-    loop_map_closed_smap.save(f"{fyp_dir}/loop_length/loop_length_map_closed_{date_time}.fits", overwrite=True)
+    loop_map_closed_smap.save(f"{data_dir}/loop_length/loop_length_map_closed_{date_time}.fits", overwrite=True)
 
     loop_map_open_smap = sunpy.map.Map(loop_map_open, meta)
     loop_map_open_smap.meta["BUNIT"] = "km"
-    loop_map_open_smap.save(f"{fyp_dir}/loop_length/loop_length_map_open_{date_time}.fits", overwrite=True)
+    loop_map_open_smap.save(f"{data_dir}/loop_length/loop_length_map_open_{date_time}.fits", overwrite=True)
 
     # Stats
     n_valid_closed = np.count_nonzero(np.isfinite(loop_map_closed))
@@ -234,11 +234,11 @@ def _work(closed_pickle_path):
     # Save mean-B combined and open/closed mask
     mean_B_smap = sunpy.map.Map(mean_B_map_combined, meta)
     mean_B_smap.meta["BUNIT"] = "Gauss"
-    mean_B_smap.save(f"{fyp_dir}/mean_B/mean_B_map_combined_{date_time}.fits", overwrite=True)
+    mean_B_smap.save(f"{data_dir}/mean_B/mean_B_map_combined_{date_time}.fits", overwrite=True)
 
     mask_smap = sunpy.map.Map(open_mask_map, meta)
     mask_smap.meta["BUNIT"] = "1"
-    mask_smap.save(f"{fyp_dir}/mean_B/mean_B_open_mask_map_{date_time}.fits", overwrite=True)
+    mask_smap.save(f"{data_dir}/mean_B/mean_B_open_mask_map_{date_time}.fits", overwrite=True)
 
     print(f"Saved closed/open loop-length, mean-B, and mask for {date_time}")
 

@@ -12,7 +12,7 @@ import re
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 #fe12_dir = Path("nonaligned_fe12_intensity_maps")  # raw Fe XII from ashmcmc
-fe12_dir = data_dir / "fe12_intensity_maps"
+fe12_dir = data_dir / "nonaligned_fe12_intensity_maps"
 #aligned_fe12_dir = Path("aligned_fe12_intensity_maps") # produced by your aligner later
 aligned_fe12_dir = data_dir / "aligned_fe12_intensity_maps"
 #custom_intensity_dir = "intensity_map"

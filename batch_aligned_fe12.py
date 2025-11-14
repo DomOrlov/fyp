@@ -42,7 +42,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
     # Construct the full file path
     eis_fit_path = fe12_directory / eis_fit
-    out_path = Path("aligned_fe12_intensity_maps") / f"aligned_{eis_fit}"
+    out_path = (data_dir / "aligned_fe12_intensity_maps") / f"aligned_{eis_fit}"
     if out_path.exists():
         print(f"[SKIP] already aligned: {out_path.name}")
         return
@@ -342,7 +342,9 @@ def _work(eis_fit):
     return alignment(eis_fit)
 
 # Test mode to only process the specified file
-fe12_directory = Path("nonaligned_fe12_intensity_maps")
+#fe12_directory = Path("nonaligned_fe12_intensity_maps")
+fe12_directory = data_dir / "nonaligned_fe12_intensity_maps"
+
 
 if test_mode:
     eis_files = [test_file]

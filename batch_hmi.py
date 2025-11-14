@@ -9,14 +9,14 @@ import argparse  # for -c/--cores
 import multiprocessing  # for Pool
 
 
-
-iris_dir = "pfss_pickles"
-Path(iris_dir).mkdir(parents=True, exist_ok=True)
+data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
+pickle_dir = data_dir / "pfss_pickles"
+Path(pickle_dir).mkdir(parents=True, exist_ok=True)
 
 test_mode = False
 test_target = "2014_02_05__10_41_27"
 
-fe12_dir = "aligned_fe12_intensity_maps"
+fe12_dir = data_dir / "aligned_fe12_intensity_maps"
 fits_files = sorted(glob.glob(f"{fe12_dir}/*.fits"))
 
 #for fits_file in fits_files:
@@ -26,8 +26,8 @@ fits_files = sorted(glob.glob(f"{fe12_dir}/*.fits"))
 #    if test_mode and test_target not in base_name:
 #        continue  # Skip all files except the test_target
     
-#    open_pickle_filename = f"{iris_dir}/{base_name}_open_fieldlines.pickle"
-#    closed_pickle_filename = f"{iris_dir}/{base_name}_closed_fieldlines.pickle"
+#    open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines.pickle"
+#    closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines.pickle"
     
 #    if os.path.isfile(open_pickle_filename) and os.path.isfile(closed_pickle_filename):
 #        print(f"Skipping {base_name} (pickles already exist).")
@@ -54,8 +54,8 @@ def _work(fits_file):
     if test_mode and test_target not in base_name:
         return  # (was: continue) — skip this task
 
-    open_pickle_filename = f"{iris_dir}/{base_name}_open_fieldlines.pickle"
-    closed_pickle_filename = f"{iris_dir}/{base_name}_closed_fieldlines.pickle"
+    open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines.pickle"
+    closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines.pickle"
 
     if os.path.isfile(open_pickle_filename) and os.path.isfile(closed_pickle_filename):
         print(f"Skipping {base_name} (pickles already exist).")
