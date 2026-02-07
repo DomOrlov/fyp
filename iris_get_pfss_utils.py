@@ -29,8 +29,8 @@ import os
 from pathlib import Path
 from astropy.time import Time
 from datetime import timedelta
+from time_utils import time_of
 
-# Additional imports that might be required based on the code context
 from sunpy.net import attrs as a
 from astropy.wcs import WCS
 from astropy.visualization import ImageNormalize, SqrtStretch
@@ -234,6 +234,62 @@ def _hmi_day_local_strict(day_time, root):
     print(f"[HMI local] using: {chosen}")
     return PrepHMIdaily(chosen)
 
+def _hmi_local_today_vs_yesterday(day_time, root):
+    """
+    Local-only lookup for HMI daily synoptic map closest to `day_time`,
+    comparing same-day vs previous-day files under `root`.
+    Returns a prepped SunPy Map via PrepHMIdaily.
+    Raises FileNotFoundError only if neither day exists locally.
+    """
+    t = Time(day_time)
+
+    def _find_latest_for_date(date_str_ymd):
+        # date_str_ymd is "YYYY-MM-DD"
+        y, m, d = date_str_ymd.split("-")
+
+        pats_rel = [
+            f"hmi.mrdailysynframe_720s.{y}{m}{d}_*.fits",
+            f"hmi.mrdailysynframe_720s.{y}{m}{d}*.fits",
+            f"hmi.mrdailysynframe_720s.{y}.{m}.{d}*.fits",
+            f"*mrdailysynframe*{y}{m}{d}*.fits",
+            f"*mrdailysynframe*{y}.{m}.{d}*.fits",
+        ]
+
+        hits = []
+        for pat in pats_rel:
+            hits.extend(glob.glob(str(Path(root) / pat)))
+
+        hits = sorted(set(hits))
+        if not hits:
+            return None
+
+        chosen = str(Path(hits[-1]))  # latest if multiple
+        print(f"[HMI local] candidate: {chosen}")
+        return PrepHMIdaily(chosen)
+
+    day_today = t.strftime("%Y-%m-%d")
+    day_yest  = (t - 1 * u.day).strftime("%Y-%m-%d")
+
+    hmi_today = _find_latest_for_date(day_today)
+    hmi_yest  = _find_latest_for_date(day_yest)
+
+    Tt = time_of(hmi_today)
+    Ty = time_of(hmi_yest)
+
+    if (Tt is None) and (Ty is None):
+        raise FileNotFoundError(
+            f"No HMI daily synoptic file for {day_today} or {day_yest} under {root}"
+        )
+    elif (Tt is not None) and (Ty is None):
+        choice = hmi_today
+    elif (Tt is None) and (Ty is not None):
+        choice = hmi_yest
+    else:
+        choice = hmi_today if abs(Tt - t) <= abs(Ty - t) else hmi_yest
+
+    print(f"[HMI local] chosen date: {time_of(choice)} for EIS time {t.isot}")
+    return choice
+
 
 def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 540)):
     
@@ -264,7 +320,8 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     scratch_root = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
     eis_time = Time(map.date)
-    m_hmi = _hmi_day_local_strict(eis_time, scratch_root)
+    # m_hmi = _hmi_day_local_strict(eis_time, scratch_root)
+    m_hmi = _hmi_local_today_vs_yesterday(eis_time, scratch_root)
 
 
     #m_hmi.plot()
