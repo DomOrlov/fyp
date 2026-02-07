@@ -287,42 +287,22 @@ def _hmi_local_today_vs_yesterday(day_time, root):
     else:
         choice = hmi_today if abs(Tt - t) <= abs(Ty - t) else hmi_yest
 
-    print(f"[HMI local] chosen date: {time_of(choice)} for EIS time {t.isot}")
+    print(f"[HMI local] chosen date: {time_of(choice)} for EIS time {t}")
     return choice
 
 
 def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 540)):
-    
-    #map.plot()
-    #plt.title("Raw EIS Map")
-    #plt.show() # This is the region of interest, the EIS map, that we want to trace fieldlines.
-
-    #print(f"EIS map shape: {map.data.shape}")
-    #print(f"WCS dimensions: {map.dimensions}")
-
-
-    ## hmi synoptic maps provide a global magentic map of the sun to trace fieldlines
-    #m_hmi = hmi_daily_download(map.date.value)
-
-    ##( old download check, we now have it predownloaded) 
-    ## Get both HMI maps
-    #m_hmi_today = hmi_daily_download(map.date)
-    #m_hmi_yesterday = hmi_daily_download(map.date - timedelta(days=1))
-
-    ## Choose the one closest in time to the EIS observation
-    #delta_today = abs(m_hmi_today.date - map.date)
-    #delta_yesterday = abs(m_hmi_yesterday.date - map.date)
-
-    #m_hmi = m_hmi_today if delta_today < delta_yesterday else m_hmi_yesterday
-    #print(f"Selected HMI date: {m_hmi.date} (closer to EIS time {map.date})")
-
-    # Using closest pre-downloaded HMI map (no downloads)
-
+    debug = True
+    # Previously used hmi_daily_download(); now local-only via _hmi_local_today_vs_yesterday().
+    # Using closest pre-downloaded HMI map
     scratch_root = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
     eis_time = Time(map.date)
     # m_hmi = _hmi_day_local_strict(eis_time, scratch_root)
     m_hmi = _hmi_local_today_vs_yesterday(eis_time, scratch_root)
 
+    if debug:
+        print("EIS time:", eis_time)
+        print("HMI chosen time:", Time(m_hmi.date))
 
     #m_hmi.plot()
     #plt.title("Raw HMI Magnetogram")
@@ -348,54 +328,84 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     # Resample the HMI data to a specific resolution
     m_hmi_resample = m_hmi.resample(dimension * u.pix) # .resample changes the number of pixels in the map, and stretching/compressing the coordinate system to match the new pixel size.
 
-    #m_hmi_resample.plot()
-    #plt.title("Resampled HMI Magnetogram")
-    #plt.show() # Check that resampling didn't distort or lose critical details, if it matches better the EIS map scale (pixels).
-
     # Synchronize again guaranteeing that the HMI data is in the same frame as the EIS map.
     new_frame = change_obstime_frame(m_hmi_resample.coordinate_frame, map.date)
 
-    print("===== FRAME COMPARISON =====")
-    print("EIS observer:", map.observer_coordinate)
-    print("EIS obstime:", map.date)
-    print("HMI observer:", m_hmi_resample.observer_coordinate)
-    print("HMI obstime:", m_hmi_resample.date)
-    print("EIS coordinate frame:", map.coordinate_frame)
-    print("HMI coordinate frame:", m_hmi_resample.coordinate_frame)
-    print("============================")
+    if debug:
+        print("EIS observer:", map.observer_coordinate)
+        print("EIS obstime:", map.date)
+        print("HMI observer:", m_hmi_resample.observer_coordinate)
+        print("HMI obstime:", m_hmi_resample.date)
+        print("EIS coordinate frame:", map.coordinate_frame)
+        print("HMI coordinate frame:", m_hmi_resample.coordinate_frame)
 
     # Expand the coordinates by 10% in each direction, ensures you don’t accidentally miss important fieldlines touching the edges.
     # Magnetic fields often curve outward, fieldlines that start near the edge might still be important.
-    blc_ar_synop = change_obstime(
-        SkyCoord(
-            map.bottom_left_coord.Tx - 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
-            map.bottom_left_coord.Ty - 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
-            frame=map.coordinate_frame
-        ).transform_to(new_frame), # transform the coordinate to the new magnetogram frame.
-        m_hmi_resample.date
+    # blc_ar_synop = change_obstime(
+    #     SkyCoord(
+    #         map.bottom_left_coord.Tx - 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
+    #         map.bottom_left_coord.Ty - 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
+    #         frame=map.coordinate_frame
+    #     ).transform_to(new_frame), # transform the coordinate to the new magnetogram frame.
+    #     m_hmi_resample.date
+    # )
+
+    # trc_ar_synop = change_obstime(
+    #     SkyCoord(
+    #         map.top_right_coord.Tx + 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
+    #         map.top_right_coord.Ty + 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
+    #         frame=map.coordinate_frame
+    #     ).transform_to(new_frame),
+    #     m_hmi_resample.date
+    # )
+    blc_hpc = SkyCoord(
+        map.bottom_left_coord.Tx - 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
+        map.bottom_left_coord.Ty - 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
+        frame=map.coordinate_frame
     )
 
-    trc_ar_synop = change_obstime(
-        SkyCoord(
-            map.top_right_coord.Tx + 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
-            map.top_right_coord.Ty + 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
-            frame=map.coordinate_frame
-        ).transform_to(new_frame),
-        m_hmi_resample.date
+    trc_hpc = SkyCoord(
+        map.top_right_coord.Tx + 0.1 * (map.top_right_coord.Tx - map.bottom_left_coord.Tx),
+        map.top_right_coord.Ty + 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
+        frame=map.coordinate_frame
     )
+    if debug:
+        print("EIS corners Tx/Ty:", blc_hpc.Tx, blc_hpc.Ty, "|", trc_hpc.Tx, trc_hpc.Ty)
+        print("EIS corners finite:", np.isfinite(blc_hpc.Tx.to_value(u.arcsec)), np.isfinite(blc_hpc.Ty.to_value(u.arcsec)),
+            np.isfinite(trc_hpc.Tx.to_value(u.arcsec)), np.isfinite(trc_hpc.Ty.to_value(u.arcsec)))
 
+    blc_syn = blc_hpc.transform_to(new_frame)
+    trc_syn = trc_hpc.transform_to(new_frame)
+
+    if debug:
+        print("after transform_to(new_frame):", blc_syn.lon, blc_syn.lat, "|", trc_syn.lon, trc_syn.lat)
+        print("transform finite:", np.isfinite(blc_syn.lon.to_value(u.deg)), np.isfinite(blc_syn.lat.to_value(u.deg)),
+            np.isfinite(trc_syn.lon.to_value(u.deg)), np.isfinite(trc_syn.lat.to_value(u.deg)))
+
+    blc_ar_synop = change_obstime(blc_syn, m_hmi_resample.date)
+    trc_ar_synop = change_obstime(trc_syn, m_hmi_resample.date)
+
+    if debug:
+        print("after change_obstime:", blc_ar_synop.lon, blc_ar_synop.lat, "|", trc_ar_synop.lon, trc_ar_synop.lat)
+        print("change_obstime finite:", np.isfinite(blc_ar_synop.lon.to_value(u.deg)), np.isfinite(blc_ar_synop.lat.to_value(u.deg)),
+            np.isfinite(trc_ar_synop.lon.to_value(u.deg)), np.isfinite(trc_ar_synop.lat.to_value(u.deg)))
+    
     # Rotate bounding coordinates forward to the EIS time
     blc_ar_synop_rot = solar_rotate_coordinate(blc_ar_synop, time=map.date)
     trc_ar_synop_rot = solar_rotate_coordinate(trc_ar_synop, time=map.date)
 
-
+    if debug:
+        print("after solar_rotate:", blc_ar_synop_rot.lon, blc_ar_synop_rot.lat, "|", trc_ar_synop_rot.lon, trc_ar_synop_rot.lat)
+        print("rotate finite:", np.isfinite(blc_ar_synop_rot.lon.to_value(u.deg)), np.isfinite(blc_ar_synop_rot.lat.to_value(u.deg)),
+            np.isfinite(trc_ar_synop_rot.lon.to_value(u.deg)), np.isfinite(trc_ar_synop_rot.lat.to_value(u.deg)))
 
     # Select pixels that are either above or below the gauss values, these pixels will be used as seed points for PFSS fieldline tracing.
     masked_pix_y, masked_pix_x = np.where((m_hmi_resample.data >=max_gauss) | (m_hmi_resample.data < min_gauss)) # np.where returns the (row, column) indices (masked_pix_y, masked_pix_x) of the selected pixels.
 
     print(f"Number of masked pixels: {len(masked_pix_x)}")
-    print("Filtered Values:")
-    print(m_hmi_resample.data[masked_pix_y, masked_pix_x])
+    print("Filtered Values:", np.nanmin(m_hmi_resample.data[masked_pix_y, masked_pix_x]), np.nanmax(m_hmi_resample.data[masked_pix_y, masked_pix_x]), np.nanmean(m_hmi_resample.data[masked_pix_y, masked_pix_x]))
+    if debug:
+        print("Filtered Values sample:", m_hmi_resample.data[masked_pix_y, masked_pix_x][:20])
 
     plt.hist(m_hmi_resample.data[masked_pix_y, masked_pix_x].flatten(), bins=50)
     plt.title("Histogram of Magnetic Field Strengths of Masked Pixels")
@@ -406,6 +416,9 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     # Convert the masked strong-field pixel positions (masked_pix_x, masked_pix_y) into real-world solar coordinates (longitude, latitude).
     seeds = m_hmi_resample.pixel_to_world(masked_pix_x*u.pix, masked_pix_y*u.pix,).make_3d() #.make_3d() converts the 2D pixel coordinates to 3D spherical coords.
+    if debug:
+        print("seed lon range:", np.nanmin(seeds.lon.to_value(u.deg)), np.nanmax(seeds.lon.to_value(u.deg)))
+        print("seed lat range:", np.nanmin(seeds.lat.to_value(u.deg)), np.nanmax(seeds.lat.to_value(u.deg)))
 
     plt.figure(figsize=(8,6))
     plt.scatter(seeds.lon.to(u.deg), seeds.lat.to(u.deg), s=1, c='r')
@@ -422,10 +435,17 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     #in_lon = np.logical_and(seeds.lon > blc_ar_synop.lon, seeds.lon < trc_ar_synop.lon)
     #in_lat = np.logical_and(seeds.lat > blc_ar_synop.lat, seeds.lat < trc_ar_synop.lat)
 
-    print("blc lon/lat:", blc_ar_synop_rot.lon.to(u.deg), blc_ar_synop_rot.lat.to(u.deg))
-    print("trc lon/lat:", trc_ar_synop_rot.lon.to(u.deg), trc_ar_synop_rot.lat.to(u.deg))
-    print("lon min>max?", blc_ar_synop_rot.lon > trc_ar_synop_rot.lon)
-    print("lat min>max?", blc_ar_synop_rot.lat > trc_ar_synop_rot.lat)
+    if debug:
+        print("blc lon/lat:", blc_ar_synop_rot.lon.to(u.deg), blc_ar_synop_rot.lat.to(u.deg))
+        print("trc lon/lat:", trc_ar_synop_rot.lon.to(u.deg), trc_ar_synop_rot.lat.to(u.deg))
+        print("lon min>max?", blc_ar_synop_rot.lon > trc_ar_synop_rot.lon)
+        print("lat min>max?", blc_ar_synop_rot.lat > trc_ar_synop_rot.lat)
+    if (not np.isfinite(blc_ar_synop_rot.lon.to_value(u.deg)) or
+        not np.isfinite(blc_ar_synop_rot.lat.to_value(u.deg)) or
+        not np.isfinite(trc_ar_synop_rot.lon.to_value(u.deg)) or
+        not np.isfinite(trc_ar_synop_rot.lat.to_value(u.deg))):
+        raise ValueError("NaN in rotated Carrington bounds (blc/trc).")
+
     in_lon = np.logical_and(seeds.lon > blc_ar_synop_rot.lon, seeds.lon < trc_ar_synop_rot.lon)
     in_lat = np.logical_and(seeds.lat > blc_ar_synop_rot.lat, seeds.lat < trc_ar_synop_rot.lat)
 
@@ -471,38 +491,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     # Fieldline reaches the source surface (2.5) = open fieldline. Fieldline reaches the solar surface (1) = closed fieldline. The fieldline hits max_steps and is forcibly stopped.
     empty_coords_count = sum(len(f.coords) == 0 for f in fieldlines)
     print(f"Fieldlines with empty coords: {empty_coords_count} / {len(fieldlines)}")
-
-    #for f in fieldlines:
-    #    try:
-    #        f.b = pfss_output.get_bvec(f.coords, out_type="cartesian") * u.G # * u.G converts the unitless output to the correct units.
-    #    except Exception as e:
-    #        f.b = None
-
-    #all_magnitudes = []
-    #for f in fieldlines:
-    #    if hasattr(f, 'b') and f.b is not None:
-    #        mags = np.linalg.norm(f.b.value, axis=1)
-    #        mags = mags[np.isfinite(mags)]
-    #        all_magnitudes.extend(mags)
-
-
-    #if all_magnitudes:
-    #    all_magnitudes = np.array(all_magnitudes)
-    #    print(f"B magnitude range: {all_magnitudes.min():.2f} G – {all_magnitudes.max():.2f} G")
-    #    print(f"B mean: {np.mean(all_magnitudes):.2f} G, median: {np.median(all_magnitudes):.2f} G")
-
-    ## DEBUG BLOCK — Check radii
-    #first_fline = fieldlines[0]
-    #radii = first_fline.coords.radius.to(u.solRad)
-    #print(f"Fieldline 0 radius range: min = {radii.min():.2f}, max = {radii.max():.2f}")
-
-    ## DEBUG BLOCK — Try evaluating B-field directly
-    #try:
-    #    B_test = pfss_output.get_bvec(first_fline.coords) * u.T
-    #    print("Test B field shape:", B_test.shape)
-    #    print("Test B field sample (Gauss):", B_test[0].to(u.Gauss))
-    #except Exception as e:
-    #    print("b_eval() failed with error:", e)
 
     footpoints_lon = [f.coords.lon[0].to(u.deg).value for f in fieldlines if len(f.coords.lon) > 0]
     footpoints_lat = [f.coords.lat[0].to(u.deg).value for f in fieldlines if len(f.coords.lat) > 0]
@@ -575,21 +563,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
         # Loop length and lopp starting pixel metadata
         f.start_pix = (int(x), int(y)) # Round to nearest pixel since image indices must be integers, not sub-pixel floats.
 
-        # Original Euclidean distance method, faster, but harder to read. 
-        ## f.coords is a list of 3D coordinate points along the fieldline f.
-        ## .cartesian gives us acess to the cartesian version of the coordinates, without this we could be dealing with spherical coordinates.
-        ## .xyz gives you a 3xN Quantity array, x, y and z.
-        ## .to_value() removes the physical units, returning a plain NumPy array of floats
-        ## .T transposes the array from (3,N) to (N,3)
-        #coords = f.coords.cartesian.xyz.to_value().T 
-        ## np.diff computes the difference between the points, subracting each row form the next row.
-        ## axis=0 means operate between rows (downward, row-wise)
-        ## axis=1 means operate within rows (across columns)
-        #diffs = np.diff(coords, axis=0) # Stepwise differences between points along the line.
-        ## np.linalg is NumPy's linear algebra library.
-        ## .norm computes the vector norm, i.e the length of the vector.
-        #f.length = np.sum(np.linalg.norm(diffs, axis=1)) # Arc length of the field line via Euclidean distance.
-
         coords = f.coords.cartesian # Converts from spherical to x, y, z, FortranTracer is done in spherical coords.
         # Extract the x, y, z coords:
         x = coords.x.value # .value removes the units so it is compatible with numpy, creating a float.
@@ -657,13 +630,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
             interp_input[i, 1] = sin_theta[i]   # sin(θ)
             interp_input[i, 2] = log_r[i]       # log(r)
         bvec_unitless = pfss_output._brgi(interp_input) # Use PFSSPy's internal interpolator _brgi to get the B-vector at each coord point.
-        ## DEBUG BLOCK
-        #nan_mask = np.isnan(bvec_unitless).any(axis=1)  # True if any component (Bx, By, Bz) is NaN
-        #num_nans = np.sum(nan_mask)
-        #num_valid = len(nan_mask) - num_nans
-        #if num_nans > 0:
-        #    print(f"NaNs in B-field vector for fieldline {f}: {num_nans} NaNs out of {len(nan_mask)} points ({num_valid} valid)")
-        ## END DEBUG BLOCK
         unit_str = pfss_output.input_map.meta.get("bunit", None) # Attempt to get the unit string from the metadata of the input map.
         bunit = u.Unit(unit_str) if unit_str is not None else u.dimensionless_unscaled # In our case the bunit is unitless.
         bvec = bvec_unitless * bunit
@@ -675,14 +641,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
             bvec_z = bvec[i][2].value 
             mag = np.sqrt(bvec_x ** 2 + bvec_y ** 2 + bvec_z ** 2) # This calculates the magnitude of the magnetic field vector.
             bvec_mag.append(mag)
-        ## DEBUG BLOCK # I was right the last value is Nan, I assume because it's something like 2.50001.
-        #if np.any(np.isnan(bvec_mag)):
-        #    print("bvec_unitless[-100:]:\n", bvec_unitless[-100:])  # raw interpolated unitless vectors
-        ##    print("bvec (with units):\n", bvec)        # vectors with unit applied
-        ##    print("bvec_mag:\n", bvec_mag)             # computed magnitudes
-        ##    print("bvec_mean (will be NaN):", np.mean(bvec_mag))
-        #    break  # Stop after first one to inspect it
-        ## END DEBUG BLOCK
         #bvec_mean = np.mean(bvec_mag) # This takes the average of all |B| values along the fieldline. If any value is NaN, the mean will be NaN.
         bvec_mean = np.nanmean(bvec_mag) # This takes the average of all |B| values along the fieldline, ignoring NaN values.
         f.mean_B = bvec_mean # This adds the mean magnetic field strength to the fieldline object.
@@ -760,7 +718,7 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     plt.legend()
     plt.grid(True)
     plt.show() # Shows whether the fieldlines actually map back to EIS data in the correct orientation.
-    # Optional sanity check
+
     x_check, y_check = map.world_to_pixel(map.pixel_to_world(0*u.pix, 0*u.pix))
     print(f"Pixel (0,0) round-trip lands at: ({x_check}, {y_check})")
 
@@ -782,8 +740,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     print(f"Total field lines: {len(fieldlines)}")
     print(f"Open field lines: {len(open_fieldlines)}")
     print(f"Closed field lines: {len(closed_fieldlines)}")
-    #print("Frame of seeds_2d:", seeds_2d.frame)
-    #print("EIS map frame:", map.coordinate_frame)
     return open_fieldlines, closed_fieldlines
 
 
@@ -799,6 +755,7 @@ def get_pfss(IRIS_map_dir):
     lon, lat = np.meshgrid(hp_lon, hp_lat)
     seeds = SkyCoord(lon.ravel(), lat.ravel(),
                      frame=IRIS_map.coordinate_frame).make_3d()
+
 
     m_hmi = hmi_daily_download(IRIS_map.date.value)
     
