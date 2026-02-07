@@ -369,6 +369,23 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
         map.top_right_coord.Ty + 0.1 * (map.top_right_coord.Ty - map.bottom_left_coord.Ty),
         frame=map.coordinate_frame
     )
+
+    rs = map.rsun_obs.to_value(u.arcsec)
+    r_blc = np.sqrt(blc_hpc.Tx.to_value(u.arcsec)**2 + blc_hpc.Ty.to_value(u.arcsec)**2)
+    r_trc = np.sqrt(trc_hpc.Tx.to_value(u.arcsec)**2 + trc_hpc.Ty.to_value(u.arcsec)**2)
+
+    if debug:
+        print("rsun_obs arcsec:", rs)
+        print("corner r arcsec:", r_blc, r_trc)
+
+    if r_blc > rs:
+        s = 0.999 * rs / r_blc
+        blc_hpc = SkyCoord(blc_hpc.Tx * s, blc_hpc.Ty * s, frame=blc_hpc.frame)
+
+    if r_trc > rs:
+        s = 0.999 * rs / r_trc
+        trc_hpc = SkyCoord(trc_hpc.Tx * s, trc_hpc.Ty * s, frame=trc_hpc.frame)
+
     if debug:
         print("EIS corners Tx/Ty:", blc_hpc.Tx, blc_hpc.Ty, "|", trc_hpc.Tx, trc_hpc.Ty)
         print("EIS corners finite:", np.isfinite(blc_hpc.Tx.to_value(u.arcsec)), np.isfinite(blc_hpc.Ty.to_value(u.arcsec)),
