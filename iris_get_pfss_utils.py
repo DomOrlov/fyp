@@ -373,6 +373,10 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
         print("EIS corners Tx/Ty:", blc_hpc.Tx, blc_hpc.Ty, "|", trc_hpc.Tx, trc_hpc.Ty)
         print("EIS corners finite:", np.isfinite(blc_hpc.Tx.to_value(u.arcsec)), np.isfinite(blc_hpc.Ty.to_value(u.arcsec)),
             np.isfinite(trc_hpc.Tx.to_value(u.arcsec)), np.isfinite(trc_hpc.Ty.to_value(u.arcsec)))
+        r_blc = np.sqrt(blc_hpc.Tx.to_value(u.arcsec)**2 + blc_hpc.Ty.to_value(u.arcsec)**2)
+        r_trc = np.sqrt(trc_hpc.Tx.to_value(u.arcsec)**2 + trc_hpc.Ty.to_value(u.arcsec)**2)
+        print("rsun_obs arcsec:", map.rsun_obs.to_value(u.arcsec))
+        print("corner r arcsec:", r_blc, r_trc)
 
     blc_syn = blc_hpc.transform_to(new_frame)
     trc_syn = trc_hpc.transform_to(new_frame)
