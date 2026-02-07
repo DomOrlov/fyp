@@ -1,43 +1,49 @@
-from astropy.io import fits
-import numpy as np
+import glob
+import logging
+import os
+import pickle
+import re
+import time
+import warnings
+from datetime import datetime, timedelta
+from os import makedirs
+from pathlib import Path
+
 import astropy.coordinates
 import astropy.units as u
-from pfss.functions_data import aia_download_from_date, hmi_daily_download, aia_correction, PrepHMIdaily, scratch # /mnt/scratch/data/orlovsd2/sunpy/data
 import matplotlib.pyplot as plt
+import numpy as np
 import pfsspy
 import sunpy
-from sunpy.map import Map
-from tqdm import tqdm
 from aiapy.calibrate import correct_degradation, update_pointing
-from os import makedirs
-from astropy.coordinates import SkyCoord
-from sunpy.net import Fido, attrs
-from sunpy.coordinates.sun import carrington_rotation_number, carrington_rotation_time
-from sunpy.time import parse_time
-from datetime import datetime, timedelta
-import warnings
-import pickle
-import time
-import re
-import glob
-from pfsspy.fieldline import OpenFieldLines, ClosedFieldLines
-from sunpy.coordinates import Helioprojective
-from astropy.coordinates import BaseCoordinateFrame
-from datetime import timedelta
-from sunpy.physics.differential_rotation import solar_rotate_coordinate
-import os
-from pathlib import Path
+from astropy.coordinates import BaseCoordinateFrame, SkyCoord
+from astropy.io import fits
 from astropy.time import Time
-from datetime import timedelta
+from astropy.visualization import ImageNormalize, SqrtStretch
+from astropy.wcs import WCS
+from matplotlib.colors import LogNorm
+from matplotlib.patches import Rectangle
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from pfss.functions_data import (
+    PrepHMIdaily,
+    aia_correction,
+    aia_download_from_date,
+    hmi_daily_download,
+    scratch,  # /mnt/scratch/data/orlovsd2/sunpy/data
+)
+from pfsspy.fieldline import ClosedFieldLines, OpenFieldLines
+from sunpy.coordinates import Helioprojective
+from sunpy.coordinates.sun import carrington_rotation_number, carrington_rotation_time
+from sunpy.map import Map
+from sunpy.net import Fido, attrs
+from sunpy.net import attrs as a
+from sunpy.physics.differential_rotation import solar_rotate_coordinate
+from sunpy.time import parse_time
 from time_utils import time_of
 
-from sunpy.net import attrs as a
-from astropy.wcs import WCS
-from astropy.visualization import ImageNormalize, SqrtStretch
-from matplotlib.colors import LogNorm
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from matplotlib.patches import Rectangle
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
+logging.getLogger("sunpy").setLevel(logging.WARNING)
+
 
 def get_closest_aia(date_time_obj, wavelength = 193):
     # Add this line near the top of the file, after the imports
@@ -292,7 +298,7 @@ def _hmi_local_today_vs_yesterday(day_time, root):
 
 
 def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 540)):
-    debug = True
+    debug = False
     # Previously used hmi_daily_download(); now local-only via _hmi_local_today_vs_yesterday().
     # Using closest pre-downloaded HMI map
     scratch_root = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
