@@ -303,6 +303,7 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     # Using closest pre-downloaded HMI map
     scratch_root = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
     eis_time = Time(map.date)
+    tag = Time(map.date).isot
     # m_hmi = _hmi_day_local_strict(eis_time, scratch_root)
     m_hmi = _hmi_local_today_vs_yesterday(eis_time, scratch_root)
 
@@ -443,20 +444,20 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     # Convert the masked strong-field pixel positions (masked_pix_x, masked_pix_y) into real-world solar coordinates (longitude, latitude).
     seeds = m_hmi_resample.pixel_to_world(masked_pix_x*u.pix, masked_pix_y*u.pix,).make_3d() #.make_3d() converts the 2D pixel coordinates to 3D spherical coords.
+    seeds_all = seeds
+    print(f"[{tag}] Number of initial seed points: {len(seeds_all)}")
     if debug:
         print("seed lon range:", np.nanmin(seeds.lon.to_value(u.deg)), np.nanmax(seeds.lon.to_value(u.deg)))
         print("seed lat range:", np.nanmin(seeds.lat.to_value(u.deg)), np.nanmax(seeds.lat.to_value(u.deg)))
 
-    plt.figure(figsize=(8,6))
-    plt.scatter(seeds.lon.to(u.deg), seeds.lat.to(u.deg), s=1, c='r')
-    plt.title("Initial Seeds Before FOV Filtering")
-    plt.xlabel("Carrington Longitude (deg)")
-    plt.ylabel("Carrington Latitude (deg)")
+        plt.figure(figsize=(8,6))
+        plt.scatter(seeds.lon.to(u.deg), seeds.lat.to(u.deg), s=1, c='r')
+        plt.title("Initial Seeds Before FOV Filtering")
+        plt.xlabel("Carrington Longitude (deg)")
+        plt.ylabel("Carrington Latitude (deg)")
 
-    plt.grid(True)
-    plt.show() # Checks that strong-field seeds are planted everywhere there should be magnetic activity.
-
-    print(f"Number of initial seed points: {len(seeds)}")
+        plt.grid(True)
+        plt.show() # Checks that strong-field seeds are planted everywhere there should be magnetic activity.
 
     ## Selects seeds based on if they reside within our HMI magnetogram FOV (+10%).
     #in_lon = np.logical_and(seeds.lon > blc_ar_synop.lon, seeds.lon < trc_ar_synop.lon)
@@ -479,32 +480,27 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     # Filters based on the previous set HMI magnetogram FOV, only keeping the seeds that are within the FOV.
     seeds = seeds[np.where(np.logical_and(in_lon, in_lat))]
-    plt.figure(figsize=(8,6))
-    plt.scatter(seeds.lon.to(u.deg), seeds.lat.to(u.deg), s=1, c='b')
-    plt.title("Seeds After FOV Filtering (EIS area)")
-    plt.xlabel("Carrington Longitude (deg)")
-    plt.ylabel("Carrington Latitude (deg)")
+    print(f"[{tag}] Number of seeds after FOV filtering: {len(seeds)}")
 
-    ## Add rectangle to show the EIS FOV (in Carrington coordinates)
-    #lon_min = blc_ar_synop.lon.deg
-    #lon_max = trc_ar_synop.lon.deg
-    #lat_min = blc_ar_synop.lat.deg
-    #lat_max = trc_ar_synop.lat.deg
-    #plt.gca().add_patch(Rectangle(
-    #    (lon_min, lat_min),
-    #    lon_max - lon_min,
-    #    lat_max - lat_min,
-    #    edgecolor='orange',
-    #    facecolor='none',
-    #    lw=2,
-    #    label='EIS FOV'
-    #))
+    if len(seeds) == 0:
+        print(f"[{tag}] ZERO-SEED EVENT")
+        print(f"[{tag}] EIS time: {Time(map.date)}")
+        print(f"[{tag}] HMI time: {Time(m_hmi_resample.date)}")
+        print(f"[{tag}] blc/trc (Carr rot) lon/lat: {blc_ar_synop_rot.lon.to_value(u.deg)}, {blc_ar_synop_rot.lat.to_value(u.deg)} | {trc_ar_synop_rot.lon.to_value(u.deg)}, {trc_ar_synop_rot.lat.to_value(u.deg)}")
+        print(f"[{tag}] seed lon range: {np.nanmin(seeds_all.lon.to_value(u.deg))} .. {np.nanmax(seeds_all.lon.to_value(u.deg))}")
+        print(f"[{tag}] seed lat range: {np.nanmin(seeds_all.lat.to_value(u.deg))} .. {np.nanmax(seeds_all.lat.to_value(u.deg))}")
+        return OpenFieldLines([]), ClosedFieldLines([])
 
-    plt.legend()
-    plt.grid(True)
-    plt.show() # Confirm that after masking, seeds correspond only to the EIS field-of-view (plus 10% buffer).
-    print(f"Number of seeds after FOV filtering: {len(seeds)}")
-    
+    if debug:
+        plt.figure(figsize=(8,6))
+        plt.scatter(seeds.lon.to(u.deg), seeds.lat.to(u.deg), s=1, c='b')
+        plt.title("Seeds After FOV Filtering (EIS area)")
+        plt.xlabel("Carrington Longitude (deg)")
+        plt.ylabel("Carrington Latitude (deg)")
+        plt.legend()
+        plt.grid(True)
+        plt.show() # Confirm that after masking, seeds correspond only to the EIS field-of-view (plus 10% buffer).
+
     nrho = 70 # Number of radial grid points(steps form solar surface to source surface, like resolution).
     rss = 2.5  # Source surface radius (in solar radii, where the fieldlines are traced to, boundary condition for the model).
     pfss_input = pfsspy.Input(m_hmi_resample, nrho, rss) # .Input tell pfsspy what magentogram to use what radial grid to use and where to place the source surface.
@@ -522,43 +518,32 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     footpoints_lon = [f.coords.lon[0].to(u.deg).value for f in fieldlines if len(f.coords.lon) > 0]
     footpoints_lat = [f.coords.lat[0].to(u.deg).value for f in fieldlines if len(f.coords.lat) > 0]
 
+    if debug:
+        plt.figure(figsize=(8,6))
+        plt.scatter(footpoints_lon, footpoints_lat, s=1, c='g')
+        plt.title("Fieldline Starting Footpoints After Tracing")
 
-    plt.figure(figsize=(8,6))
-    plt.scatter(footpoints_lon, footpoints_lat, s=1, c='g')
-    plt.title("Fieldline Starting Footpoints After Tracing")
-    #plt.gca().add_patch(Rectangle(
-    #    (lon_min, lat_min),
-    #    lon_max - lon_min,
-    #    lat_max - lat_min,
-    #    edgecolor='orange',
-    #    facecolor='none',
-    #    lw=2,
-    #    label='EIS FOV'
-    #))
-    #plt.legend()
+        lon_min_rot = blc_ar_synop_rot.lon.deg
+        lon_max_rot = trc_ar_synop_rot.lon.deg
+        lat_min_rot = blc_ar_synop_rot.lat.deg
+        lat_max_rot = trc_ar_synop_rot.lat.deg
+        plt.gca().add_patch(Rectangle(
+            (lon_min_rot, lat_min_rot),
+            lon_max_rot - lon_min_rot,
+            lat_max_rot - lat_min_rot,
+            edgecolor='cyan',
+            facecolor='none',
+            lw=2,
+            linestyle='--',
+            label='Rotated EIS FOV'
+        ))
 
-    lon_min_rot = blc_ar_synop_rot.lon.deg
-    lon_max_rot = trc_ar_synop_rot.lon.deg
-    lat_min_rot = blc_ar_synop_rot.lat.deg
-    lat_max_rot = trc_ar_synop_rot.lat.deg
-
-    plt.gca().add_patch(Rectangle(
-        (lon_min_rot, lat_min_rot),
-        lon_max_rot - lon_min_rot,
-        lat_max_rot - lat_min_rot,
-        edgecolor='cyan',
-        facecolor='none',
-        lw=2,
-        linestyle='--',
-        label='Rotated EIS FOV'
-    ))
-
-    print(f"Δ Carrington Lon after rotation: {(trc_ar_synop_rot.lon - trc_ar_synop.lon).to(u.deg)}")
-    print(f"Δ Carrington Lat after rotation: {(trc_ar_synop_rot.lat - trc_ar_synop.lat).to(u.deg)}")
+        print(f"Δ Carrington Lon after rotation: {(trc_ar_synop_rot.lon - trc_ar_synop.lon).to(u.deg)}")
+        print(f"Δ Carrington Lat after rotation: {(trc_ar_synop_rot.lat - trc_ar_synop.lat).to(u.deg)}")
 
 
-    plt.grid(True)
-    plt.show() # Confirms that fieldlines were successfully traced from the seeds.
+        plt.grid(True)
+        plt.show() # Confirms that fieldlines were successfully traced from the seeds.
     print("==========================")
     print("Adding seed metadata to fieldlines...")
     seeds = SkyCoord(seeds) # Ensure seeds are full SkyCoord objects (not just frame instances) to enable transformation and pixel mapping.
@@ -759,10 +744,8 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
 
     open_lines = [f for f in fieldlines if f.is_open] # For each fieldline f in fieldlines, check if f.is_open == True, if yes add to open_lines
     closed_lines = [f for f in fieldlines if not f.is_open] # For each fieldline f in fieldlines, check if f.is_open == False, if yes add to closed_lines
-
     open_fieldlines = OpenFieldLines(open_lines) if open_lines else OpenFieldLines([]) # If open_lines is not empty, create OpenFieldLines object, else create an empty one.
     closed_fieldlines = ClosedFieldLines(closed_lines) if closed_lines else ClosedFieldLines([]) # If closed_lines is not empty, create ClosedFieldLines object, else create an empty one.
-
 
     print(f"Total field lines: {len(fieldlines)}")
     print(f"Open field lines: {len(open_fieldlines)}")
