@@ -422,6 +422,10 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     #in_lon = np.logical_and(seeds.lon > blc_ar_synop.lon, seeds.lon < trc_ar_synop.lon)
     #in_lat = np.logical_and(seeds.lat > blc_ar_synop.lat, seeds.lat < trc_ar_synop.lat)
 
+    print("blc lon/lat:", blc_ar_synop_rot.lon.to(u.deg), blc_ar_synop_rot.lat.to(u.deg))
+    print("trc lon/lat:", trc_ar_synop_rot.lon.to(u.deg), trc_ar_synop_rot.lat.to(u.deg))
+    print("lon min>max?", blc_ar_synop_rot.lon > trc_ar_synop_rot.lon)
+    print("lat min>max?", blc_ar_synop_rot.lat > trc_ar_synop_rot.lat)
     in_lon = np.logical_and(seeds.lon > blc_ar_synop_rot.lon, seeds.lon < trc_ar_synop_rot.lon)
     in_lat = np.logical_and(seeds.lat > blc_ar_synop_rot.lat, seeds.lat < trc_ar_synop_rot.lat)
 
