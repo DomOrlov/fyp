@@ -14,11 +14,17 @@ from pathlib import Path
 import argparse  # for -c/--cores
 import multiprocessing  # for Pool
 
+class FieldlineMeta:
+    def __init__(self, start_pix, length, mean_B):
+        self.start_pix = start_pix
+        self.length = length
+        self.mean_B = mean_B
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 pickle_dir = data_dir / "pfss_pickles"
 Path(pickle_dir).mkdir(parents=True, exist_ok=True)
 
+full_geometry = False
 test_mode = False
 test_target = "2014_02_05__10_41_27"
 
@@ -69,9 +75,19 @@ def _work(fits_file):
     print(f"Processing: {fits_file}")
     eis_map = sunpy.map.Map(fits_file)
 
-    open_fieldlines, closed_fieldlines = get_pfss_from_map(
-        eis_map, min_gauss=-5, max_gauss=5, dimension=(1080, 540)
-    )
+    open_fieldlines, closed_fieldlines = get_pfss_from_map(eis_map, min_gauss=-5, max_gauss=5, dimension=(1080, 540))
+    if not full_geometry:
+        open_fieldlines = [
+            FieldlineMeta(f.start_pix, f.length, f.mean_B)
+            for f in open_fieldlines
+            if hasattr(f, "start_pix") and hasattr(f, "length") and hasattr(f, "mean_B")
+        ]
+        closed_fieldlines = [
+            FieldlineMeta(f.start_pix, f.length, f.mean_B)
+            for f in closed_fieldlines
+            if hasattr(f, "start_pix") and hasattr(f, "length") and hasattr(f, "mean_B")
+        ]
+
 
     print(f"Saving {len(open_fieldlines)} open field lines to {open_pickle_filename}")
     print(f"Saving {len(closed_fieldlines)} closed field lines to {closed_pickle_filename}")
