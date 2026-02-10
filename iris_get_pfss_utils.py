@@ -29,7 +29,6 @@ from pfss.functions_data import (
     aia_correction,
     aia_download_from_date,
     hmi_daily_download,
-    scratch,  # /mnt/scratch/data/orlovsd2/sunpy/data
 )
 from pfsspy.fieldline import ClosedFieldLines, OpenFieldLines
 from sunpy.coordinates import Helioprojective
@@ -43,7 +42,7 @@ from time_utils import time_of
 
 warnings.filterwarnings("ignore")
 logging.getLogger("sunpy").setLevel(logging.WARNING)
-
+# /mnt/scratch/data/orlovsd2/sunpy/data
 
 def get_closest_aia(date_time_obj, wavelength = 193):
     # Add this line near the top of the file, after the imports
@@ -572,7 +571,7 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     valid_fieldlines = np.array(fieldlines)[valid] # Keep only fieldlines whose seeds mapped successfully to image pixels.
     for f, x, y in zip(valid_fieldlines, x_vals[valid], y_vals[valid]):
 
-        # Loop length and lopp starting pixel metadata
+        # Loop length and loop starting pixel metadata
         f.start_pix = (int(x), int(y)) # Round to nearest pixel since image indices must be integers, not sub-pixel floats.
 
         coords = f.coords.cartesian # Converts from spherical to x, y, z, FortranTracer is done in spherical coords.
@@ -580,7 +579,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
         x = coords.x.value # .value removes the units so it is compatible with numpy, creating a float.
         y = coords.y.value
         z = coords.z.value
-        #print("Number of points along fieldline:", len(x))
 
         points = []
         for i in range(len(x)):
@@ -602,13 +600,6 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
             point_mag = np.sqrt(points_diff_x_squared + points_diff_y_squared + points_diff_z_squared)
             total_length += point_mag # This adds the absolute value of the point_diff to the total length of the fieldline.
         f.length = total_length
-
-        ## Mean magnetic field strength metadata
-        #if hasattr(f, 'b') and f.b is not None: # Check if the fieldline has magnetic field data.
-        #    B_magnitude = np.linalg.norm(f.b.value, axis=1) # f.b.to(u.Gauss) converts units from Tesla to Gauss, .value strips away the units, np.linalg.norm() computes the vector magnitude.
-        #    f.mean_B = np.mean(B_magnitude) # Take the average of all |B| values along the fieldline.
-        #else:
-        #    f.mean_B = np.nan
         
     # we no longer need to make use of a try block since we already check for valid_fieldlines, so all fieldlines should have valid data.
     for f in valid_fieldlines:
@@ -735,13 +726,14 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     x_check, y_check = map.world_to_pixel(map.pixel_to_world(0*u.pix, 0*u.pix))
     print(f"Pixel (0,0) round-trip lands at: ({x_check}, {y_check})")
 
-    plt.figure()
-    plt.hist([f.mean_B for f in valid_fieldlines if np.isfinite(f.mean_B)], bins=50)
-    plt.title("Distribution of Mean Magnetic Field Strengths")
-    plt.xlabel("Mean |B| (Gauss)")
-    plt.ylabel("Number of Fieldlines")
-    plt.grid(True)
-    plt.show()
+    if debug:
+        plt.figure()
+        plt.hist([f.mean_B for f in valid_fieldlines if np.isfinite(f.mean_B)], bins=50)
+        plt.title("Distribution of Mean Magnetic Field Strengths")
+        plt.xlabel("Mean |B| (Gauss)")
+        plt.ylabel("Number of Fieldlines")
+        plt.grid(True)
+        plt.show() # Checks the distribution of mean magnetic field strengths among the fieldlines.
 
     open_lines = [f for f in fieldlines if f.is_open] # For each fieldline f in fieldlines, check if f.is_open == True, if yes add to open_lines
     closed_lines = [f for f in fieldlines if not f.is_open] # For each fieldline f in fieldlines, check if f.is_open == False, if yes add to closed_lines
