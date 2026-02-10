@@ -25,7 +25,7 @@ intensity_dir = "/mnt/scratch/data/orlovsd2/sunpy/data/intensity_map"
 aligned_dir = "/mnt/scratch/data/orlovsd2/sunpy/data/aligned_fe12_intensity_maps"
 fits_files = sorted(glob.glob(f"{base_dir}/*.fits"))
 
-test_mode = False
+test_mode = True
 test_target = "2014_02_05__10_41_27"
 
 
