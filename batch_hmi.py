@@ -54,19 +54,19 @@ fits_files = sorted(glob.glob(f"{fe12_dir}/*.fits"))
 #        pickle.dump(closed_fieldlines, f)
 
 def _work(fits_file):
-    print(f"Processing: {fits_file}")
     base_name = os.path.basename(fits_file).replace("aligned_", "").replace("_intensity.fits", "")
 
     if test_mode and test_target not in base_name:
-        return  # (was: continue) — skip this task
+        return  
 
     open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines.pickle"
     closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines.pickle"
 
     if os.path.isfile(open_pickle_filename) and os.path.isfile(closed_pickle_filename):
         print(f"Skipping {base_name} (pickles already exist).")
-        return  # (was: continue) — skip this task
-
+        return
+      
+    print(f"Processing: {fits_file}")
     eis_map = sunpy.map.Map(fits_file)
 
     open_fieldlines, closed_fieldlines = get_pfss_from_map(
@@ -85,20 +85,18 @@ def _work(fits_file):
 
 
 if __name__ == "__main__":
-    # (A) parse cores like your other scripts
     parser = argparse.ArgumentParser(description="Trace PFSS field lines and write pickles")
     parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
     args = parser.parse_args()
 
-    # (B) job list = the FITS files we discovered
     jobs = fits_files
 
-    # (C) Andy-style pooling
     if args.cores == 1:
         for fits_file in jobs:
             _work(fits_file)
     else:
-        with multiprocessing.Pool(processes=args.cores) as pool:
-            # chunksize=1 keeps distribution fair across workers
+        # with multiprocessing.Pool(processes=args.cores) as pool:
+        ctx = multiprocessing.get_context("spawn")
+        with ctx.Pool(processes=args.cores, maxtasksperchild=1) as pool:
             for _ in pool.imap_unordered(_work, jobs, chunksize=1):
                 pass
