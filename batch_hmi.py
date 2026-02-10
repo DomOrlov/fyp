@@ -19,7 +19,7 @@ pickle_dir = data_dir / "pfss_pickles"
 Path(pickle_dir).mkdir(parents=True, exist_ok=True)
 
 full_geometry = False
-test_mode = True
+test_mode = False
 test_target = "2014_02_05__10_41_27"
 
 fe12_dir = data_dir / "aligned_fe12_intensity_maps"
