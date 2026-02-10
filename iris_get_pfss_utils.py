@@ -434,13 +434,13 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     print("Filtered Values:", np.nanmin(m_hmi_resample.data[masked_pix_y, masked_pix_x]), np.nanmax(m_hmi_resample.data[masked_pix_y, masked_pix_x]), np.nanmean(m_hmi_resample.data[masked_pix_y, masked_pix_x]))
     if debug:
         print("Filtered Values sample:", m_hmi_resample.data[masked_pix_y, masked_pix_x][:20])
-
-    plt.hist(m_hmi_resample.data[masked_pix_y, masked_pix_x].flatten(), bins=50)
-    plt.title("Histogram of Magnetic Field Strengths of Masked Pixels")
-    plt.xlabel("Magnetic Field Strength (Gauss)")
-    plt.ylabel("Number of Pixels")
-    plt.grid(True)
-    plt.show() # Checks the distribution of field strengths among selected seeds.
+    if debug:
+        plt.hist(m_hmi_resample.data[masked_pix_y, masked_pix_x].flatten(), bins=50)
+        plt.title("Histogram of Magnetic Field Strengths of Masked Pixels")
+        plt.xlabel("Magnetic Field Strength (Gauss)")
+        plt.ylabel("Number of Pixels")
+        plt.grid(True)
+        plt.show() # Checks the distribution of field strengths among selected seeds.
 
     # Convert the masked strong-field pixel positions (masked_pix_x, masked_pix_y) into real-world solar coordinates (longitude, latitude).
     seeds = m_hmi_resample.pixel_to_world(masked_pix_x*u.pix, masked_pix_y*u.pix,).make_3d() #.make_3d() converts the 2D pixel coordinates to 3D spherical coords.
@@ -718,18 +718,19 @@ def get_pfss_from_map(map, min_gauss = -20, max_gauss = 20, dimension = (1080, 5
     num_with_expansion_factor = sum(np.isfinite(f.expansion_factor) for f in valid_fieldlines)
     print(f"Fieldlines with valid expansion factor metadata: {num_with_expansion_factor} / {len(valid_fieldlines)}")
 
-    # Plot to verify that start_pix aligns with EIS data.
-    plt.figure(figsize=(6, 10))
-    plt.imshow(map.data, origin='lower', cmap='gray', aspect='auto')
-    x_pix = [f.start_pix[0] for f in valid_fieldlines]
-    y_pix = [f.start_pix[1] for f in valid_fieldlines]
-    plt.scatter(x_pix, y_pix, s=2, color='cyan', label='start_pix')
-    plt.title("EIS Raster with Fieldline Start Pixels (start_pix)")
-    plt.xlabel("X Pixel")
-    plt.ylabel("Y Pixel")
-    plt.legend()
-    plt.grid(True)
-    plt.show() # Shows whether the fieldlines actually map back to EIS data in the correct orientation.
+    if debug:
+        # Plot to verify that start_pix aligns with EIS data.
+        plt.figure(figsize=(6, 10))
+        plt.imshow(map.data, origin='lower', cmap='gray', aspect='auto')
+        x_pix = [f.start_pix[0] for f in valid_fieldlines]
+        y_pix = [f.start_pix[1] for f in valid_fieldlines]
+        plt.scatter(x_pix, y_pix, s=2, color='cyan', label='start_pix')
+        plt.title("EIS Raster with Fieldline Start Pixels (start_pix)")
+        plt.xlabel("X Pixel")
+        plt.ylabel("Y Pixel")
+        plt.legend()
+        plt.grid(True)
+        plt.show() # Shows whether the fieldlines actually map back to EIS data in the correct orientation.
 
     x_check, y_check = map.world_to_pixel(map.pixel_to_world(0*u.pix, 0*u.pix))
     print(f"Pixel (0,0) round-trip lands at: ({x_check}, {y_check})")
