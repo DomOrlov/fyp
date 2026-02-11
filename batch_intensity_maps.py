@@ -22,7 +22,7 @@ import multiprocessing
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 fe12_dir = data_dir / "nonaligned_fe12_intensity_maps"
 custom_intensity_dir = data_dir / "intensity_map"
-test_mode = True
+test_mode = False
 test_target = "2014_02_05__10_41_27"
 
 line_databases = {
