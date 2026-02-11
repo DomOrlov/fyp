@@ -1,5 +1,11 @@
 #loop length pixel aligned fe12 to get a hect
 import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["BLIS_NUM_THREADS"] = "1"
 import glob
 import pickle
 import numpy as np
@@ -170,36 +176,99 @@ def _work(closed_pickle_path):
     open_mask_map = np.full((ny, nx), np.nan) # 1=open, 0=closed, nan=unused
 
     # Closed fieldlines
-    for f in closed_fieldlines:
-        if hasattr(f, "start_pix"):
-            x, y = f.start_pix
+
+    # for f in closed_fieldlines:
+    #     if hasattr(f, "start_pix"):
+    #         x, y = f.start_pix
+    #         if 0 <= x < nx and 0 <= y < ny:
+    #             if hasattr(f, "length"):
+    #                 length_km = f.length / 1e3
+    #                 if np.isfinite(length_km) and (length_km > 0):
+    #                     loop_map_closed[y, x] = length_km
+    #             if hasattr(f, "mean_B"):
+    #                 mean_B = f.mean_B
+    #                 if np.isfinite(mean_B) and (mean_B > 0):
+    #                     mean_B_map_combined[y, x] = mean_B
+    #                     open_mask_map[y, x] = 0
+
+    for item in closed_fieldlines:
+        # tuple case (from full_geometry=False)
+        if isinstance(item, tuple):
+            x, y, length_m, mean_B = item
+
             if 0 <= x < nx and 0 <= y < ny:
-                if hasattr(f, "length"):
-                    length_km = f.length / 1e3
-                    if np.isfinite(length_km) and (length_km > 0):
-                        loop_map_closed[y, x] = length_km
-                if hasattr(f, "mean_B"):
-                    mean_B = f.mean_B
-                    if np.isfinite(mean_B) and (mean_B > 0):
-                        mean_B_map_combined[y, x] = mean_B
-                        open_mask_map[y, x] = 0
+                length_km = length_m / 1e3
+                if np.isfinite(length_km) and (length_km > 0):
+                    loop_map_closed[y, x] = length_km
+
+                if np.isfinite(mean_B) and (mean_B > 0):
+                    mean_B_map_combined[y, x] = mean_B
+                    open_mask_map[y, x] = 0
+
+        # Full geometry case
+        else:
+            f = item
+            if hasattr(f, "start_pix"):
+                x, y = f.start_pix
+                if 0 <= x < nx and 0 <= y < ny:
+                    if hasattr(f, "length"):
+                        length_km = f.length / 1e3
+                        if np.isfinite(length_km) and (length_km > 0):
+                            loop_map_closed[y, x] = length_km
+                    if hasattr(f, "mean_B"):
+                        mean_B = f.mean_B
+                        if np.isfinite(mean_B) and (mean_B > 0):
+                            mean_B_map_combined[y, x] = mean_B
+                            open_mask_map[y, x] = 0
 
     # Open fieldlines
+
+    # excluded_count = 0
+    # for f in open_fieldlines:
+    #     if hasattr(f, "start_pix"):
+    #         x, y = f.start_pix
+    #         length_km = f.length / 1e3 if hasattr(f, "length") else np.nan
+    #         if 0 <= x < nx and 0 <= y < ny:
+    #             if np.isfinite(length_km) and (length_km > 0):
+    #                 loop_map_open[y, x] = length_km
+    #             if hasattr(f, "mean_B"):
+    #                 mean_B = f.mean_B
+    #                 if np.isfinite(mean_B) and (mean_B > 0):
+    #                     mean_B_map_combined[y, x] = mean_B
+    #                     open_mask_map[y, x] = 1
+    #         else:
+    #             excluded_count += 1
+
     excluded_count = 0
-    for f in open_fieldlines:
-        if hasattr(f, "start_pix"):
-            x, y = f.start_pix
-            length_km = f.length / 1e3 if hasattr(f, "length") else np.nan
+    for item in open_fieldlines:
+        if isinstance(item, tuple):
+            x, y, length_m, mean_B = item
             if 0 <= x < nx and 0 <= y < ny:
+                length_km = length_m / 1e3
                 if np.isfinite(length_km) and (length_km > 0):
                     loop_map_open[y, x] = length_km
-                if hasattr(f, "mean_B"):
-                    mean_B = f.mean_B
-                    if np.isfinite(mean_B) and (mean_B > 0):
-                        mean_B_map_combined[y, x] = mean_B
-                        open_mask_map[y, x] = 1
+                if np.isfinite(mean_B) and (mean_B > 0):
+                    mean_B_map_combined[y, x] = mean_B
+                    open_mask_map[y, x] = 1
             else:
                 excluded_count += 1
+        else:
+            f = item
+            if hasattr(f, "start_pix"):
+                x, y = f.start_pix
+                length_km = f.length / 1e3 if hasattr(f, "length") else np.nan
+                if 0 <= x < nx and 0 <= y < ny:
+                    if np.isfinite(length_km) and (length_km > 0):
+                        loop_map_open[y, x] = length_km
+                    if hasattr(f, "mean_B"):
+                        mean_B = f.mean_B
+                        if np.isfinite(mean_B) and (mean_B > 0):
+                            mean_B_map_combined[y, x] = mean_B
+                            open_mask_map[y, x] = 1
+                else:
+                    excluded_count += 1
+
+
     print(f"Total open fieldlines excluded due to being outside FE XII FOV: {excluded_count}")
 
     # Save loop-length maps
@@ -217,16 +286,50 @@ def _work(closed_pickle_path):
     print(f"Closed map valid pixels: {n_valid_closed}")
     print(f"Open map valid pixels: {n_valid_open}")
 
-    solar_y_seed_values = [fe12_map.pixel_to_world(x * u.pixel, y * u.pixel).Ty.to(u.arcsec).value
-                           for f in closed_fieldlines if hasattr(f, "start_pix")
-                           for x, y in [f.start_pix]]
+    # solar_y_seed_values = [fe12_map.pixel_to_world(x * u.pixel, y * u.pixel).Ty.to(u.arcsec).value
+    #                        for f in closed_fieldlines if hasattr(f, "start_pix")
+    #                        for x, y in [f.start_pix]]
+
+    solar_y_seed_values = []
+    for item in closed_fieldlines:
+        if isinstance(item, tuple):
+            x, y = item[0], item[1]
+        else:
+            if not hasattr(item, "start_pix"):
+                continue
+            x, y = item.start_pix
+
+        solar_y_seed_values.append(
+            fe12_map.pixel_to_world(x * u.pixel, y * u.pixel).Ty.to(u.arcsec).value
+        )
+
+
     if len(solar_y_seed_values) > 0:
         print("Seed Solar-Y range:", np.min(solar_y_seed_values), "to", np.max(solar_y_seed_values))
 
     print(f"Total closed fieldlines: {len(closed_fieldlines)}")
-    print(f"Fieldlines with length > 0: {sum(f.length > 0 for f in closed_fieldlines if hasattr(f, 'length'))}")
+    # print(f"Fieldlines with length > 0: {sum(f.length > 0 for f in closed_fieldlines if hasattr(f, 'length'))}")
+    n_len_pos_closed = 0
+    for item in closed_fieldlines:
+        if isinstance(item, tuple):
+            length_m = item[2]
+        else:
+            length_m = item.length if hasattr(item, "length") else np.nan
+        if np.isfinite(length_m) and length_m > 0:
+            n_len_pos_closed += 1
+    print(f"Fieldlines with length > 0: {n_len_pos_closed}")
+
     print(f"Total open fieldlines: {len(open_fieldlines)}")
-    print(f"Fieldlines with length > 0: {sum(f.length > 0 for f in open_fieldlines if hasattr(f, 'length'))}")
+    # print(f"Fieldlines with length > 0: {sum(f.length > 0 for f in open_fieldlines if hasattr(f, 'length'))}")
+    n_len_pos_open = 0
+    for item in open_fieldlines:
+        if isinstance(item, tuple):
+            length_m = item[2]
+        else:
+            length_m = item.length if hasattr(item, "length") else np.nan
+        if np.isfinite(length_m) and length_m > 0:
+            n_len_pos_open += 1
+    print(f"Fieldlines with length > 0: {n_len_pos_open}")
 
     print(f"Saved closed loop length map to: loop_length_map_closed_{date_time}.fits")
     print(f"Saved open loop length map to: loop_length_map_open_{date_time}.fits")

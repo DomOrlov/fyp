@@ -1,25 +1,28 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OMP_DYNAMIC"] = "FALSE"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["MKL_DYNAMIC"] = "FALSE"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["BLIS_NUM_THREADS"] = "1"
+import glob
 import sunpy.map 
 from sunpy.net import Fido, attrs as a
 from astropy import units as u
 from tqdm import tqdm
-#from sunkit_image.coalignment import _calculate_shift as calculate_shift
 from skimage.registration import phase_cross_correlation
-import os
 from astropy.io import fits
-import glob
 from pathlib import Path
-import argparse  # for -c/--cores
-import multiprocessing  # for Pool
-from astropy.coordinates import SkyCoord      # WHY: submap needs coords in AIA frame
-import numpy as np                            # WHY: z-normalization before xcorr
-from sunpy.coordinates import SphericalScreen  # WHY: avoid issues near limb
+import argparse  
+import multiprocessing 
+from astropy.coordinates import SkyCoord     
+import numpy as np                          
+from sunpy.coordinates import SphericalScreen  
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
-
-
 non_aligned_log = Path("non_aligned_files.txt")
-
-# Enable test mode
 test_mode = False
 test_file = "eis_2014_02_02__14_19_52_intensity.fits"
 
@@ -44,9 +47,8 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     eis_fit_path = fe12_directory / eis_fit
     out_path = (data_dir / "aligned_fe12_intensity_maps") / f"aligned_{eis_fit}"
     if out_path.exists():
-        print(f"[SKIP] already aligned: {out_path.name}")
+        print(f"skipping already aligned: {out_path.name}")
         return
-
 
     # Load the EIS map with error handling for corrupt FITS files
     try:
@@ -62,7 +64,6 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     # Use the input filename directly instead
     fe12_filename = eis_fit
     fe12_fit_path = fe12_directory / fe12_filename
-
 
     try:
         fe12_map = sunpy.map.Map(fe12_fit_path)
@@ -118,36 +119,19 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
             print(f"Error fetching AIA data for {eis_fit}: {e}")
             return
 
-
-
-
-
-
-
-
-
-
-
-
-    # --- Crop AIA to the EIS FoV (+ margin) so xcorr sees the same scene
-    # WHY: Matching scene removes unrelated features that break xcorr.
     #eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
     #eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
-
-
 
     #with SphericalScreen(frame=aia_map.coordinate_frame):
     #    eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
     #    eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
 
-    # Use a spherical screen so off-disk EIS corners don't turn into NaNs when
-    # transforming into the AIA frame. Center it on the AIA observer.
     with SphericalScreen(aia_map.observer_coordinate, only_off_disk=False):
         eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
         eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
 
 
-    # DEBUG: check EIS corners in AIA frame and ordering
+    # check EIS corners in AIA frame and ordering
     print(f"[{eis_fit}] EIS->AIA corners:"
         f" BL(Tx,Ty)=({eis_bl.Tx.to(u.arcsec).value:.1f},{eis_bl.Ty.to(u.arcsec).value:.1f}),"
         f" TR(Tx,Ty)=({eis_tr.Tx.to(u.arcsec).value:.1f},{eis_tr.Ty.to(u.arcsec).value:.1f})")
@@ -161,10 +145,6 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     # keep crop corners strictly inside valid Helioprojective latitude/longitude
     lim_deg = 89.8 * u.deg
     lim_arcsec = lim_deg.to(u.arcsec)
-
-
-
-
 
     margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
     #blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
@@ -184,11 +164,9 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
     try:
         aia_crop = aia_map.submap(blm, top_right=trm)
-
-
         print(f"[{eis_fit}] AIA crop shape: {getattr(aia_crop.data, 'shape', None)}")
         if aia_crop.data.size == 0 or aia_crop.data.shape[0] == 0 or aia_crop.data.shape[1] == 0:
-            print(f"[SKIP] empty AIA crop for {eis_fit}")
+            print(f"skipping empty AIA crop for {eis_fit}")
             with open(non_aligned_log.as_posix(), 'a') as f:
                 f.write(f"{eis_fit} - Empty AIA crop\n")
             return
@@ -196,7 +174,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
 
 
     except Exception as e:
-        print(f"[WARN] AIA submap failed ({e}); continuing un-cropped (less robust)")
+        print(f"AIA submap failed ({e}); continuing un-cropped (less robust)")
         aia_crop = aia_map
 
 
@@ -206,22 +184,18 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     
     ## Resample the AIA map
     #aia_map_r = aia_map.resample(u.Quantity([n_x, n_y]))
-    # --- Match pixel geometry for xcorr: same shape as EIS
+    # Match pixel geometry for xcorr: same shape as EIS
     ny, nx = fe12_map.data.shape
     aia_map_r = aia_crop.resample(u.Quantity([nx, ny], u.pixel))
     print(f"[{eis_fit}] EIS shape: {fe12_map.data.shape}, AIA resampled shape: {aia_map_r.data.shape}")
 
-
     if aia_map_r.data.shape != fe12_map.data.shape or aia_map_r.data.size == 0:
-        print(f"[SKIP] bad resample for {eis_fit}")
+        print(f"skipping bad resample for {eis_fit}")
         with open(non_aligned_log.as_posix(), 'a') as f:
             f.write(f"{eis_fit} - Bad resample (shape {aia_map_r.data.shape} vs {fe12_map.data.shape})\n")
         return
 
-
-
-
-    # --- Z-normalize arrays for a cleaner correlation peak
+    # Z-normalize arrays for a cleaner correlation peak
     def _znorm(a):
         a = np.asarray(a, dtype=np.float64)
         a -= np.nanmean(a)
@@ -233,22 +207,18 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     A[~np.isfinite(A)] = 0.0
     B[~np.isfinite(B)] = 0.0
 
-
-
-
-
     print(f"[{eis_fit}] finite A/B: {np.isfinite(A).sum()}/{np.isfinite(B).sum()}, "
         f"std A/B: {np.nanstd(A):.3g}/{np.nanstd(B):.3g}")
 
     if not np.isfinite(A).any() or not np.isfinite(B).any():
-        print(f"[SKIP] no finite pixels {eis_fit}")
+        print(f"skipping no finite pixels {eis_fit}")
         with open(non_aligned_log.as_posix(), 'a') as f:
             f.write(f"{eis_fit} - No finite pixels after z-norm\n")
         return
 
     # extremely uniform images produce useless correlation
     if np.nanstd(A) < 1e-9 or np.nanstd(B) < 1e-9:
-        print(f"[SKIP] near-constant image {eis_fit}")
+        print(f"skipping near-constant image {eis_fit}")
         with open(non_aligned_log.as_posix(), 'a') as f:
             f.write(f"{eis_fit} - Near-constant image (std too small)\n")
         return
@@ -264,7 +234,7 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     #try:
     #    yshift_pix, xshift_pix = calculate_shift(A, B)
     #except Exception as e:
-    #    print(f"[WARN] xcorr failed for {eis_fit}: {e}")
+    #    print(f"xcorr failed for {eis_fit}: {e}")
     #    with open(non_aligned_log.as_posix(), 'a') as f:
     #        f.write(f"{eis_fit} - xcorr failed: {e}\n")
     #    return
@@ -273,13 +243,11 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     yshift_pix, xshift_pix = float(dy), float(dx)
     print(f"[{eis_fit}] phase_xcorr shift (px): dy={yshift_pix:.2f}, dx={xshift_pix:.2f}, error={error:.3g}")
 
-
-
     # Convert the shift in coordinates to world coordinates
     #reference_coord = aia_map_r.pixel_to_world(xshift, yshift)
     #Txshift = reference_coord.Tx - fe12_map.bottom_left_coord.Tx
     #Tyshift = reference_coord.Ty - fe12_map.bottom_left_coord.Ty
-    # --- Pixel → world conversion using resampled AIA scale
+    # Pixel -> world conversion using resampled AIA scale
     #Txshift = xshift_pix * aia_map_r.scale.axis1
     #Tyshift = yshift_pix * aia_map_r.scale.axis2
 
@@ -327,10 +295,8 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
                 f"|Ty| (arcsec): {abs(Tyshift.to(u.arcsec).value)}\n"
             )
 
-
     # Apply the Fe XII header to the hacked map
     aligned_fe12_map.meta.update(header_fe12)
-
 
     # Define the output file path for the aligned map
     output_path = aligned_fe12_directory / f"aligned_{eis_fit}"
@@ -358,21 +324,20 @@ else:
 
 #print(f"Non-aligned files have been logged to {non_aligned_log}")
 if __name__ == "__main__":
-    # (A) parse cores like your other scripts
     parser = argparse.ArgumentParser(description="Align EIS Fe XII maps to AIA 193")
     parser.add_argument("-c", "--cores", type=int, default=4, help="Number of worker processes")
     args = parser.parse_args()
 
-    # (B) job list = the filenames we discovered (already strings)
     jobs = eis_files
 
-    # (C) Andy-style pooling
     if args.cores == 1:
         for fit in tqdm(jobs, total=len(jobs)):
             _work(fit)
     else:
-        with multiprocessing.Pool(processes=args.cores) as pool:
-            for _ in tqdm(pool.imap_unordered(_work, jobs, chunksize=1), total=len(jobs)):
+        # with multiprocessing.Pool(processes=args.cores) as pool:
+        ctx = multiprocessing.get_context("spawn")
+        with ctx.Pool(processes=args.cores, maxtasksperchild=1) as pool:
+            for _ in pool.imap_unordered(_work, jobs, chunksize=1):
                 pass
 
     print(f"Non-aligned files have been logged to {non_aligned_log}")
