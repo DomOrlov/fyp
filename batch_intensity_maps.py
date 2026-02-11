@@ -55,7 +55,7 @@ alias = {
 
 def _work(filename):
     # Generate intensity maps for all lines in "line_databases" for the given EIS file.
-    a = ashmcmc(filename, ncpu=1)
+    a = ashmcmc(str(filename), ncpu=1)
     print(f"ashmcmc outdir => {a.outdir}")
     # Fe XII 195.12 (raw) for this file
     timestamp = eis_filename_to_timestamp(Path(filename))
@@ -99,7 +99,7 @@ def _work(filename):
 
             m = a.ash.get_intensity(
                 line,
-                outdir=custom_intensity_dir,
+                outdir=str(custom_intensity_dir),
                 refit=False,
                 plot=False,
                 mcmc=False,        
