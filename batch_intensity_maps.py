@@ -23,7 +23,7 @@ data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 fe12_dir = data_dir / "nonaligned_fe12_intensity_maps"
 custom_intensity_dir = data_dir / "intensity_map"
 test_mode = True
-test_target = "2015_06_12__09_51_52"
+test_target = "2014_02_05__10_41_27"
 
 line_databases = {
     "sis": ['si_10_258.37', 's_10_264.23', 'SiX_SX'],
@@ -55,7 +55,7 @@ alias = {
 
 def _work(filename):
     # Generate intensity maps for all lines in "line_databases" for the given EIS file.
-    a = ashmcmc(str(filename), ncpu=1)
+    a = ashmcmc(filename, ncpu=1)
     print(f"ashmcmc outdir => {a.outdir}")
     # Fe XII 195.12 (raw) for this file
     timestamp = eis_filename_to_timestamp(Path(filename))
@@ -68,7 +68,7 @@ def _work(filename):
         print(f"\nGenerating Fe XII {fe12_line} for {filename}")
         m_fe = a.ash.get_intensity(
             fe12_line,
-            outdir=str(fe12_dir),
+            outdir=fe12_dir,
             refit=False,
             plot=True,
             mcmc=False,
@@ -99,7 +99,7 @@ def _work(filename):
 
             m = a.ash.get_intensity(
                 line,
-                outdir=str(custom_intensity_dir),
+                outdir=custom_intensity_dir,
                 refit=False,
                 plot=False,
                 mcmc=False,        
