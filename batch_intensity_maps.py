@@ -22,8 +22,8 @@ import multiprocessing
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 fe12_dir = data_dir / "nonaligned_fe12_intensity_maps"
 custom_intensity_dir = data_dir / "intensity_map"
-test_mode = False
-test_target = "2014_02_05__10_41_27"
+test_mode = True
+test_target = "2015_10_18__12_49_39"
 
 line_databases = {
     "sis": ['si_10_258.37', 's_10_264.23', 'SiX_SX'],
