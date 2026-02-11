@@ -18,7 +18,6 @@ from sunpy.map import Map
 from astropy.io import fits
 import re
 import multiprocessing
-import eispac
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 fe12_dir = data_dir / "nonaligned_fe12_intensity_maps"
@@ -60,27 +59,6 @@ def _work(filename):
     print(f"ashmcmc outdir => {a.outdir}")
     # Fe XII 195.12 (raw) for this file
     timestamp = eis_filename_to_timestamp(Path(filename))
-    every_valid_map = True
-
-    if every_valid_map:
-        missing = []
-        # build the list of required lines
-        required_lines = []
-        for ratio_lines in line_databases.values():
-            required_lines.extend(ratio_lines[:2])
-
-        # check that each required window exists in this raster
-        for line in required_lines:
-            try:
-                template_name = a.ash.dict[f"{line}"][0]
-                template = eispac.read_template(eispac.data.get_fit_template_filepath(template_name))
-                _ = eispac.read_cube(str(filename), window=template.central_wave)
-            except Exception:
-                missing.append(line)
-
-        if len(missing) != 0:
-            print(f"[SKIP FILE] {timestamp} missing windows for: {missing}")
-            return
     fe12_line = "fe_12_195.12"
     fe12_out = fe12_dir / f"eis_{timestamp}_intensity.fits"
 
@@ -120,8 +98,8 @@ def _work(filename):
                     calib_year="2014"
                 )
             except Exception as e:
-                print(f"[SKIP FILE] {timestamp} get_intensity crashed on {line}: {e}")
-                return
+                print(f"[SKIP LINE] {timestamp} {line}: {e}")
+                continue
 
             m = a.ash.get_intensity(
                 line,
