@@ -30,6 +30,8 @@ Valid pixels (not NaN in both): 377
 Open fieldline pixels: 0
 Closed fieldline pixels: 377
 
+AR (No Class): FIP bias vs mean magnetic field strength
+
 AR 11176: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -59,6 +61,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 784
 Open fieldline pixels: 2
 Closed fieldline pixels: 782
+
+AR 11176: FIP bias vs mean magnetic field strength
 
 AR 11204: FIP bias vs loop length
 
@@ -90,6 +94,8 @@ Valid pixels (not NaN in both): 279
 Open fieldline pixels: 0
 Closed fieldline pixels: 279
 
+AR 11204: FIP bias vs mean magnetic field strength
+
 AR 11330: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -120,6 +126,8 @@ Valid pixels (not NaN in both): 244
 Open fieldline pixels: 0
 Closed fieldline pixels: 244
 
+AR 11330: FIP bias vs mean magnetic field strength
+
 AR 11490: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -145,6 +153,8 @@ Closed fieldline pixels: 828
 
 === Final Summary for sar ===
 Not enough valid points (N=0)
+
+AR 11490: FIP bias vs mean magnetic field strength
 
 AR 11504: FIP bias vs loop length
 
@@ -176,6 +186,8 @@ Valid pixels (not NaN in both): 5102
 Open fieldline pixels: 64
 Closed fieldline pixels: 5038
 
+AR 11504: FIP bias vs mean magnetic field strength
+
 AR 11512: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -205,6 +217,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 933
 Open fieldline pixels: 139
 Closed fieldline pixels: 794
+
+AR 11512: FIP bias vs mean magnetic field strength
 
 AR 11548: FIP bias vs loop length
 
@@ -236,6 +250,8 @@ Valid pixels (not NaN in both): 37
 Open fieldline pixels: 2
 Closed fieldline pixels: 35
 
+AR 11548: FIP bias vs mean magnetic field strength
+
 AR 11575: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -265,6 +281,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 3508
 Open fieldline pixels: 6
 Closed fieldline pixels: 3502
+
+AR 11575: FIP bias vs mean magnetic field strength
 
 AR 11584: FIP bias vs loop length
 
@@ -296,6 +314,8 @@ Valid pixels (not NaN in both): 242
 Open fieldline pixels: 0
 Closed fieldline pixels: 242
 
+AR 11584: FIP bias vs mean magnetic field strength
+
 AR 11593: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -325,6 +345,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 2936
 Open fieldline pixels: 3
 Closed fieldline pixels: 2933
+
+AR 11593: FIP bias vs mean magnetic field strength
 
 AR 11633: FIP bias vs loop length
 
@@ -356,6 +378,8 @@ Valid pixels (not NaN in both): 2057
 Open fieldline pixels: 32
 Closed fieldline pixels: 2025
 
+AR 11633: FIP bias vs mean magnetic field strength
+
 AR 11739: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -385,6 +409,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 1133
 Open fieldline pixels: 0
 Closed fieldline pixels: 1133
+
+AR 11739: FIP bias vs mean magnetic field strength
 
 AR 11785: FIP bias vs loop length
 
@@ -416,6 +442,8 @@ Valid pixels (not NaN in both): 4101
 Open fieldline pixels: 201
 Closed fieldline pixels: 3900
 
+AR 11785: FIP bias vs mean magnetic field strength
+
 AR 11799: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -445,6 +473,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 114
 Open fieldline pixels: 10
 Closed fieldline pixels: 104
+
+AR 11799: FIP bias vs mean magnetic field strength
 
 AR 11800: FIP bias vs loop length
 
@@ -476,6 +506,8 @@ Valid pixels (not NaN in both): 114
 Open fieldline pixels: 10
 Closed fieldline pixels: 104
 
+AR 11800: FIP bias vs mean magnetic field strength
+
 AR 11838: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -505,6 +537,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 553
 Open fieldline pixels: 6
 Closed fieldline pixels: 547
+
+AR 11838: FIP bias vs mean magnetic field strength
 
 AR 11944: FIP bias vs loop length
 
@@ -536,6 +570,8 @@ Valid pixels (not NaN in both): 6793
 Open fieldline pixels: 14
 Closed fieldline pixels: 6779
 
+AR 11944: FIP bias vs mean magnetic field strength
+
 AR 11967: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -565,6 +601,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 5261
 Open fieldline pixels: 33
 Closed fieldline pixels: 5228
+
+AR 11967: FIP bias vs mean magnetic field strength
 
 AR 12063: FIP bias vs loop length
 
@@ -596,6 +634,8 @@ Valid pixels (not NaN in both): 43
 Open fieldline pixels: 0
 Closed fieldline pixels: 43
 
+AR 12063: FIP bias vs mean magnetic field strength
+
 AR 12087: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -625,6 +665,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 43
 Open fieldline pixels: 0
 Closed fieldline pixels: 43
+
+AR 12087: FIP bias vs mean magnetic field strength
 
 AR 12104: FIP bias vs loop length
 
@@ -656,6 +698,8 @@ Valid pixels (not NaN in both): 7562
 Open fieldline pixels: 48
 Closed fieldline pixels: 7514
 
+AR 12104: FIP bias vs mean magnetic field strength
+
 AR 12107: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -685,6 +729,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 7857
 Open fieldline pixels: 48
 Closed fieldline pixels: 7809
+
+AR 12107: FIP bias vs mean magnetic field strength
 
 AR 12132: FIP bias vs loop length
 
@@ -716,6 +762,8 @@ Valid pixels (not NaN in both): 1097
 Open fieldline pixels: 0
 Closed fieldline pixels: 1097
 
+AR 12132: FIP bias vs mean magnetic field strength
+
 AR 12135: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -745,6 +793,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 46
 Open fieldline pixels: 0
 Closed fieldline pixels: 46
+
+AR 12135: FIP bias vs mean magnetic field strength
 
 AR 12282: FIP bias vs loop length
 
@@ -776,6 +826,8 @@ Valid pixels (not NaN in both): 3570
 Open fieldline pixels: 0
 Closed fieldline pixels: 3570
 
+AR 12282: FIP bias vs mean magnetic field strength
+
 AR 12289: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -805,6 +857,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 171
 Open fieldline pixels: 0
 Closed fieldline pixels: 171
+
+AR 12289: FIP bias vs mean magnetic field strength
 
 AR 12297: FIP bias vs loop length
 
@@ -836,6 +890,8 @@ Valid pixels (not NaN in both): 940
 Open fieldline pixels: 0
 Closed fieldline pixels: 940
 
+AR 12297: FIP bias vs mean magnetic field strength
+
 AR 12333: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -865,6 +921,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 1167
 Open fieldline pixels: 165
 Closed fieldline pixels: 1002
+
+AR 12333: FIP bias vs mean magnetic field strength
 
 AR 12335: FIP bias vs loop length
 
@@ -896,6 +954,8 @@ Valid pixels (not NaN in both): 527
 Open fieldline pixels: 0
 Closed fieldline pixels: 527
 
+AR 12335: FIP bias vs mean magnetic field strength
+
 AR 12351: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -925,6 +985,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 115
 Open fieldline pixels: 12
 Closed fieldline pixels: 103
+
+AR 12351: FIP bias vs mean magnetic field strength
 
 AR 12362: FIP bias vs loop length
 
@@ -956,6 +1018,8 @@ Valid pixels (not NaN in both): 7194
 Open fieldline pixels: 196
 Closed fieldline pixels: 6998
 
+AR 12362: FIP bias vs mean magnetic field strength
+
 AR 12371: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -985,6 +1049,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 2593
 Open fieldline pixels: 172
 Closed fieldline pixels: 2421
+
+AR 12371: FIP bias vs mean magnetic field strength
 
 AR 12376: FIP bias vs loop length
 
@@ -1016,6 +1082,8 @@ Valid pixels (not NaN in both): 621
 Open fieldline pixels: 23
 Closed fieldline pixels: 598
 
+AR 12376: FIP bias vs mean magnetic field strength
+
 AR 12381: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1045,6 +1113,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 2814
 Open fieldline pixels: 60
 Closed fieldline pixels: 2754
+
+AR 12381: FIP bias vs mean magnetic field strength
 
 AR 12387: FIP bias vs loop length
 
@@ -1076,6 +1146,8 @@ Valid pixels (not NaN in both): 3377
 Open fieldline pixels: 55
 Closed fieldline pixels: 3322
 
+AR 12387: FIP bias vs mean magnetic field strength
+
 AR 12401: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1105,6 +1177,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 1309
 Open fieldline pixels: 0
 Closed fieldline pixels: 1309
+
+AR 12401: FIP bias vs mean magnetic field strength
 
 AR 12429: FIP bias vs loop length
 
@@ -1136,6 +1210,8 @@ Valid pixels (not NaN in both): 671
 Open fieldline pixels: 0
 Closed fieldline pixels: 671
 
+AR 12429: FIP bias vs mean magnetic field strength
+
 AR 12434: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1165,6 +1241,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 1250
 Open fieldline pixels: 9
 Closed fieldline pixels: 1241
+
+AR 12434: FIP bias vs mean magnetic field strength
 
 AR 12436: FIP bias vs loop length
 
@@ -1196,6 +1274,8 @@ Valid pixels (not NaN in both): 857
 Open fieldline pixels: 9
 Closed fieldline pixels: 848
 
+AR 12436: FIP bias vs mean magnetic field strength
+
 AR 12470: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1225,6 +1305,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 1350
 Open fieldline pixels: 3
 Closed fieldline pixels: 1347
+
+AR 12470: FIP bias vs mean magnetic field strength
 
 AR 12519: FIP bias vs loop length
 
@@ -1256,6 +1338,8 @@ Valid pixels (not NaN in both): 886
 Open fieldline pixels: 0
 Closed fieldline pixels: 886
 
+AR 12519: FIP bias vs mean magnetic field strength
+
 AR 12524: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1285,6 +1369,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 5479
 Open fieldline pixels: 57
 Closed fieldline pixels: 5422
+
+AR 12524: FIP bias vs mean magnetic field strength
 
 AR 12532: FIP bias vs loop length
 
@@ -1316,6 +1402,8 @@ Valid pixels (not NaN in both): 1319
 Open fieldline pixels: 14
 Closed fieldline pixels: 1305
 
+AR 12532: FIP bias vs mean magnetic field strength
+
 AR 12539: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1345,6 +1433,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 423
 Open fieldline pixels: 0
 Closed fieldline pixels: 423
+
+AR 12539: FIP bias vs mean magnetic field strength
 
 AR 12546: FIP bias vs loop length
 
@@ -1376,6 +1466,8 @@ Valid pixels (not NaN in both): 1992
 Open fieldline pixels: 17
 Closed fieldline pixels: 1975
 
+AR 12546: FIP bias vs mean magnetic field strength
+
 AR 12553: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1405,6 +1497,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 216
 Open fieldline pixels: 0
 Closed fieldline pixels: 216
+
+AR 12553: FIP bias vs mean magnetic field strength
 
 AR 12564: FIP bias vs loop length
 
@@ -1436,6 +1530,8 @@ Valid pixels (not NaN in both): 2440
 Open fieldline pixels: 76
 Closed fieldline pixels: 2364
 
+AR 12564: FIP bias vs mean magnetic field strength
+
 AR 12573: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1465,6 +1561,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 655
 Open fieldline pixels: 0
 Closed fieldline pixels: 655
+
+AR 12573: FIP bias vs mean magnetic field strength
 
 AR 12574: FIP bias vs loop length
 
@@ -1496,6 +1594,8 @@ Valid pixels (not NaN in both): 1467
 Open fieldline pixels: 55
 Closed fieldline pixels: 1412
 
+AR 12574: FIP bias vs mean magnetic field strength
+
 AR 12592: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1525,6 +1625,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 285
 Open fieldline pixels: 0
 Closed fieldline pixels: 285
+
+AR 12592: FIP bias vs mean magnetic field strength
 
 AR 12602: FIP bias vs loop length
 
@@ -1556,6 +1658,8 @@ Valid pixels (not NaN in both): 1076
 Open fieldline pixels: 0
 Closed fieldline pixels: 1076
 
+AR 12602: FIP bias vs mean magnetic field strength
+
 AR 12665: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1585,6 +1689,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 2534
 Open fieldline pixels: 100
 Closed fieldline pixels: 2434
+
+AR 12665: FIP bias vs mean magnetic field strength
 
 AR 12672: FIP bias vs loop length
 
@@ -1616,6 +1722,8 @@ Valid pixels (not NaN in both): 446
 Open fieldline pixels: 0
 Closed fieldline pixels: 446
 
+AR 12672: FIP bias vs mean magnetic field strength
+
 AR 12680: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1645,6 +1753,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 454
 Open fieldline pixels: 0
 Closed fieldline pixels: 454
+
+AR 12680: FIP bias vs mean magnetic field strength
 
 AR 12685: FIP bias vs loop length
 
@@ -1676,6 +1786,8 @@ Valid pixels (not NaN in both): 321
 Open fieldline pixels: 0
 Closed fieldline pixels: 321
 
+AR 12685: FIP bias vs mean magnetic field strength
+
 AR 12687: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -1705,6 +1817,8 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 2010
 Open fieldline pixels: 4
 Closed fieldline pixels: 2006
+
+AR 12687: FIP bias vs mean magnetic field strength
 
 AR 12759: FIP bias vs loop length
 
@@ -1736,6 +1850,8 @@ Valid pixels (not NaN in both): 737
 Open fieldline pixels: 0
 Closed fieldline pixels: 737
 
+AR 12759: FIP bias vs mean magnetic field strength
+
 All ARs: FIP bias vs loop length diagnostics
 
 === Final Summary for CaAr ===
@@ -1765,4 +1881,50 @@ Total loop length NaNs: 0
 Valid pixels (not NaN in both): 102482
 Open fieldline pixels: 1645
 Closed fieldline pixels: 100837
+
+All ARs: FIP bias vs mean magnetic field strength diagnostics
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total magnetic field NaNs: 0
+Valid pixels (not NaN in both): 178404
+Open fieldline pixels: 3764
+Closed fieldline pixels: 174640
+B-field range: 1.04 to 3746.80
+B-field mean: 197.80, median: 124.39
+
+[CaAr] Valid closed pixels: < 150 G = 96674, >= 150 G = 77966
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total magnetic field NaNs: 0
+Valid pixels (not NaN in both): 543651
+Open fieldline pixels: 9543
+Closed fieldline pixels: 534108
+B-field range: 1.00 to 3746.80
+B-field mean: 121.79, median: 66.45
+
+[FeS] Valid closed pixels: < 150 G = 405244, >= 150 G = 128864
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total magnetic field NaNs: 0
+Valid pixels (not NaN in both): 251788
+Open fieldline pixels: 3973
+Closed fieldline pixels: 247815
+B-field range: 1.00 to 3746.80
+B-field mean: 117.63, median: 62.17
+
+[sis] Valid closed pixels: < 150 G = 189883, >= 150 G = 57932
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total magnetic field NaNs: 0
+Valid pixels (not NaN in both): 102454
+Open fieldline pixels: 1636
+Closed fieldline pixels: 100818
+B-field range: 1.01 to 3746.80
+B-field mean: 178.55, median: 104.92
+
+[sar] Valid closed pixels: < 150 G = 62110, >= 150 G = 38708
 
