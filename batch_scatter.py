@@ -305,6 +305,9 @@ for ar_id in ar_list:
             else:
                 abundance = np.clip(abundance, 0, 4)
             valid_mask = np.isfinite(abundance) & np.isfinite(B_vals)
+            if valid_mask.sum() < 2:
+                print(f"Skipping dt={datetime_str} elem={element}: finite(A&B)={valid_mask.sum()}")
+                continue
 
             # if element in ["CaAr", "FeS"]:
             # maps_per_raster[datetime_str][element] = abundance_map
@@ -318,6 +321,9 @@ for ar_id in ar_list:
 
             # Aditional Masking filter
             valid_range_mask = B_strength > 1
+            if valid_range_mask.sum() < 2:
+                print(f"Skipping dt={datetime_str} elem={element}: after(B>1)={valid_range_mask.sum()}")
+                continue
             abund_vals = abund_vals[valid_range_mask]
             B_strength = B_strength[valid_range_mask]
             loop_length_valid = loop_length_valid[valid_range_mask]
