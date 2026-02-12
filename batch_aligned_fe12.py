@@ -23,6 +23,7 @@ from sunpy.coordinates import SphericalScreen
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
 non_aligned_log = Path("non_aligned_files.txt")
+non_aligned_log.write_text("")
 test_mode = False
 test_file = "eis_2014_02_02__14_19_52_intensity.fits"
 
@@ -111,13 +112,20 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
                 overwrite=False
             )    
             if not fetched_files:
-                print(f"Warning: No AIA data found for {eis_fit}. Skipping this file.")
+                msg = "No AIA data found (Fido.fetch returned empty)"
+                print(f"Warning: {msg} for {eis_fit}. Skipping this file.")
+                with open(non_aligned_log.as_posix(), "a") as log_file:
+                    log_file.write(f"{eis_fit} - {msg}\n")
                 return
 
             aia_map = sunpy.map.Map(fetched_files[0])
         except Exception as e:
-            print(f"Error fetching AIA data for {eis_fit}: {e}")
+            msg = f"Error fetching AIA data: {repr(e)}"
+            print(f"{msg} for {eis_fit}")
+            with open(non_aligned_log.as_posix(), "a") as log_file:
+                log_file.write(f"{eis_fit} - {msg}\n")
             return
+
 
     #eis_bl = fe12_map.bottom_left_coord.transform_to(aia_map.coordinate_frame)
     #eis_tr = fe12_map.top_right_coord.transform_to(aia_map.coordinate_frame)
@@ -142,25 +150,30 @@ def alignment(eis_fit, return_shift=False, wavelength=193 * u.angstrom):
     Ty_min = np.minimum(eis_bl.Ty, eis_tr.Ty)
     Ty_max = np.maximum(eis_bl.Ty, eis_tr.Ty)
 
-    # keep crop corners strictly inside valid Helioprojective latitude/longitude
-    lim_deg = 89.8 * u.deg
-    lim_arcsec = lim_deg.to(u.arcsec)
+    # Clamp crop corners to slightly inside the observed solar disk in the AIA map
+    rs = aia_map.rsun_obs.to_value(u.arcsec)
+    rs_safe = 0.999 * rs
 
-    margin = 50 * u.arcsec  # give xcorr a little context without letting other ARs dominate
-    #blm = SkyCoord(eis_bl.Tx - margin, eis_bl.Ty - margin, frame=aia_map.coordinate_frame)
-    #trm = SkyCoord(eis_tr.Tx + margin, eis_tr.Ty + margin, frame=aia_map.coordinate_frame)
-    #blm = SkyCoord(Tx_min - margin, Ty_min - margin, frame=aia_map.coordinate_frame)
-    #trm = SkyCoord(Tx_max + margin, Ty_max + margin, frame=aia_map.coordinate_frame)
+    margin = 50 * u.arcsec
+    Tx_lo = (Tx_min - margin).to_value(u.arcsec)
+    Ty_lo = (Ty_min - margin).to_value(u.arcsec)
+    Tx_hi = (Tx_max + margin).to_value(u.arcsec)
+    Ty_hi = (Ty_max + margin).to_value(u.arcsec)
 
-    # clamp the requested crop box to <±90° to avoid SkyCoord latitude errors
-    Tx_lo = np.clip((Tx_min - margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
-    Ty_lo = np.clip((Ty_min - margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
-    Tx_hi = np.clip((Tx_max + margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
-    Ty_hi = np.clip((Ty_max + margin).to_value(u.arcsec), -lim_arcsec.value, lim_arcsec.value) * u.arcsec
+    r_lo = np.sqrt(Tx_lo**2 + Ty_lo**2)
+    if (r_lo > rs_safe) and (r_lo > 0):
+        s = rs_safe / r_lo
+        Tx_lo = Tx_lo * s
+        Ty_lo = Ty_lo * s
 
-    blm = SkyCoord(Tx_lo, Ty_lo, frame=aia_map.coordinate_frame)
-    trm = SkyCoord(Tx_hi, Ty_hi, frame=aia_map.coordinate_frame)
+    r_hi = np.sqrt(Tx_hi**2 + Ty_hi**2)
+    if (r_hi > rs_safe) and (r_hi > 0):
+        s = rs_safe / r_hi
+        Tx_hi = Tx_hi * s
+        Ty_hi = Ty_hi * s
 
+    blm = SkyCoord(Tx_lo * u.arcsec, Ty_lo * u.arcsec, frame=aia_map.coordinate_frame)
+    trm = SkyCoord(Tx_hi * u.arcsec, Ty_hi * u.arcsec, frame=aia_map.coordinate_frame)
 
     try:
         aia_crop = aia_map.submap(blm, top_right=trm)
