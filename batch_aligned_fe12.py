@@ -22,8 +22,10 @@ import numpy as np
 from sunpy.coordinates import SphericalScreen  
 
 data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data")
-non_aligned_log = Path("non_aligned_files.txt")
+script_dir = Path(__file__).resolve().parent
+non_aligned_log = script_dir / "non_aligned_files.txt"
 non_aligned_log.write_text("")
+print("Logging to:", non_aligned_log)
 test_mode = False
 test_file = "eis_2014_02_02__14_19_52_intensity.fits"
 
