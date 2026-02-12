@@ -295,6 +295,9 @@ for ar_id in ar_list:
             pair_token    = PAIR_FOR[element] 
             abundance_path = f"/mnt/scratch/data/orlovsd2/sunpy/data/intensity_ratio/cleaned_relerr_size_intensity_map_ratio_{datetime_str}_{pair_token}.fits"
 
+            if not os.path.exists(abundance_path):
+                print(f"Missing file: {abundance_path}")
+                continue
 
             abundance_map = Map(abundance_path, silence_warnings=True)
             abundance = abundance_map.data.copy()
