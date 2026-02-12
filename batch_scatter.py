@@ -441,29 +441,65 @@ for ar_id in ar_list:
         split_gauss = 150
         mask_low = (B_vals < split_gauss)
         mask_high = (B_vals >= split_gauss)
+
+        n_low = np.sum(mask_low)
+        n_high = np.sum(mask_high)
+
+        have_low = n_low >= 2
+        have_high = n_high >= 2
         
-        # Linear Regression (2 segments) 
-        slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
-        slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
+        # # Linear Regression (2 segments) 
+        # slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
+        # slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
         
-        x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
-        x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
+        # x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
+        # x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
         
-        y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
-        y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
+        # y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
+        # y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
         
-        # Log-Linear Regression (2 segments) 
-        log_B_low = np.log10(B_vals[mask_low])
-        log_B_high = np.log10(B_vals[mask_high])
+        # # Log-Linear Regression (2 segments) 
+        # log_B_low = np.log10(B_vals[mask_low])
+        # log_B_high = np.log10(B_vals[mask_high])
         
-        slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
-        slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
+        # slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
+        # slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
         
-        x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
-        x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
+        # x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
+        # x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
         
-        y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
-        y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
+        # y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
+        # y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
+
+        slope_lin_low = intercept_lin_low = None
+        slope_lin_high = intercept_lin_high = None
+        slope_log_low = intercept_log_low = None
+        slope_log_high = intercept_log_high = None
+
+        x_fit_log10_low = y_fit_log_low = None
+        x_fit_log10_high = y_fit_log_high = None
+
+        # Low side (< split_gauss)
+        if have_low:
+            # Linear (not plotted, but safe if you want it later)
+            slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
+
+            # Log-linear
+            log_B_low = np.log10(B_vals[mask_low])
+            slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
+
+            x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
+            y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
+
+        # High side (>= split_gauss)
+        if have_high:
+            slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
+
+            log_B_high = np.log10(B_vals[mask_high])
+            slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
+
+            x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
+            y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
 
         # Binning
         bin_width = 20
@@ -543,36 +579,77 @@ for ar_id in ar_list:
         #     main_legend = ax.legend(loc="upper right", fontsize=20)
         #     ax.add_artist(main_legend)
         
-        # Always show log fit legend
-        logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
-        logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
-        logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-                                alpha=1, zorder=4, linewidth=5)[0]
-        logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-                                alpha=1, zorder=4, linewidth=5)[0]
+        # # Always show log fit legend
+        # logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
+        # logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
+        # logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
+        #                         alpha=1, zorder=4, linewidth=5)[0]
+        # logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
+        #                         alpha=1, zorder=4, linewidth=5)[0]
         
-        # legend_loc = "upper left" if element == "sar" else "lower left"
-        # ax.legend([logfit_line_low, logfit_line_high],
-        #           [logfit_label_low, logfit_label_high],
-        #           loc=legend_loc, fontsize=20, frameon=True)
+        # # legend_loc = "upper left" if element == "sar" else "lower left"
+        # # ax.legend([logfit_line_low, logfit_line_high],
+        # #           [logfit_label_low, logfit_label_high],
+        # #           loc=legend_loc, fontsize=20, frameon=True)
+        # if element == "sar":
+        #     # Combine log fit + main legend in one box
+        #     handles, labels = ax.get_legend_handles_labels()
+        #     ax.legend(
+        #         [logfit_line_low, logfit_line_high] + handles[0:5],
+        #         [logfit_label_low, logfit_label_high] + labels[0:5],
+        #         loc="upper left",
+        #         fontsize=20,
+        #         frameon=True,
+        #         fancybox=True
+        #     )
+        # else:
+        #     # Only show log fit lines for other elements
+        #     ax.legend([logfit_line_low, logfit_line_high],
+        #             [logfit_label_low, logfit_label_high],
+        #             loc="lower left",
+        #             fontsize=20,
+        #             frameon=True)
+        fit_lines = []
+        fit_labels = []
+
+        if have_low:
+            logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
+            logfit_line_low = ax.plot(
+                x_fit_log10_low, y_fit_log_low,
+                color='red', linestyle='--', alpha=1, zorder=4, linewidth=5
+            )[0]
+            fit_lines.append(logfit_line_low)
+            fit_labels.append(logfit_label_low)
+
+        if have_high:
+            logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
+            logfit_line_high = ax.plot(
+                x_fit_log10_high, y_fit_log_high,
+                color='red', linestyle='-', alpha=1, zorder=4, linewidth=5
+            )[0]
+            fit_lines.append(logfit_line_high)
+            fit_labels.append(logfit_label_high)
+
+        # ---- Legend handling ----
         if element == "sar":
-            # Combine log fit + main legend in one box
             handles, labels = ax.get_legend_handles_labels()
             ax.legend(
-                [logfit_line_low, logfit_line_high] + handles[0:5],
-                [logfit_label_low, logfit_label_high] + labels[0:5],
+                fit_lines + handles[0:5],
+                fit_labels + labels[0:5],
                 loc="upper left",
                 fontsize=20,
                 frameon=True,
                 fancybox=True
             )
         else:
-            # Only show log fit lines for other elements
-            ax.legend([logfit_line_low, logfit_line_high],
-                    [logfit_label_low, logfit_label_high],
+            # Only show fit legend if at least one fit exists
+            if len(fit_lines) > 0:
+                ax.legend(
+                    fit_lines, fit_labels,
                     loc="lower left",
                     fontsize=20,
-                    frameon=True)
+                    frameon=True
+                )
 
             
         valid_pixels_low = np.sum(mask_low & closed_mask_flat)
@@ -786,29 +863,66 @@ with open(diagnostics_path, "a") as fdiag:
         split_gauss = 150
         mask_low = (B_vals < split_gauss)
         mask_high = (B_vals >= split_gauss)
+
+        n_low = np.sum(mask_low)
+        n_high = np.sum(mask_high)
+
+        have_low = n_low >= 2
+        have_high = n_high >= 2
         
-        # Linear Regression (2 segments) 
-        slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
-        slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
+        # # Linear Regression (2 segments) 
+        # slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
+        # slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
         
-        x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
-        x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
+        # x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
+        # x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
         
-        y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
-        y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
+        # y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
+        # y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
         
-        # Log-Linear Regression (2 segments) 
-        log_B_low = np.log10(B_vals[mask_low])
-        log_B_high = np.log10(B_vals[mask_high])
+        # # Log-Linear Regression (2 segments) 
+        # log_B_low = np.log10(B_vals[mask_low])
+        # log_B_high = np.log10(B_vals[mask_high])
         
-        slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
-        slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
+        # slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
+        # slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
         
-        x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
-        x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
+        # x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
+        # x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
         
-        y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
-        y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
+        # y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
+        # y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
+
+        slope_lin_low = intercept_lin_low = None
+        slope_lin_high = intercept_lin_high = None
+        slope_log_low = intercept_log_low = None
+        slope_log_high = intercept_log_high = None
+
+        x_fit_log10_low = y_fit_log_low = None
+        x_fit_log10_high = y_fit_log_high = None
+
+        # Low side (< split_gauss)
+        if have_low:
+            # Linear (not plotted, but safe if you want it later)
+            slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
+
+            # Log-linear
+            log_B_low = np.log10(B_vals[mask_low])
+            slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
+
+            x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
+            y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
+
+        # High side (>= split_gauss)
+        if have_high:
+            slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
+
+            log_B_high = np.log10(B_vals[mask_high])
+            slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
+
+            x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
+            y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
+
 
         # Binning
         bin_width = 20
@@ -888,37 +1002,77 @@ with open(diagnostics_path, "a") as fdiag:
         #     main_legend = ax.legend(loc="upper right", fontsize=20)
         #     ax.add_artist(main_legend)
         
-        # Always show log fit legend
-        logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
-        logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
-        logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-                                alpha=1, zorder=4, linewidth=5)[0]
-        logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-                                alpha=1, zorder=4, linewidth=5)[0]
+        # # Always show log fit legend
+        # logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
+        # logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
+        # logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
+        #                         alpha=1, zorder=4, linewidth=5)[0]
+        # logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
+        #                         alpha=1, zorder=4, linewidth=5)[0]
         
-        # legend_loc = "upper left" if element == "sar" else "lower left"
-        # ax.legend([logfit_line_low, logfit_line_high],
-        #           [logfit_label_low, logfit_label_high],
-        #           loc=legend_loc, fontsize=20, frameon=True)
+        # # legend_loc = "upper left" if element == "sar" else "lower left"
+        # # ax.legend([logfit_line_low, logfit_line_high],
+        # #           [logfit_label_low, logfit_label_high],
+        # #           loc=legend_loc, fontsize=20, frameon=True)
+        # if element == "sar":
+        #     # Combine log fit + main legend in one box
+        #     handles, labels = ax.get_legend_handles_labels()
+        #     ax.legend(
+        #         [logfit_line_low, logfit_line_high] + handles[0:5],
+        #         [logfit_label_low, logfit_label_high] + labels[0:5],
+        #         loc="upper left",
+        #         fontsize=20,
+        #         frameon=True,
+        #         fancybox=True
+        #     )
+        # else:
+        #     # Only show log fit lines for other elements
+        #     ax.legend([logfit_line_low, logfit_line_high],
+        #             [logfit_label_low, logfit_label_high],
+        #             loc="lower left",
+        #             fontsize=20,
+        #             frameon=True)
+        fit_lines = []
+        fit_labels = []
+
+        if have_low:
+            logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
+            logfit_line_low = ax.plot(
+                x_fit_log10_low, y_fit_log_low,
+                color='red', linestyle='--', alpha=1, zorder=4, linewidth=5
+            )[0]
+            fit_lines.append(logfit_line_low)
+            fit_labels.append(logfit_label_low)
+
+        if have_high:
+            logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
+            logfit_line_high = ax.plot(
+                x_fit_log10_high, y_fit_log_high,
+                color='red', linestyle='-', alpha=1, zorder=4, linewidth=5
+            )[0]
+            fit_lines.append(logfit_line_high)
+            fit_labels.append(logfit_label_high)
+
+        # ---- Legend handling ----
         if element == "sar":
-            # Combine log fit + main legend in one box
             handles, labels = ax.get_legend_handles_labels()
             ax.legend(
-                [logfit_line_low, logfit_line_high] + handles[0:5],
-                [logfit_label_low, logfit_label_high] + labels[0:5],
+                fit_lines + handles[0:5],
+                fit_labels + labels[0:5],
                 loc="upper left",
                 fontsize=20,
                 frameon=True,
                 fancybox=True
             )
         else:
-            # Only show log fit lines for other elements
-            ax.legend([logfit_line_low, logfit_line_high],
-                    [logfit_label_low, logfit_label_high],
+            # Only show fit legend if at least one fit exists
+            if len(fit_lines) > 0:
+                ax.legend(
+                    fit_lines, fit_labels,
                     loc="lower left",
                     fontsize=20,
-                    frameon=True)
-
+                    frameon=True
+                )
             
         valid_pixels_low = np.sum(mask_low & closed_mask_flat)
         valid_pixels_high = np.sum(mask_high & closed_mask_flat)
