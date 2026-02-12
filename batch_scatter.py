@@ -111,11 +111,23 @@ for ar_id in ar_list:
     for idx, element in enumerate(order):
         ax = fig.add_subplot(outer_grid[idx])
         
+        # If nothing was appended for this element, skip
+        if len(element_data[element]["abund"]) == 0:
+            print(f"{element}: no data appended. Skipping this panel.")
+            ax.set_title(f"{title[element]}\n(no data)")
+            ax.axis("off")
+            continue
         abund_vals = np.concatenate(element_data[element]["abund"])
         loop_vals = np.concatenate(element_data[element]["loop"])
         open_mask_flat = np.concatenate(element_data[element]["open_mask"])
         closed_mask_flat = ~open_mask_flat
 
+        # Need at least 2 points for regression
+        if abund_vals.size < 2 or loop_vals.size < 2:
+            print(f"{element}: not enough valid points for regression (N={abund_vals.size}). Skipping fits.")
+            ax.set_title(f"{title[element]}\n(no valid pixels)")
+            ax.axis("off")
+            continue
 
         print(f"\n=== Final Summary for {element} ===")
         print("Total abundance NaNs:", np.isnan(abund_vals).sum())
@@ -228,11 +240,22 @@ order = ["CaAr", "FeS", "sis", "sar"]
 for idx, element in enumerate(order):
     ax = fig.add_subplot(outer_grid[idx])
     
+    if len(element_data_all[element]["abund"]) == 0:
+        print(f"{element}: no ALL-AR data appended. Skipping this panel.")
+        ax.set_title(f"{title[element]}\n(no data)")
+        ax.axis("off")
+        continue
+
     abund_vals = np.concatenate(element_data_all[element]["abund"])
     loop_vals = np.concatenate(element_data_all[element]["loop"])
     open_mask_flat = np.concatenate(element_data_all[element]["open_mask"])
     closed_mask_flat = ~open_mask_flat
 
+    if abund_vals.size < 2 or loop_vals.size < 2:
+        print(f"{element}: not enough ALL-AR points for regression (N={abund_vals.size}). Skipping fits.")
+        ax.set_title(f"{title[element]}\n(no valid pixels)")
+        ax.axis("off")
+        continue
 
     print(f"\n=== Final Summary for {element} ===")
     print("Total abundance NaNs:", np.isnan(abund_vals).sum())
