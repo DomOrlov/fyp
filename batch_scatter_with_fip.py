@@ -306,7 +306,7 @@ for ar_id in ar_list:
             ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
 
     plt.tight_layout()
-    outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_length.png")
+    outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_length_with_fip.png")
     plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
@@ -734,7 +734,7 @@ for ar_id in ar_list:
         print(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}")
 
 
-    outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_B.png")
+    outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_B_with_fip.png")
     plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
@@ -879,8 +879,8 @@ with open(diagnostics_path, "a") as fdiag:
             ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
 
     plt.tight_layout()
-    outname = os.path.join(output_dir, "ARall_Abundance_length.png")
-    plt.savefig(outname, dpi=150, bbox_inches="tight")
+    outname = os.path.join(output_dir, "ARall_Abundance_length_with_fip.png")
+    # plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved ALL-AR plot: {outname}")
 
@@ -1157,7 +1157,7 @@ with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}\n\n")
 
 
-    outname = os.path.join(output_dir, "ARall_Abundance_B.png")
-    plt.savefig(outname, dpi=150, bbox_inches="tight")
+    outname = os.path.join(output_dir, "ARall_Abundance_B_with_fip.png")
+    # plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
