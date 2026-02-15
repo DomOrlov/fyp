@@ -9,6 +9,7 @@ from sunpy.map import Map
 import pandas as pd
 from collections import defaultdict
 import matplotlib.colors as mcolors
+import eispac
 
 title = {"CaAr":"Ca XIV 193.87 Å / Ar XIV 194.40 Å","FeS":"Fe XVI 262.98 Å / S XIII 256.69 Å","sis":"Si X 258.37 Å / S X 264.23 Å","sar":"S XI 188.68 Å / Ar XI 188.81 Å"}
 PAIR_FOR = {"CaAr": "Ca_Ar", "FeS": "Fe_S", "sis": "Si_S", "sar": "S_Ar"}
@@ -142,7 +143,7 @@ for ar_id in ar_list:
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
 
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.15, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
 
     # for idx, element in enumerate(order):
@@ -447,7 +448,7 @@ for ar_id in ar_list:
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.15, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
 
     # for idx, element in enumerate(order):
