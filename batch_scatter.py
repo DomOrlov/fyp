@@ -14,7 +14,7 @@ title = {"CaAr":"Ca XIV 193.87 Å / Ar XIV 194.40 Å","FeS":"Fe XVI 262.98 Å / 
 PAIR_FOR = {"CaAr": "Ca_Ar", "FeS": "Fe_S", "sis": "Si_S", "sar": "S_Ar"}
 
 elements = ["CaAr", "FeS", "sis", "sar"]
-test_mode = False 
+test_mode = True 
 test_target_ar = "11967"
 catalogue = "AR_Catalogue.xlsx"
 catalogue_sheet = "AR_Catalogue"
