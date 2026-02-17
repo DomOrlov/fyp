@@ -153,7 +153,7 @@ for ar_id in ar_list:
             element_data_all[element]["open_mask"].append(open_mask_flat)
 
 
-    fig = plt.figure(figsize=(24, 18))
+    fig = plt.figure(figsize=(32, 18))
     fig.suptitle(f"AR {ar_id}: FIP bias vs loop length", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
@@ -323,8 +323,7 @@ for ar_id in ar_list:
 
     # plt.tight_layout()
     outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_length_with_fip.png")
-    # plt.savefig(outname, dpi=150, bbox_inches="tight")
-    plt.savefig(outname, dpi=150)
+    plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
 
@@ -460,7 +459,7 @@ for ar_id in ar_list:
             # print(f"  –1σ count: {np.sum(below_mask)}")
         
     # Plotting
-    fig = plt.figure(figsize=(24, 18))
+    fig = plt.figure(figsize=(32, 18))
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
@@ -750,8 +749,7 @@ for ar_id in ar_list:
 
 
     outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_B_with_fip.png")
-    # plt.savefig(outname, dpi=150, bbox_inches="tight")
-    plt.savefig(outname, dpi=150)
+    plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
 
@@ -766,7 +764,7 @@ with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs loop length diagnostics\n\n")
 
 
-    fig = plt.figure(figsize=(24, 18))
+    fig = plt.figure(figsize=(32, 18))
     fig.suptitle("All ARs: FIP bias vs loop length", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
@@ -897,7 +895,6 @@ with open(diagnostics_path, "a") as fdiag:
     # plt.tight_layout()
     outname = os.path.join(output_dir, "ARall_Abundance_length_with_fip.png")
     # plt.savefig(outname, dpi=150, bbox_inches="tight")
-    # plt.savefig(outname, dpi=150)
     plt.close(fig)
     print(f"Saved ALL-AR plot: {outname}")
 
@@ -906,7 +903,7 @@ with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs mean magnetic field strength diagnostics\n\n")
 
     # Plotting
-    fig = plt.figure(figsize=(24, 18))
+    fig = plt.figure(figsize=(32, 18))
     fig.suptitle("All ARs: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.08, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
@@ -1176,6 +1173,5 @@ with open(diagnostics_path, "a") as fdiag:
 
     outname = os.path.join(output_dir, "ARall_Abundance_B_with_fip.png")
     # plt.savefig(outname, dpi=150, bbox_inches="tight")
-    # plt.savefig(outname, dpi=150)
     plt.close(fig)
     print(f"Saved: {outname}")
