@@ -114,23 +114,18 @@ for ar_id in ar_list:
                 #     y1 = min(int(yy.max()) + pad, abundance_map.data.shape[0] - 1)
                 #     display_bbox[element] = (x0, x1, y0, y1)
 
-                # Use the UNcleaned ratio map ONLY to set a consistent FOV (cleaning can shrink the finite region)
                 uncleaned_path = f"/mnt/scratch/data/orlovsd2/sunpy/data/intensity_ratio/intensity_map_ratio_{datetime_str}_{pair_token}.fits"
-
-                if os.path.exists(uncleaned_path):
-                    uncleaned_map = Map(uncleaned_path, silence_warnings=True)
-                    finite = np.isfinite(uncleaned_map.data)
-                else:
-                    # fallback: if uncleaned missing, at least bbox comes from cleaned
-                    finite = np.isfinite(abundance_map.data)
+                uncleaned_map = Map(uncleaned_path, silence_warnings=True)
+                finite = np.isfinite(uncleaned_map.data)
 
                 if np.any(finite):
                     yy, xx = np.where(finite)
                     pad = 2
+                    ny, nx = uncleaned_map.data.shape
                     x0 = max(int(xx.min()) - pad, 0)
-                    x1 = min(int(xx.max()) + pad, abundance_map.data.shape[1] - 1)
+                    x1 = min(int(xx.max()) + pad, nx - 1)
                     y0 = max(int(yy.min()) - pad, 0)
-                    y1 = min(int(yy.max()) + pad, abundance_map.data.shape[0] - 1)
+                    y1 = min(int(yy.max()) + pad, ny - 1)
                     display_bbox[element] = (x0, x1, y0, y1)
 
         
