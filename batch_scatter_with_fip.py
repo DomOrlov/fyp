@@ -15,7 +15,7 @@ title = {"CaAr":"Ca XIV 193.87 Å / Ar XIV 194.40 Å","FeS":"Fe XVI 262.98 Å / 
 PAIR_FOR = {"CaAr": "Ca_Ar", "FeS": "Fe_S", "sis": "Si_S", "sar": "S_Ar"}
 
 elements = ["CaAr", "FeS", "sis", "sar"]
-test_mode = True 
+test_mode = False 
 test_target_ar = "11967"
 catalogue = "AR_Catalogue.xlsx"
 catalogue_sheet = "AR_Catalogue"
@@ -102,20 +102,10 @@ for ar_id in ar_list:
             abundance = abundance_map.data.copy()
             # Saves the first available cleaned map for this element
             if display_map[element] is None:
-                display_map[element] = abundance_map
-
-                # finite = np.isfinite(abundance_map.data)
-                # if np.any(finite):
-                #     yy, xx = np.where(finite)
-                #     pad = 2
-                #     x0 = max(int(xx.min()) - pad, 0)
-                #     x1 = min(int(xx.max()) + pad, abundance_map.data.shape[1] - 1)
-                #     y0 = max(int(yy.min()) - pad, 0)
-                #     y1 = min(int(yy.max()) + pad, abundance_map.data.shape[0] - 1)
-                #     display_bbox[element] = (x0, x1, y0, y1)
-
+                # display_map[element] = abundance_map
                 uncleaned_path = f"/mnt/scratch/data/orlovsd2/sunpy/data/intensity_ratio/intensity_map_ratio_{datetime_str}_{pair_token}.fits"
                 uncleaned_map = Map(uncleaned_path, silence_warnings=True)
+                display_map[element] = uncleaned_map
                 finite = np.isfinite(uncleaned_map.data)
 
                 if np.any(finite):
@@ -158,7 +148,7 @@ for ar_id in ar_list:
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
 
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
     # for idx, element in enumerate(order):
@@ -203,8 +193,13 @@ for ar_id in ar_list:
                 ax_map.set_xlim(x0, x1)
                 ax_map.set_ylim(y0, y1)
                 ax_map.set_autoscale_on(False)
-            ax_map.set_title("Cleaned ratio map", fontsize=14)
-            ax_map.coords[1].set_ticklabel_visible(False)
+            # ax_map.set_title("Cleaned ratio map", fontsize=14)
+            ax_map.set_title("Uncleaned ratio map", fontsize=14)
+            # ax_map.coords[1].set_ticklabel_visible(False)
+            ax_map.coords[0].set_axislabel("Solar-X [arcsec]")
+            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]")
+            ax_map.coords[0].set_ticklabel_visible(True)
+            ax_map.coords[1].set_ticklabel_visible(True)
 
         # Need at least 2 points for regression
         if abund_vals.size < 2 or loop_vals.size < 2:
@@ -463,7 +458,7 @@ for ar_id in ar_list:
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
     # for idx, element in enumerate(order):
@@ -518,8 +513,13 @@ for ar_id in ar_list:
                 ax_map.set_xlim(x0, x1)
                 ax_map.set_ylim(y0, y1)
                 ax_map.set_autoscale_on(False)
-            ax_map.set_title("Cleaned ratio map", fontsize=14)
-            ax_map.coords[1].set_ticklabel_visible(False)
+            # ax_map.set_title("Cleaned ratio map", fontsize=14)
+            ax_map.set_title("Uncleaned ratio map", fontsize=14)
+            # ax_map.coords[1].set_ticklabel_visible(False)
+            ax_map.coords[0].set_axislabel("Solar-X [arcsec]")
+            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]")
+            ax_map.coords[0].set_ticklabel_visible(True)
+            ax_map.coords[1].set_ticklabel_visible(True)
         
         print(f"\n=== Final Summary for {element} ===")
         print("Total abundance NaNs:", np.isnan(abund_vals).sum())
@@ -892,9 +892,8 @@ with open(diagnostics_path, "a") as fdiag:
             # Leave all other elements unchanged
             ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
 
-    # plt.tight_layout()
     outname = os.path.join(output_dir, "ARall_Abundance_length_with_fip.png")
-    # plt.savefig(outname, dpi=150, bbox_inches="tight")
+    plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved ALL-AR plot: {outname}")
 
@@ -1172,6 +1171,6 @@ with open(diagnostics_path, "a") as fdiag:
 
 
     outname = os.path.join(output_dir, "ARall_Abundance_B_with_fip.png")
-    # plt.savefig(outname, dpi=150, bbox_inches="tight")
+    plt.savefig(outname, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {outname}")
