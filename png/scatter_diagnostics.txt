@@ -1,5 +1,577 @@
 scatter diagnostics
 
+AR (No Class): FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 753
+Open fieldline pixels: 0
+Closed fieldline pixels: 753
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2302
+Open fieldline pixels: 1
+Closed fieldline pixels: 2301
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 773
+Open fieldline pixels: 1
+Closed fieldline pixels: 772
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 377
+Open fieldline pixels: 0
+Closed fieldline pixels: 377
+
+AR (No Class): FIP bias vs mean magnetic field strength
+
+AR 11176: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5153
+Open fieldline pixels: 21
+Closed fieldline pixels: 5132
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 13943
+Open fieldline pixels: 55
+Closed fieldline pixels: 13888
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5964
+Open fieldline pixels: 22
+Closed fieldline pixels: 5942
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 784
+Open fieldline pixels: 2
+Closed fieldline pixels: 782
+
+AR 11176: FIP bias vs mean magnetic field strength
+
+AR 11204: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1818
+Open fieldline pixels: 25
+Closed fieldline pixels: 1793
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6983
+Open fieldline pixels: 69
+Closed fieldline pixels: 6914
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3573
+Open fieldline pixels: 38
+Closed fieldline pixels: 3535
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 279
+Open fieldline pixels: 0
+Closed fieldline pixels: 279
+
+AR 11204: FIP bias vs mean magnetic field strength
+
+AR 11330: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1537
+Open fieldline pixels: 0
+Closed fieldline pixels: 1537
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4539
+Open fieldline pixels: 10
+Closed fieldline pixels: 4529
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1728
+Open fieldline pixels: 8
+Closed fieldline pixels: 1720
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 244
+Open fieldline pixels: 0
+Closed fieldline pixels: 244
+
+AR 11330: FIP bias vs mean magnetic field strength
+
+AR 11490: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 229
+Open fieldline pixels: 0
+Closed fieldline pixels: 229
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2242
+Open fieldline pixels: 9
+Closed fieldline pixels: 2233
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 830
+Open fieldline pixels: 2
+Closed fieldline pixels: 828
+
+=== Final Summary for sar ===
+Not enough valid points (N=0)
+
+AR 11490: FIP bias vs mean magnetic field strength
+
+AR 11504: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6468
+Open fieldline pixels: 140
+Closed fieldline pixels: 6328
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 13643
+Open fieldline pixels: 152
+Closed fieldline pixels: 13491
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 10420
+Open fieldline pixels: 91
+Closed fieldline pixels: 10329
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5102
+Open fieldline pixels: 64
+Closed fieldline pixels: 5038
+
+AR 11504: FIP bias vs mean magnetic field strength
+
+AR 11512: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1187
+Open fieldline pixels: 140
+Closed fieldline pixels: 1047
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2517
+Open fieldline pixels: 289
+Closed fieldline pixels: 2228
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 804
+Open fieldline pixels: 102
+Closed fieldline pixels: 702
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 933
+Open fieldline pixels: 139
+Closed fieldline pixels: 794
+
+AR 11512: FIP bias vs mean magnetic field strength
+
+AR 11548: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 110
+Open fieldline pixels: 12
+Closed fieldline pixels: 98
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2331
+Open fieldline pixels: 109
+Closed fieldline pixels: 2222
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 152
+Open fieldline pixels: 39
+Closed fieldline pixels: 113
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 37
+Open fieldline pixels: 2
+Closed fieldline pixels: 35
+
+AR 11548: FIP bias vs mean magnetic field strength
+
+AR 11575: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4529
+Open fieldline pixels: 4
+Closed fieldline pixels: 4525
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 21983
+Open fieldline pixels: 6
+Closed fieldline pixels: 21977
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 225
+Open fieldline pixels: 0
+Closed fieldline pixels: 225
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3508
+Open fieldline pixels: 6
+Closed fieldline pixels: 3502
+
+AR 11575: FIP bias vs mean magnetic field strength
+
+AR 11584: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 445
+Open fieldline pixels: 0
+Closed fieldline pixels: 445
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5446
+Open fieldline pixels: 17
+Closed fieldline pixels: 5429
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 702
+Open fieldline pixels: 25
+Closed fieldline pixels: 677
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 242
+Open fieldline pixels: 0
+Closed fieldline pixels: 242
+
+AR 11584: FIP bias vs mean magnetic field strength
+
+AR 11593: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2523
+Open fieldline pixels: 3
+Closed fieldline pixels: 2520
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 24150
+Open fieldline pixels: 11
+Closed fieldline pixels: 24139
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 573
+Open fieldline pixels: 0
+Closed fieldline pixels: 573
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2936
+Open fieldline pixels: 3
+Closed fieldline pixels: 2933
+
+AR 11593: FIP bias vs mean magnetic field strength
+
+AR 11633: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4950
+Open fieldline pixels: 28
+Closed fieldline pixels: 4922
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 14315
+Open fieldline pixels: 41
+Closed fieldline pixels: 14274
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 8689
+Open fieldline pixels: 34
+Closed fieldline pixels: 8655
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2057
+Open fieldline pixels: 32
+Closed fieldline pixels: 2025
+
+AR 11633: FIP bias vs mean magnetic field strength
+
+AR 11739: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1044
+Open fieldline pixels: 0
+Closed fieldline pixels: 1044
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6695
+Open fieldline pixels: 29
+Closed fieldline pixels: 6666
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3916
+Open fieldline pixels: 10
+Closed fieldline pixels: 3906
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1133
+Open fieldline pixels: 0
+Closed fieldline pixels: 1133
+
+AR 11739: FIP bias vs mean magnetic field strength
+
+AR 11785: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3974
+Open fieldline pixels: 150
+Closed fieldline pixels: 3824
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5581
+Open fieldline pixels: 189
+Closed fieldline pixels: 5392
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5389
+Open fieldline pixels: 189
+Closed fieldline pixels: 5200
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4101
+Open fieldline pixels: 201
+Closed fieldline pixels: 3900
+
+AR 11785: FIP bias vs mean magnetic field strength
+
+AR 11799: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1706
+Open fieldline pixels: 372
+Closed fieldline pixels: 1334
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4391
+Open fieldline pixels: 849
+Closed fieldline pixels: 3542
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 825
+Open fieldline pixels: 129
+Closed fieldline pixels: 696
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 114
+Open fieldline pixels: 10
+Closed fieldline pixels: 104
+
+AR 11799: FIP bias vs mean magnetic field strength
+
+AR 11800: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1706
+Open fieldline pixels: 372
+Closed fieldline pixels: 1334
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4391
+Open fieldline pixels: 849
+Closed fieldline pixels: 3542
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 825
+Open fieldline pixels: 129
+Closed fieldline pixels: 696
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 114
+Open fieldline pixels: 10
+Closed fieldline pixels: 104
+
+AR 11800: FIP bias vs mean magnetic field strength
+
+AR 11838: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 214
+Open fieldline pixels: 13
+Closed fieldline pixels: 201
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1413
+Open fieldline pixels: 13
+Closed fieldline pixels: 1400
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1744
+Open fieldline pixels: 14
+Closed fieldline pixels: 1730
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 553
+Open fieldline pixels: 6
+Closed fieldline pixels: 547
+
+AR 11838: FIP bias vs mean magnetic field strength
+
+AR 11944: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 17489
+Open fieldline pixels: 41
+Closed fieldline pixels: 17448
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 24669
+Open fieldline pixels: 41
+Closed fieldline pixels: 24628
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11454
+Open fieldline pixels: 12
+Closed fieldline pixels: 11442
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6793
+Open fieldline pixels: 14
+Closed fieldline pixels: 6779
+
+AR 11944: FIP bias vs mean magnetic field strength
+
 AR 11967: FIP bias vs loop length
 
 === Final Summary for CaAr ===
@@ -32,79 +604,1327 @@ Closed fieldline pixels: 5228
 
 AR 11967: FIP bias vs mean magnetic field strength
 
+AR 12063: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 75
+Open fieldline pixels: 0
+Closed fieldline pixels: 75
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2003
+Open fieldline pixels: 0
+Closed fieldline pixels: 2003
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1478
+Open fieldline pixels: 0
+Closed fieldline pixels: 1478
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 43
+Open fieldline pixels: 0
+Closed fieldline pixels: 43
+
+AR 12063: FIP bias vs mean magnetic field strength
+
+AR 12087: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 399
+Open fieldline pixels: 0
+Closed fieldline pixels: 399
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1202
+Open fieldline pixels: 0
+Closed fieldline pixels: 1202
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 395
+Open fieldline pixels: 0
+Closed fieldline pixels: 395
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 43
+Open fieldline pixels: 0
+Closed fieldline pixels: 43
+
+AR 12087: FIP bias vs mean magnetic field strength
+
+AR 12104: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 12727
+Open fieldline pixels: 99
+Closed fieldline pixels: 12628
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 20580
+Open fieldline pixels: 318
+Closed fieldline pixels: 20262
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11059
+Open fieldline pixels: 140
+Closed fieldline pixels: 10919
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7562
+Open fieldline pixels: 48
+Closed fieldline pixels: 7514
+
+AR 12104: FIP bias vs mean magnetic field strength
+
+AR 12107: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 13647
+Open fieldline pixels: 99
+Closed fieldline pixels: 13548
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 22039
+Open fieldline pixels: 318
+Closed fieldline pixels: 21721
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11764
+Open fieldline pixels: 140
+Closed fieldline pixels: 11624
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7857
+Open fieldline pixels: 48
+Closed fieldline pixels: 7809
+
+AR 12107: FIP bias vs mean magnetic field strength
+
+AR 12132: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1435
+Open fieldline pixels: 0
+Closed fieldline pixels: 1435
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2285
+Open fieldline pixels: 0
+Closed fieldline pixels: 2285
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1562
+Open fieldline pixels: 0
+Closed fieldline pixels: 1562
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1097
+Open fieldline pixels: 0
+Closed fieldline pixels: 1097
+
+AR 12132: FIP bias vs mean magnetic field strength
+
+AR 12135: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 271
+Open fieldline pixels: 0
+Closed fieldline pixels: 271
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1744
+Open fieldline pixels: 0
+Closed fieldline pixels: 1744
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 351
+Open fieldline pixels: 0
+Closed fieldline pixels: 351
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 46
+Open fieldline pixels: 0
+Closed fieldline pixels: 46
+
+AR 12135: FIP bias vs mean magnetic field strength
+
+AR 12282: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7466
+Open fieldline pixels: 0
+Closed fieldline pixels: 7466
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 20170
+Open fieldline pixels: 0
+Closed fieldline pixels: 20170
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 12085
+Open fieldline pixels: 0
+Closed fieldline pixels: 12085
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3570
+Open fieldline pixels: 0
+Closed fieldline pixels: 3570
+
+AR 12282: FIP bias vs mean magnetic field strength
+
+AR 12289: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 471
+Open fieldline pixels: 0
+Closed fieldline pixels: 471
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11256
+Open fieldline pixels: 16
+Closed fieldline pixels: 11240
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5370
+Open fieldline pixels: 17
+Closed fieldline pixels: 5353
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 171
+Open fieldline pixels: 0
+Closed fieldline pixels: 171
+
+AR 12289: FIP bias vs mean magnetic field strength
+
+AR 12297: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3206
+Open fieldline pixels: 0
+Closed fieldline pixels: 3206
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5740
+Open fieldline pixels: 0
+Closed fieldline pixels: 5740
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2239
+Open fieldline pixels: 0
+Closed fieldline pixels: 2239
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 940
+Open fieldline pixels: 0
+Closed fieldline pixels: 940
+
+AR 12297: FIP bias vs mean magnetic field strength
+
+AR 12333: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1616
+Open fieldline pixels: 62
+Closed fieldline pixels: 1554
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5914
+Open fieldline pixels: 487
+Closed fieldline pixels: 5427
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2899
+Open fieldline pixels: 374
+Closed fieldline pixels: 2525
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1167
+Open fieldline pixels: 165
+Closed fieldline pixels: 1002
+
+AR 12333: FIP bias vs mean magnetic field strength
+
+AR 12335: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5205
+Open fieldline pixels: 0
+Closed fieldline pixels: 5205
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 9799
+Open fieldline pixels: 299
+Closed fieldline pixels: 9500
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1364
+Open fieldline pixels: 78
+Closed fieldline pixels: 1286
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 527
+Open fieldline pixels: 0
+Closed fieldline pixels: 527
+
+AR 12335: FIP bias vs mean magnetic field strength
+
+AR 12351: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 107
+Open fieldline pixels: 2
+Closed fieldline pixels: 105
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1627
+Open fieldline pixels: 3
+Closed fieldline pixels: 1624
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1205
+Open fieldline pixels: 23
+Closed fieldline pixels: 1182
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 115
+Open fieldline pixels: 12
+Closed fieldline pixels: 103
+
+AR 12351: FIP bias vs mean magnetic field strength
+
+AR 12362: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2691
+Open fieldline pixels: 42
+Closed fieldline pixels: 2649
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 29822
+Open fieldline pixels: 441
+Closed fieldline pixels: 29381
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 524
+Open fieldline pixels: 0
+Closed fieldline pixels: 524
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7194
+Open fieldline pixels: 196
+Closed fieldline pixels: 6998
+
+AR 12362: FIP bias vs mean magnetic field strength
+
+AR 12371: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 8481
+Open fieldline pixels: 786
+Closed fieldline pixels: 7695
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 10547
+Open fieldline pixels: 1091
+Closed fieldline pixels: 9456
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4938
+Open fieldline pixels: 456
+Closed fieldline pixels: 4482
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2593
+Open fieldline pixels: 172
+Closed fieldline pixels: 2421
+
+AR 12371: FIP bias vs mean magnetic field strength
+
+AR 12376: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2671
+Open fieldline pixels: 165
+Closed fieldline pixels: 2506
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 16842
+Open fieldline pixels: 597
+Closed fieldline pixels: 16245
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3305
+Open fieldline pixels: 64
+Closed fieldline pixels: 3241
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 621
+Open fieldline pixels: 23
+Closed fieldline pixels: 598
+
+AR 12376: FIP bias vs mean magnetic field strength
+
+AR 12381: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4271
+Open fieldline pixels: 224
+Closed fieldline pixels: 4047
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 22798
+Open fieldline pixels: 998
+Closed fieldline pixels: 21800
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 10307
+Open fieldline pixels: 417
+Closed fieldline pixels: 9890
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2814
+Open fieldline pixels: 60
+Closed fieldline pixels: 2754
+
+AR 12381: FIP bias vs mean magnetic field strength
+
+AR 12387: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1314
+Open fieldline pixels: 19
+Closed fieldline pixels: 1295
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 9970
+Open fieldline pixels: 272
+Closed fieldline pixels: 9698
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 9074
+Open fieldline pixels: 308
+Closed fieldline pixels: 8766
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3377
+Open fieldline pixels: 55
+Closed fieldline pixels: 3322
+
+AR 12387: FIP bias vs mean magnetic field strength
+
+AR 12401: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 863
+Open fieldline pixels: 0
+Closed fieldline pixels: 863
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3452
+Open fieldline pixels: 0
+Closed fieldline pixels: 3452
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2820
+Open fieldline pixels: 0
+Closed fieldline pixels: 2820
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1309
+Open fieldline pixels: 0
+Closed fieldline pixels: 1309
+
+AR 12401: FIP bias vs mean magnetic field strength
+
+AR 12429: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1087
+Open fieldline pixels: 0
+Closed fieldline pixels: 1087
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3223
+Open fieldline pixels: 0
+Closed fieldline pixels: 3223
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3061
+Open fieldline pixels: 0
+Closed fieldline pixels: 3061
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 671
+Open fieldline pixels: 0
+Closed fieldline pixels: 671
+
+AR 12429: FIP bias vs mean magnetic field strength
+
+AR 12434: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1633
+Open fieldline pixels: 9
+Closed fieldline pixels: 1624
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 9499
+Open fieldline pixels: 79
+Closed fieldline pixels: 9420
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4870
+Open fieldline pixels: 10
+Closed fieldline pixels: 4860
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1250
+Open fieldline pixels: 9
+Closed fieldline pixels: 1241
+
+AR 12434: FIP bias vs mean magnetic field strength
+
+AR 12436: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 845
+Open fieldline pixels: 9
+Closed fieldline pixels: 836
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7558
+Open fieldline pixels: 79
+Closed fieldline pixels: 7479
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3764
+Open fieldline pixels: 10
+Closed fieldline pixels: 3754
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 857
+Open fieldline pixels: 9
+Closed fieldline pixels: 848
+
+AR 12436: FIP bias vs mean magnetic field strength
+
+AR 12470: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4640
+Open fieldline pixels: 27
+Closed fieldline pixels: 4613
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 8807
+Open fieldline pixels: 68
+Closed fieldline pixels: 8739
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1680
+Open fieldline pixels: 8
+Closed fieldline pixels: 1672
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1350
+Open fieldline pixels: 3
+Closed fieldline pixels: 1347
+
+AR 12470: FIP bias vs mean magnetic field strength
+
+AR 12519: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 657
+Open fieldline pixels: 0
+Closed fieldline pixels: 657
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3125
+Open fieldline pixels: 0
+Closed fieldline pixels: 3125
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2341
+Open fieldline pixels: 0
+Closed fieldline pixels: 2341
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 886
+Open fieldline pixels: 0
+Closed fieldline pixels: 886
+
+AR 12519: FIP bias vs mean magnetic field strength
+
+AR 12524: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3069
+Open fieldline pixels: 46
+Closed fieldline pixels: 3023
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 17308
+Open fieldline pixels: 225
+Closed fieldline pixels: 17083
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 14414
+Open fieldline pixels: 246
+Closed fieldline pixels: 14168
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5479
+Open fieldline pixels: 57
+Closed fieldline pixels: 5422
+
+AR 12524: FIP bias vs mean magnetic field strength
+
+AR 12532: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1246
+Open fieldline pixels: 10
+Closed fieldline pixels: 1236
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5306
+Open fieldline pixels: 95
+Closed fieldline pixels: 5211
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3591
+Open fieldline pixels: 121
+Closed fieldline pixels: 3470
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1319
+Open fieldline pixels: 14
+Closed fieldline pixels: 1305
+
+AR 12532: FIP bias vs mean magnetic field strength
+
+AR 12539: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 305
+Open fieldline pixels: 0
+Closed fieldline pixels: 305
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3861
+Open fieldline pixels: 0
+Closed fieldline pixels: 3861
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1457
+Open fieldline pixels: 0
+Closed fieldline pixels: 1457
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 423
+Open fieldline pixels: 0
+Closed fieldline pixels: 423
+
+AR 12539: FIP bias vs mean magnetic field strength
+
+AR 12546: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11987
+Open fieldline pixels: 113
+Closed fieldline pixels: 11874
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 13144
+Open fieldline pixels: 106
+Closed fieldline pixels: 13038
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4362
+Open fieldline pixels: 24
+Closed fieldline pixels: 4338
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1992
+Open fieldline pixels: 17
+Closed fieldline pixels: 1975
+
+AR 12546: FIP bias vs mean magnetic field strength
+
+AR 12553: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 212
+Open fieldline pixels: 3
+Closed fieldline pixels: 209
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 13503
+Open fieldline pixels: 13
+Closed fieldline pixels: 13490
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 313
+Open fieldline pixels: 0
+Closed fieldline pixels: 313
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 216
+Open fieldline pixels: 0
+Closed fieldline pixels: 216
+
+AR 12553: FIP bias vs mean magnetic field strength
+
+AR 12564: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 3945
+Open fieldline pixels: 48
+Closed fieldline pixels: 3897
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 7923
+Open fieldline pixels: 180
+Closed fieldline pixels: 7743
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5276
+Open fieldline pixels: 148
+Closed fieldline pixels: 5128
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2440
+Open fieldline pixels: 76
+Closed fieldline pixels: 2364
+
+AR 12564: FIP bias vs mean magnetic field strength
+
+AR 12573: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 663
+Open fieldline pixels: 1
+Closed fieldline pixels: 662
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4402
+Open fieldline pixels: 5
+Closed fieldline pixels: 4397
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1064
+Open fieldline pixels: 3
+Closed fieldline pixels: 1061
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 655
+Open fieldline pixels: 0
+Closed fieldline pixels: 655
+
+AR 12573: FIP bias vs mean magnetic field strength
+
+AR 12574: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1419
+Open fieldline pixels: 59
+Closed fieldline pixels: 1360
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6804
+Open fieldline pixels: 104
+Closed fieldline pixels: 6700
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1064
+Open fieldline pixels: 3
+Closed fieldline pixels: 1061
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1467
+Open fieldline pixels: 55
+Closed fieldline pixels: 1412
+
+AR 12574: FIP bias vs mean magnetic field strength
+
+AR 12592: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 690
+Open fieldline pixels: 0
+Closed fieldline pixels: 690
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5853
+Open fieldline pixels: 0
+Closed fieldline pixels: 5853
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2564
+Open fieldline pixels: 0
+Closed fieldline pixels: 2564
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 285
+Open fieldline pixels: 0
+Closed fieldline pixels: 285
+
+AR 12592: FIP bias vs mean magnetic field strength
+
+AR 12602: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 859
+Open fieldline pixels: 0
+Closed fieldline pixels: 859
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 11533
+Open fieldline pixels: 9
+Closed fieldline pixels: 11524
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 8099
+Open fieldline pixels: 67
+Closed fieldline pixels: 8032
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1076
+Open fieldline pixels: 0
+Closed fieldline pixels: 1076
+
+AR 12602: FIP bias vs mean magnetic field strength
+
+AR 12665: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 10026
+Open fieldline pixels: 506
+Closed fieldline pixels: 9520
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 14355
+Open fieldline pixels: 696
+Closed fieldline pixels: 13659
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 5351
+Open fieldline pixels: 170
+Closed fieldline pixels: 5181
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2534
+Open fieldline pixels: 100
+Closed fieldline pixels: 2434
+
+AR 12665: FIP bias vs mean magnetic field strength
+
+AR 12672: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 318
+Open fieldline pixels: 0
+Closed fieldline pixels: 318
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2777
+Open fieldline pixels: 0
+Closed fieldline pixels: 2777
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 1210
+Open fieldline pixels: 0
+Closed fieldline pixels: 1210
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 446
+Open fieldline pixels: 0
+Closed fieldline pixels: 446
+
+AR 12672: FIP bias vs mean magnetic field strength
+
+AR 12680: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 46
+Open fieldline pixels: 0
+Closed fieldline pixels: 46
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2005
+Open fieldline pixels: 0
+Closed fieldline pixels: 2005
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4722
+Open fieldline pixels: 2
+Closed fieldline pixels: 4720
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 454
+Open fieldline pixels: 0
+Closed fieldline pixels: 454
+
+AR 12680: FIP bias vs mean magnetic field strength
+
+AR 12685: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 19
+Open fieldline pixels: 0
+Closed fieldline pixels: 19
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 6908
+Open fieldline pixels: 50
+Closed fieldline pixels: 6858
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4838
+Open fieldline pixels: 116
+Closed fieldline pixels: 4722
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 321
+Open fieldline pixels: 0
+Closed fieldline pixels: 321
+
+AR 12685: FIP bias vs mean magnetic field strength
+
+AR 12687: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 120
+Open fieldline pixels: 0
+Closed fieldline pixels: 120
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 17058
+Open fieldline pixels: 122
+Closed fieldline pixels: 16936
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 24974
+Open fieldline pixels: 174
+Closed fieldline pixels: 24800
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 2010
+Open fieldline pixels: 4
+Closed fieldline pixels: 2006
+
+AR 12687: FIP bias vs mean magnetic field strength
+
+AR 12759: FIP bias vs loop length
+
+=== Final Summary for CaAr ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 426
+Open fieldline pixels: 0
+Closed fieldline pixels: 426
+
+=== Final Summary for FeS ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4434
+Open fieldline pixels: 0
+Closed fieldline pixels: 4434
+
+=== Final Summary for sis ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 4297
+Open fieldline pixels: 0
+Closed fieldline pixels: 4297
+
+=== Final Summary for sar ===
+Total abundance NaNs: 0
+Total loop length NaNs: 0
+Valid pixels (not NaN in both): 737
+Open fieldline pixels: 0
+Closed fieldline pixels: 737
+
+AR 12759: FIP bias vs mean magnetic field strength
+
 All ARs: FIP bias vs loop length diagnostics
 
 === Final Summary for CaAr ===
 Total abundance NaNs: 0
 Total loop length NaNs: 0
-Valid pixels (not NaN in both): 11441
-Open fieldline pixels: 116
-Closed fieldline pixels: 11325
+Valid pixels (not NaN in both): 178404
+Open fieldline pixels: 3766
+Closed fieldline pixels: 174638
 
 === Final Summary for FeS ===
 Total abundance NaNs: 0
 Total loop length NaNs: 0
-Valid pixels (not NaN in both): 15057
-Open fieldline pixels: 169
-Closed fieldline pixels: 14888
+Valid pixels (not NaN in both): 543767
+Open fieldline pixels: 9579
+Closed fieldline pixels: 534188
 
 === Final Summary for sis ===
 Total abundance NaNs: 0
 Total loop length NaNs: 0
-Valid pixels (not NaN in both): 7371
-Open fieldline pixels: 102
-Closed fieldline pixels: 7269
+Valid pixels (not NaN in both): 252008
+Open fieldline pixels: 4066
+Closed fieldline pixels: 247942
 
 === Final Summary for sar ===
 Total abundance NaNs: 0
 Total loop length NaNs: 0
-Valid pixels (not NaN in both): 5261
-Open fieldline pixels: 33
-Closed fieldline pixels: 5228
+Valid pixels (not NaN in both): 102482
+Open fieldline pixels: 1645
+Closed fieldline pixels: 100837
 
 All ARs: FIP bias vs mean magnetic field strength diagnostics
 
 === Final Summary for CaAr ===
 Total abundance NaNs: 0
 Total magnetic field NaNs: 0
-Valid pixels (not NaN in both): 11442
-Open fieldline pixels: 116
-Closed fieldline pixels: 11326
-B-field range: 2.35 to 3746.80
-B-field mean: 348.88, median: 237.43
+Valid pixels (not NaN in both): 178404
+Open fieldline pixels: 3764
+Closed fieldline pixels: 174640
+B-field range: 1.04 to 3746.80
+B-field mean: 197.80, median: 124.39
 
-[CaAr] Valid closed pixels: < 150 G = 3378, >= 150 G = 7948
+[CaAr] Valid closed pixels: < 119.70423215735416 G = 83030, >= 119.70423215735416 G = 91610
 
 === Final Summary for FeS ===
 Total abundance NaNs: 0
 Total magnetic field NaNs: 0
-Valid pixels (not NaN in both): 15055
-Open fieldline pixels: 169
-Closed fieldline pixels: 14886
-B-field range: 1.28 to 3746.80
-B-field mean: 289.46, median: 184.50
+Valid pixels (not NaN in both): 543651
+Open fieldline pixels: 9543
+Closed fieldline pixels: 534108
+B-field range: 1.00 to 3746.80
+B-field mean: 121.79, median: 66.45
 
-[FeS] Valid closed pixels: < 150 G = 6343, >= 150 G = 8543
+[FeS] Valid closed pixels: < 38.79617884912225 G = 167091, >= 38.79617884912225 G = 367017
 
 === Final Summary for sis ===
 Total abundance NaNs: 0
 Total magnetic field NaNs: 0
-Valid pixels (not NaN in both): 7370
-Open fieldline pixels: 102
-Closed fieldline pixels: 7268
-B-field range: 1.78 to 3746.80
-B-field mean: 325.32, median: 195.82
+Valid pixels (not NaN in both): 251788
+Open fieldline pixels: 3973
+Closed fieldline pixels: 247815
+B-field range: 1.00 to 3746.80
+B-field mean: 117.63, median: 62.17
 
-[sis] Valid closed pixels: < 150 G = 3000, >= 150 G = 4268
+[sis] Valid closed pixels: < 26.642066365052624 G = 63961, >= 26.642066365052624 G = 183854
 
 === Final Summary for sar ===
 Total abundance NaNs: 0
 Total magnetic field NaNs: 0
-Valid pixels (not NaN in both): 5261
-Open fieldline pixels: 33
-Closed fieldline pixels: 5228
-B-field range: 4.33 to 3746.80
-B-field mean: 445.93, median: 284.49
+Valid pixels (not NaN in both): 102454
+Open fieldline pixels: 1636
+Closed fieldline pixels: 100818
+B-field range: 1.01 to 3746.80
+B-field mean: 178.55, median: 104.92
 
-[sar] Valid closed pixels: < 150 G = 1315, >= 150 G = 3913
+[sar] Valid closed pixels: < 117.86929201250769 G = 53620, >= 117.86929201250769 G = 47198
 
