@@ -228,8 +228,9 @@ for ar_id in ar_list:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Loop length (km)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         ax.set_xscale("log")
@@ -248,18 +249,17 @@ for ar_id in ar_list:
         # ax.legend([logfit_line], [logfit_label], loc=legend_loc, fontsize=13, frameon=True)
 
         if element == "sar":
-            # Combine log fit + main legend
             handles, labels = ax.get_legend_handles_labels()
             ax.legend(
                 [logfit_line] + handles[0:5],
                 [logfit_label] + labels[0:5],
                 loc="upper left",
                 fontsize=20,
+                labelspacing=0.4,
                 frameon=True
             )
         else:
-            # Leave all other elements unchanged
-            ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
+            ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True, labelspacing=0.4)
 
     plt.tight_layout()
     outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_length.png")
@@ -565,8 +565,9 @@ for ar_id in ar_list:
         # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
         #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
@@ -768,8 +769,9 @@ with open(diagnostics_path, "a") as fdiag:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Loop length (km)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         ax.set_xscale("log")
@@ -988,8 +990,9 @@ with open(diagnostics_path, "a") as fdiag:
         # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
         #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
@@ -1062,6 +1065,7 @@ with open(diagnostics_path, "a") as fdiag:
                 loc="upper left",
                 fontsize=20,
                 frameon=True,
+                labelspacing=0.4,
                 fancybox=True
             )
         else:

@@ -283,8 +283,9 @@ for ar_id in ar_list:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Loop length (km)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         ax.set_xscale("log")
@@ -310,6 +311,7 @@ for ar_id in ar_list:
                 [logfit_label] + labels[0:5],
                 loc="upper left",
                 fontsize=20,
+                labelspacing=0.4,
                 frameon=True
             )
         else:
@@ -658,50 +660,15 @@ for ar_id in ar_list:
         # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
         #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(5, 3000)
-        # ax.legend()
-        # Only show full legend once
-        # if element == "sar":
-        #     main_legend = ax.legend(loc="upper right", fontsize=20)
-        #     ax.add_artist(main_legend)
-        
-        # # Always show log fit legend
-        # logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
-        # logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
-        # logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #                         alpha=1, zorder=4, linewidth=5)[0]
-        # logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #                         alpha=1, zorder=4, linewidth=5)[0]
-        
-        # # legend_loc = "upper left" if element == "sar" else "lower left"
-        # # ax.legend([logfit_line_low, logfit_line_high],
-        # #           [logfit_label_low, logfit_label_high],
-        # #           loc=legend_loc, fontsize=20, frameon=True)
-        # if element == "sar":
-        #     # Combine log fit + main legend in one box
-        #     handles, labels = ax.get_legend_handles_labels()
-        #     ax.legend(
-        #         [logfit_line_low, logfit_line_high] + handles[0:5],
-        #         [logfit_label_low, logfit_label_high] + labels[0:5],
-        #         loc="upper left",
-        #         fontsize=20,
-        #         frameon=True,
-        #         fancybox=True
-        #     )
-        # else:
-        #     # Only show log fit lines for other elements
-        #     ax.legend([logfit_line_low, logfit_line_high],
-        #             [logfit_label_low, logfit_label_high],
-        #             loc="lower left",
-        #             fontsize=20,
-        #             frameon=True)
         fit_lines = []
         fit_labels = []
 
@@ -730,10 +697,10 @@ for ar_id in ar_list:
                 loc="upper left",
                 fontsize=20,
                 frameon=True,
+                labelspacing=0.4,
                 fancybox=True
             )
         else:
-            # Only show fit legend if at least one fit exists
             if len(fit_lines) > 0:
                 ax.legend(
                     fit_lines, fit_labels,
@@ -859,37 +826,27 @@ with open(diagnostics_path, "a") as fdiag:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Loop length (km)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         ax.set_xscale("log")
         # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(1e3, 3e5)
-        # plt.xlim(1e3, 1.5e6) # to see open fieldlines
-        # plt.plot(x_fit, y_fit, color='red', linewidth=1, label=f'Best Fit: y = {slope:.2e}·log₁₀(x) + {intercept:.2e}', alpha=0.4)
-        # ax.legend()
-
-        # if element == "sar":
-        #     main_legend = ax.legend(loc="upper right", fontsize=12.4)
-        #     ax.add_artist(main_legend)
-        
-        # legend_loc = "upper left" if element == "sar" else "lower left"
-        # ax.legend([logfit_line], [logfit_label], loc=legend_loc, fontsize=13, frameon=True)
 
         if element == "sar":
-            # Combine log fit + main legend
             handles, labels = ax.get_legend_handles_labels()
             ax.legend(
                 [logfit_line] + handles[0:5],
                 [logfit_label] + labels[0:5],
                 loc="upper left",
                 fontsize=20,
+                labelspacing=0.4,
                 frameon=True
             )
         else:
-            # Leave all other elements unchanged
             ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
 
     outname = os.path.join(output_dir, "ARall_Abundance_length_with_fip.png")
@@ -1078,50 +1035,16 @@ with open(diagnostics_path, "a") as fdiag:
         # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
         #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)")
-        ax.set_ylabel("Intensity ratio (num/den)")
+        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(5, 3000)
-        # ax.legend()
-        # Only show full legend once
-        # if element == "sar":
-        #     main_legend = ax.legend(loc="upper right", fontsize=20)
-        #     ax.add_artist(main_legend)
-        
-        # # Always show log fit legend
-        # logfit_label_low = f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log_10(x)+{intercept_log_low:.2f}'
-        # logfit_label_high = f'Fit => {split_gauss}G: y={slope_log_high:.2e}·log_10(x)+{intercept_log_high:.2f}'
-        # logfit_line_low = ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #                         alpha=1, zorder=4, linewidth=5)[0]
-        # logfit_line_high = ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #                         alpha=1, zorder=4, linewidth=5)[0]
-        
-        # # legend_loc = "upper left" if element == "sar" else "lower left"
-        # # ax.legend([logfit_line_low, logfit_line_high],
-        # #           [logfit_label_low, logfit_label_high],
-        # #           loc=legend_loc, fontsize=20, frameon=True)
-        # if element == "sar":
-        #     # Combine log fit + main legend in one box
-        #     handles, labels = ax.get_legend_handles_labels()
-        #     ax.legend(
-        #         [logfit_line_low, logfit_line_high] + handles[0:5],
-        #         [logfit_label_low, logfit_label_high] + labels[0:5],
-        #         loc="upper left",
-        #         fontsize=20,
-        #         frameon=True,
-        #         fancybox=True
-        #     )
-        # else:
-        #     # Only show log fit lines for other elements
-        #     ax.legend([logfit_line_low, logfit_line_high],
-        #             [logfit_label_low, logfit_label_high],
-        #             loc="lower left",
-        #             fontsize=20,
-        #             frameon=True)
+
         fit_lines = []
         fit_labels = []
 
@@ -1143,7 +1066,6 @@ with open(diagnostics_path, "a") as fdiag:
             fit_lines.append(logfit_line_high)
             fit_labels.append(logfit_label_high)
 
-        # Legend handling 
         if element == "sar":
             handles, labels = ax.get_legend_handles_labels()
             ax.legend(
@@ -1152,10 +1074,10 @@ with open(diagnostics_path, "a") as fdiag:
                 loc="upper left",
                 fontsize=20,
                 frameon=True,
+                labelspacing=0.4,
                 fancybox=True
             )
         else:
-            # Only show fit legend if at least one fit exists
             if len(fit_lines) > 0:
                 ax.legend(
                     fit_lines, fit_labels,
