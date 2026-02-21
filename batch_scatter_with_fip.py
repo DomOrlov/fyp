@@ -312,7 +312,6 @@ for ar_id in ar_list:
                 frameon=True
             )
         else:
-            # Leave all other elements unchanged
             ax.legend([logfit_line], [logfit_label], loc="lower left", fontsize=20, frameon=True, fancybox=True)
 
     # plt.tight_layout()
@@ -805,7 +804,7 @@ with open(diagnostics_path, "a") as fdiag:
     # Plotting
     fig = plt.figure(figsize=(45, 24))
     fig.suptitle("All ARs: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
-    outer_grid = gridspec.GridSpec(2, 2, wspace=0.08, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 2, wspace=0.08, hspace=0.15)
     order = ["CaAr", "FeS", "sis", "sar"]
 
     for idx, element in enumerate(order):
