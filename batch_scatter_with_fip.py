@@ -143,7 +143,7 @@ for ar_id in ar_list:
             element_data_all[element]["open_mask"].append(open_mask_flat)
 
 
-    fig = plt.figure(figsize=(32, 18))
+    fig = plt.figure(figsize=(40, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs loop length", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
@@ -170,14 +170,13 @@ for ar_id in ar_list:
         # Right panel: scatter 
         ax = fig.add_subplot(outer_grid[row, scat_col])
         
-        # If nothing was appended for this element, skip
         if len(element_data[element]["abund"]) == 0:
-            print(f"{element}: no data appended. Skipping this panel.")
+            print(f"{element}: no data appended.")
             ax.set_title(f"{title[element]}\n(no data)")
             ax.axis("off")
             ax_map.axis("off")
             with open(diagnostics_path, "a") as fdiag:
-                fdiag.write(f"=== Final Summary for {element} ===\n")
+                fdiag.write(f"\nFinal Summary for {element}:\n")
                 fdiag.write("No data appended for this AR\n\n")
             continue
         abund_vals = np.concatenate(element_data[element]["abund"])
@@ -194,47 +193,38 @@ for ar_id in ar_list:
                 ax_map.set_ylim(y0, y1)
                 ax_map.set_autoscale_on(False)
             # ax_map.set_title("Cleaned ratio map", fontsize=14)
-            ax_map.set_title("Uncleaned ratio map", fontsize=14)
+            ax_map.set_title("Uncleaned ratio map", fontsize=20)
             # ax_map.coords[1].set_ticklabel_visible(False)
-            ax_map.coords[0].set_axislabel("Solar-X [arcsec]")
-            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]")
+            ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            ax_map.tick_params(axis="both", which="both", labelsize=20)
             ax_map.coords[0].set_ticklabel_visible(True)
             ax_map.coords[1].set_ticklabel_visible(True)
 
         # Need at least 2 points for regression
         if abund_vals.size < 2 or loop_vals.size < 2:
-            print(f"{element}: not enough valid points for regression (N={abund_vals.size}). Skipping fits.")
+            print(f"{element}: not enough valid points for regression (N={abund_vals.size})")
             ax.set_title(f"{title[element]}\n(no valid pixels)")
             ax.axis("off")
             with open(diagnostics_path, "a") as fdiag:
-                fdiag.write(f"=== Final Summary for {element} ===\n")
+                fdiag.write(f"\nFinal Summary for {element}:\n")
                 fdiag.write(f"Not enough valid points (N={abund_vals.size})\n\n")
             continue
 
-        print(f"\n=== Final Summary for {element} ===")
-        print("Total abundance NaNs:", np.isnan(abund_vals).sum())
-        print("Total loop length NaNs:", np.isnan(loop_vals).sum())
-        print("Valid pixels (not NaN in both):", len(abund_vals))
+        print(f"\nFinal Summary for {element}:\n")
+        print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
 
         with open(diagnostics_path, "a") as fdiag:
-            fdiag.write(f"=== Final Summary for {element} ===\n")
-            fdiag.write(f"Total abundance NaNs: {np.isnan(abund_vals).sum()}\n")
-            fdiag.write(f"Total loop length NaNs: {np.isnan(loop_vals).sum()}\n")
-            fdiag.write(f"Valid pixels (not NaN in both): {len(abund_vals)}\n")
+            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
             fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
             fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n\n")
 
         open_abund = abund_vals[open_mask_flat]
         open_loop = loop_vals[open_mask_flat]
         
-        # print(f"{element} open fieldline sample values (abund vs loop):")
-        # for i in range(min(10, len(open_abund))):
-        #     print(f"  {i}: Abundance = {open_abund[i]:.2f}, Loop Length = {open_loop[i]:.2f}")
-        # print(f"  Open points out of Y range (>1.5 or >4): {(open_abund > (1.5 if element == 'sar' else 4)).sum()}")
-        # print(f"  Open points out of X range (<1e3 or >3e5): {(open_loop < 1e3).sum()} below, {(open_loop > 3e5).sum()} above")
-
         # Linear regression
         slope_lin, intercept_lin, r_lin, p_lin, err_lin = linregress(loop_vals, abund_vals)
         x_fit_lin = np.linspace(min(loop_vals), max(loop_vals), 100)
@@ -247,7 +237,6 @@ for ar_id in ar_list:
         y_fit_log = slope_log * x_fit_log + intercept_log
         x_fit_log10 = 10 ** x_fit_log
 
-        # Binning
         bin_width = 5000
         max_length = 250000
         bins = np.arange(0, max_length + bin_width, bin_width)
@@ -284,7 +273,7 @@ for ar_id in ar_list:
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
         ax.set_xlabel("Loop length (km)", fontsize=20)
-        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.set_ylabel("Intensity ratio", fontsize=20)
         ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
@@ -292,16 +281,6 @@ for ar_id in ar_list:
         # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(1e3, 3e5)
-        # plt.xlim(1e3, 1.5e6) # to see open fieldlines
-        # plt.plot(x_fit, y_fit, color='red', linewidth=1, label=f'Best Fit: y = {slope:.2e}·log₁₀(x) + {intercept:.2e}', alpha=0.4)
-        # ax.legend()
-
-        # if element == "sar":
-        #     main_legend = ax.legend(loc="upper right", fontsize=12.4)
-        #     ax.add_artist(main_legend)
-        
-        # legend_loc = "upper left" if element == "sar" else "lower left"
-        # ax.legend([logfit_line], [logfit_label], loc=legend_loc, fontsize=13, frameon=True)
 
         if element == "sar":
             # Combine log fit + main legend
@@ -325,12 +304,6 @@ for ar_id in ar_list:
     print(f"Saved: {outname}")
 
     for B_path in mean_B_files:
-        # # cleaned_intensity_map_ratio_<YYYY>_<MM>_<DD>__<HH>_<MM>_<SS>_Ca_Ar.fits
-        # base = os.path.basename(ab_path)
-        # parts = base.split("_")
-        # # join the datetime pieces back together: 2014_02_01__10_50_35
-        # datetime_str = "_".join(parts[4:11])   # -> 2014_02_01__10_50_35
-        # datetime_str = os.path.basename(ab_path).split("cleaned_relerr_intensity_map_ratio_")[1].split("_Ca_Ar.fits")[0]
         basename = os.path.basename(B_path)
         datetime_str = "_".join(basename.split("_")[4:])[:-5]
 
@@ -392,10 +365,6 @@ for ar_id in ar_list:
             # closed_loop_vals = loop_length_valid[~open_flat.astype(bool)] # Extracts loop lengths for closed fieldlines only. open_flat.astype(bool) : [1, 0, 1] into [True, False, True]
             closed_loop_vals = loop_length_valid[~open_flat]
 
-            # element_data[element]["abund"].append(abund_vals) # Dictionary of all valid abundances
-            # element_data[element]["B"].append(B_strength)
-            # element_data[element]["open_mask"].append(open_flat)
-            # element_data[element]["length"].append(closed_loop_vals)
             element_data_B[element]["abund"].append(abund_vals)
             element_data_B[element]["B"].append(B_strength)
             element_data_B[element]["open_mask"].append(open_flat)
@@ -411,7 +380,7 @@ for ar_id in ar_list:
             # Create a grid of (x, y) pixel coordinates for the whole map
             ny, nx = abundance.shape
             y_grid, x_grid = np.meshgrid(np.arange(ny), np.arange(nx), indexing="ij")
-            pix_coords = np.stack((x_grid, y_grid), axis=-1).reshape(-1, 2)  # (N, 2) in (x, y) format
+            pix_coords = np.stack((x_grid, y_grid), axis=-1).reshape(-1, 2) 
         
             # Only keep valid pixels based on previous mask
             start_pix = pix_coords[valid_mask.flatten()][valid_range_mask]
@@ -420,8 +389,6 @@ for ar_id in ar_list:
             element_data_B[element]["start_pix"].append(start_pix)
             
             element_data_B[element]["datetime"].append(datetime_str)
-            # Here we seperate data sets based on std below and above the log-linear regression (original single) (PER-RASTER)
-            # Full-range log-linear regression (needed for residuals)
             log_B = np.log10(B_strength)
             slope_log, intercept_log, *_ = linregress(log_B, abund_vals)
         
@@ -446,28 +413,15 @@ for ar_id in ar_list:
             element_data_all_B[element]["start_pix_above"].append(start_pix[above_mask])
             element_data_all_B[element]["start_pix_below"].append(start_pix[below_mask])
 
-            # element_data[element]["datetime_above"].append([datetime_str] * np.sum(above_mask))
-            # element_data[element]["datetime_below"].append([datetime_str] * np.sum(below_mask))
-
-
-            # print(f"{element} Raster {datetime_str}")
-            # print(f"  Valid points: {len(abund_vals)}")
-            # print(f"  +1σ count: {np.sum(above_mask)}")
-            # print(f"  –1σ count: {np.sum(below_mask)}")
         
     # Plotting
-    fig = plt.figure(figsize=(32, 18))
+    fig = plt.figure(figsize=(40, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
     outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
-    # for idx, element in enumerate(order):
-    #     inner_grid = gridspec.GridSpecFromSubplotSpec(1, 2, width_ratios=[24, 1], wspace=0.05,
-    #                                                 subplot_spec=outer_grid[idx])
-    #     ax = fig.add_subplot(inner_grid[0])
-    #     cax = fig.add_subplot(inner_grid[1]) if element in show_colorbar_for else None
     for idx, element in enumerate(order):
         row = idx // 2
         pair = idx % 2
@@ -495,18 +449,16 @@ for ar_id in ar_list:
             ax_map.axis("off")
             ax.set_title(f"{title[element]}\n(no data)")
             ax.axis("off")
+            with open(diagnostics_path, "a") as fdiag:
+                fdiag.write(f"\nFinal Summary for {element}:\n")
+                fdiag.write("No data appended for this AR\n\n")
             continue
         abund_vals = np.concatenate(element_data_B[element]["abund"])
         B_vals = np.concatenate(element_data_B[element]["B"])
         open_mask_flat = np.concatenate(element_data_B[element]["open_mask"]).astype(bool)
         loop_length_vals = np.concatenate(element_data_B[element]["loop"])
         closed_mask_flat = ~open_mask_flat # Tells Boolean NOT to identify closed fieldlines.
-        # start_pix = np.concatenate(element_data[element]["start_pix"])
-        # datetimes = np.concatenate([
-        #     [dt] * len(abund)  # Repeat this datetime for every pixel in this raster
-        #     for dt, abund in zip(element_data[element]["datetime"], element_data[element]["abund"])
-        # ])
-        # Plot the representative cleaned ratio map on the left
+
         if display_map[element] is not None:
             # For the B-figure, keep the same visual scale across elements
             display_map[element].plot(axes=ax_map, vmin=0, vmax=4.0, cmap="viridis")
@@ -516,21 +468,29 @@ for ar_id in ar_list:
                 ax_map.set_ylim(y0, y1)
                 ax_map.set_autoscale_on(False)
             # ax_map.set_title("Cleaned ratio map", fontsize=14)
-            ax_map.set_title("Uncleaned ratio map", fontsize=14)
+            ax_map.set_title("Uncleaned ratio map", fontsize=20)
             # ax_map.coords[1].set_ticklabel_visible(False)
-            ax_map.coords[0].set_axislabel("Solar-X [arcsec]")
-            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]")
+            ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            ax_map.tick_params(axis="both", which="both", labelsize=20)
             ax_map.coords[0].set_ticklabel_visible(True)
             ax_map.coords[1].set_ticklabel_visible(True)
         
-        print(f"\n=== Final Summary for {element} ===")
-        print("Total abundance NaNs:", np.isnan(abund_vals).sum())
-        print("Total magnetic field NaNs:", np.isnan(B_vals).sum())
-        print("Valid pixels (not NaN in both):", len(abund_vals))
+        print(f"\nFinal Summary for {element}:")
+        print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
         print(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}")
         print(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}")
+
+        with open(diagnostics_path, "a") as fdiag:
+            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
+            fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
+            fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n")
+            fdiag.write(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}\n")
+            fdiag.write(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}\n")
+            fdiag.write("\n")
 
         # Split data at {split_gauss} Gauss
         split_gauss = 150
@@ -542,29 +502,6 @@ for ar_id in ar_list:
 
         have_low = n_low >= 2
         have_high = n_high >= 2
-        
-        # # Linear Regression (2 segments) 
-        # slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
-        # slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
-        
-        # x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
-        # x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
-        
-        # y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
-        # y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
-        
-        # # Log-Linear Regression (2 segments) 
-        # log_B_low = np.log10(B_vals[mask_low])
-        # log_B_high = np.log10(B_vals[mask_high])
-        
-        # slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
-        # slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
-        
-        # x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
-        # x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
-        
-        # y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
-        # y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
 
         slope_lin_low = intercept_lin_low = None
         slope_lin_high = intercept_lin_high = None
@@ -607,7 +544,6 @@ for ar_id in ar_list:
             bin_mask = (B_vals >= bins[i]) & (B_vals < bins[i + 1])
             bin_abund = abund_vals[bin_mask]
             if len(bin_abund) > 5:
-                # print(f"Bin {bins[i]:.1f}–{bins[i+1]:.1f} G: {len(bin_abund)} points")
                 mean_vals.append(np.mean(bin_abund))
                 median_vals.append(np.median(bin_abund))
                 p25_vals.append(np.percentile(bin_abund, 25))
@@ -629,13 +565,8 @@ for ar_id in ar_list:
             )
             return new_cmap
         
-        # Get truncated colormap
         original_cmap = plt.cm.cividis
         cropped_cmap = truncate_colormap(original_cmap, 0, 0.9)
-
-        # plt.figure(figsize=(8, 6))
-
-        # fig = plt.figure(figsize=(8, 6))
 
         ax.fill_between(center_vals, p25_vals, p75_vals, color="gray", alpha=0.3, label="25–75th percentile")
         ax.plot(center_vals, mean_vals, color="blue", label="Mean", linewidth=3, alpha=1, zorder=4, linestyle="--")
@@ -644,24 +575,12 @@ for ar_id in ar_list:
         sc = ax.scatter(B_vals[closed_mask_flat], abund_vals[closed_mask_flat], s=4, alpha=0.4, c=loop_length_vals, cmap=cropped_cmap, label="Closed Fieldlines", zorder=2, vmin = 0, vmax = 0.1e6)
         if cax is not None:
             cbar = fig.colorbar(sc, cax=cax)
-            cbar.set_label("Loop length (km)")
+            cbar.set_label("Loop length (km)", fontsize=20)
+            cbar.ax.tick_params(labelsize=20)
 
-            
-        # ax.scatter(B_vals[open_mask_flat], abund_vals[open_mask_flat], s=15, alpha=1, color="#006400", label="Open")
-
-        
-        # plt.plot(x_fit_log10, y_fit_log, color='red', linewidth=1, label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=0.8, zorder=4)
-        # ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #          label=f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log₁₀(x)+{intercept_log_low:.2f}', alpha=1, zorder=4, linewidth=2.3)
-        # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #          label=f'Fit ≥ {split_gauss}G: y={slope_log_high:.2e}·log₁₀(x)+{intercept_log_high:.2f}', alpha=1, zorder=4, linewidth=3)
-        # ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #          alpha=1, zorder=4, linewidth=2.3)
-        # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
         ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
-        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.set_ylabel("Intensity ratio", fontsize=20)
         ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
@@ -713,6 +632,8 @@ for ar_id in ar_list:
         valid_pixels_low = np.sum(mask_low & closed_mask_flat)
         valid_pixels_high = np.sum(mask_high & closed_mask_flat)
         print(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}")
+        with open(diagnostics_path, "a") as fdiag:
+            fdiag.write(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}\n\n")
 
 
     outname = os.path.join(output_dir, f"AR{ar_id}_Abundance_B_with_fip.png")
@@ -720,18 +641,11 @@ for ar_id in ar_list:
     plt.close(fig)
     print(f"Saved: {outname}")
 
-
-# fig = plt.figure(figsize=(24, 18))
-# fig.suptitle("All ARs: FIP bias vs loop length", fontsize=28, y=0.92)
-# outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.2)
-# order = ["CaAr", "FeS", "sis", "sar"]
-
-# for idx, element in enumerate(order):
 with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs loop length diagnostics\n\n")
 
 
-    fig = plt.figure(figsize=(32, 18))
+    fig = plt.figure(figsize=(40, 24))
     fig.suptitle("All ARs: FIP bias vs loop length", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
@@ -751,23 +665,20 @@ with open(diagnostics_path, "a") as fdiag:
         closed_mask_flat = ~open_mask_flat
 
         if abund_vals.size < 2 or loop_vals.size < 2:
-            print(f"{element}: not enough ALL-AR points for regression (N={abund_vals.size}). Skipping fits.")
+            print(f"{element}: not enough ALL-AR points for regression (N={abund_vals.size}).")
             ax.set_title(f"{title[element]}\n(no valid pixels)")
             ax.axis("off")
             continue
 
-        print(f"\n=== Final Summary for {element} ===")
-        print("Total abundance NaNs:", np.isnan(abund_vals).sum())
-        print("Total loop length NaNs:", np.isnan(loop_vals).sum())
-        print("Valid pixels (not NaN in both):", len(abund_vals))
+        print(f"\nFinal Summary for {element}:\n")
+        print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
-        fdiag.write(f"=== Final Summary for {element} ===\n")
-        fdiag.write(f"Total abundance NaNs: {np.isnan(abund_vals).sum()}\n")
-        fdiag.write(f"Total loop length NaNs: {np.isnan(loop_vals).sum()}\n")
-        fdiag.write(f"Valid pixels (not NaN in both): {len(abund_vals)}\n")
-        fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
-        fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n\n")
+        with open(diagnostics_path, "a") as fdiag:
+            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
+            fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
+            fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n\n")
         
         open_abund = abund_vals[open_mask_flat]
         open_loop = loop_vals[open_mask_flat]
@@ -827,7 +738,7 @@ with open(diagnostics_path, "a") as fdiag:
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
         ax.set_xlabel("Loop length (km)", fontsize=20)
-        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.set_ylabel("Intensity ratio", fontsize=20)
         ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
@@ -859,7 +770,7 @@ with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs mean magnetic field strength diagnostics\n\n")
 
     # Plotting
-    fig = plt.figure(figsize=(32, 18))
+    fig = plt.figure(figsize=(40, 24))
     fig.suptitle("All ARs: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.08, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
@@ -880,30 +791,23 @@ with open(diagnostics_path, "a") as fdiag:
         open_mask_flat = np.concatenate(element_data_all_B[element]["open_mask"]).astype(bool)
         loop_length_vals = np.concatenate(element_data_all_B[element]["loop"])
         closed_mask_flat = ~open_mask_flat # Tells Boolean NOT to identify closed fieldlines.
-        # start_pix = np.concatenate(element_data[element]["start_pix"])
-        # datetimes = np.concatenate([
-        #     [dt] * len(abund)  # Repeat this datetime for every pixel in this raster
-        #     for dt, abund in zip(element_data[element]["datetime"], element_data[element]["abund"])
-        # ])
+
         
-        print(f"\n=== Final Summary for {element} ===")
-        print("Total abundance NaNs:", np.isnan(abund_vals).sum())
-        print("Total magnetic field NaNs:", np.isnan(B_vals).sum())
-        print("Valid pixels (not NaN in both):", len(abund_vals))
+        print(f"\nFinal Summary for {element}:\n")
+        print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
         print(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}")
         print(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}")
 
-        fdiag.write(f"=== Final Summary for {element} ===\n")
-        fdiag.write(f"Total abundance NaNs: {np.isnan(abund_vals).sum()}\n")
-        fdiag.write(f"Total magnetic field NaNs: {np.isnan(B_vals).sum()}\n")
-        fdiag.write(f"Valid pixels (not NaN in both): {len(abund_vals)}\n")
-        fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
-        fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n")
-        fdiag.write(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}\n")
-        fdiag.write(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}\n")
-        fdiag.write("\n")
+        with open(diagnostics_path, "a") as fdiag:
+            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
+            fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
+            fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n")
+            fdiag.write(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}\n")
+            fdiag.write(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}\n")
+            fdiag.write("\n")
 
 
         # Split data at {split_gauss} Gauss
@@ -917,29 +821,6 @@ with open(diagnostics_path, "a") as fdiag:
         have_low = n_low >= 2
         have_high = n_high >= 2
         
-        # # Linear Regression (2 segments) 
-        # slope_lin_low, intercept_lin_low, *_ = linregress(B_vals[mask_low], abund_vals[mask_low])
-        # slope_lin_high, intercept_lin_high, *_ = linregress(B_vals[mask_high], abund_vals[mask_high])
-        
-        # x_fit_lin_low = np.linspace(B_vals[mask_low].min(), split_gauss, 100)
-        # x_fit_lin_high = np.linspace(split_gauss, B_vals[mask_high].max(), 100)
-        
-        # y_fit_lin_low = slope_lin_low * x_fit_lin_low + intercept_lin_low
-        # y_fit_lin_high = slope_lin_high * x_fit_lin_high + intercept_lin_high
-        
-        # # Log-Linear Regression (2 segments) 
-        # log_B_low = np.log10(B_vals[mask_low])
-        # log_B_high = np.log10(B_vals[mask_high])
-        
-        # slope_log_low, intercept_log_low, *_ = linregress(log_B_low, abund_vals[mask_low])
-        # slope_log_high, intercept_log_high, *_ = linregress(log_B_high, abund_vals[mask_high])
-        
-        # x_fit_log10_low = np.logspace(np.log10(B_vals[mask_low].min()), np.log10(split_gauss), 100)
-        # x_fit_log10_high = np.logspace(np.log10(split_gauss), np.log10(B_vals[mask_high].max()), 100)
-        
-        # y_fit_log_low = slope_log_low * np.log10(x_fit_log10_low) + intercept_log_low
-        # y_fit_log_high = slope_log_high * np.log10(x_fit_log10_high) + intercept_log_high
-
         slope_lin_low = intercept_lin_low = None
         slope_lin_high = intercept_lin_high = None
         slope_log_low = intercept_log_low = None
@@ -1008,10 +889,6 @@ with open(diagnostics_path, "a") as fdiag:
         original_cmap = plt.cm.cividis
         cropped_cmap = truncate_colormap(original_cmap, 0, 0.9)
 
-        # plt.figure(figsize=(8, 6))
-
-        # fig = plt.figure(figsize=(8, 6))
-
         ax.fill_between(center_vals, p25_vals, p75_vals, color="gray", alpha=0.3, label="25–75th percentile")
         ax.plot(center_vals, mean_vals, color="blue", label="Mean", linewidth=3, alpha=1, zorder=4, linestyle="--")
         ax.plot(center_vals, median_vals, color="#006400", label="Median", linewidth=3, alpha=1, zorder=4, linestyle="--")
@@ -1019,29 +896,16 @@ with open(diagnostics_path, "a") as fdiag:
         sc = ax.scatter(B_vals[closed_mask_flat], abund_vals[closed_mask_flat], s=4, alpha=0.4, c=loop_length_vals, cmap=cropped_cmap, label="Closed Fieldlines", zorder=2, vmin = 0, vmax = 0.1e6)
         if cax is not None:
             cbar = fig.colorbar(sc, cax=cax)
-            cbar.set_label("Loop length (km)")
+            cbar.set_label("Loop length (km)", fontsize=20)
+            cbar.ax.tick_params(labelsize=20)
 
-            
-        # ax.scatter(B_vals[open_mask_flat], abund_vals[open_mask_flat], s=15, alpha=1, color="#006400", label="Open")
-
-        
-        # plt.plot(x_fit_log10, y_fit_log, color='red', linewidth=1, label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=0.8, zorder=4)
-        # ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #          label=f'Fit < {split_gauss}G: y={slope_log_low:.2e}·log₁₀(x)+{intercept_log_low:.2f}', alpha=1, zorder=4, linewidth=2.3)
-        # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #          label=f'Fit ≥ {split_gauss}G: y={slope_log_high:.2e}·log₁₀(x)+{intercept_log_high:.2f}', alpha=1, zorder=4, linewidth=3)
-        # ax.plot(x_fit_log10_low, y_fit_log_low, color='red', linestyle='--',
-        #          alpha=1, zorder=4, linewidth=2.3)
-        # ax.plot(x_fit_log10_high, y_fit_log_high, color='red', linestyle='-',
-        #          alpha=1, zorder=4, linewidth=3)
         ax.set_xscale("log")
         ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
-        ax.set_ylabel("Intensity ratio (num/den)", fontsize=20)
+        ax.set_ylabel("Intensity ratio", fontsize=20)
         ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
-        # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(5, 3000)
 
@@ -1089,7 +953,8 @@ with open(diagnostics_path, "a") as fdiag:
         valid_pixels_low = np.sum(mask_low & closed_mask_flat)
         valid_pixels_high = np.sum(mask_high & closed_mask_flat)
         print(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}")
-        fdiag.write(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}\n\n")
+        with open(diagnostics_path, "a") as fdiag:
+            fdiag.write(f"[{element}] Valid closed pixels: < {split_gauss} G = {valid_pixels_low}, >= {split_gauss} G = {valid_pixels_high}\n\n")
 
 
     outname = os.path.join(output_dir, "ARall_Abundance_B_with_fip.png")
