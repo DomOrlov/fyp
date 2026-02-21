@@ -211,7 +211,7 @@ for ar_id in ar_list:
                 fdiag.write(f"Not enough valid points (N={abund_vals.size})\n\n")
             continue
 
-        print(f"\nFinal Summary for {element}:\n")
+        print(f"\nFinal Summary for {element}:")
         print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
@@ -670,7 +670,7 @@ with open(diagnostics_path, "a") as fdiag:
             ax.axis("off")
             continue
 
-        print(f"\nFinal Summary for {element}:\n")
+        print(f"\nFinal Summary for {element}:")
         print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
@@ -793,7 +793,7 @@ with open(diagnostics_path, "a") as fdiag:
         closed_mask_flat = ~open_mask_flat # Tells Boolean NOT to identify closed fieldlines.
 
         
-        print(f"\nFinal Summary for {element}:\n")
+        print(f"\nFinal Summary for {element}:")
         print("Valid pixels:", len(abund_vals))
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
