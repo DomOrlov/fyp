@@ -506,35 +506,63 @@ raster No. : 503  datetime: 2017_08_30__21_44_13  hale_class: Beta  AR_IDs: ['12
 raster No. : 504  datetime: 2017_08_30__23_22_55  hale_class: Beta  AR_IDs: ['12672']
 Beta: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 57509
+
+Final Summary for CaAr:
+Valid pixels: 57509
 Open fieldline pixels: 712
 Closed fieldline pixels: 56797
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 211624
+
+Final Summary for FeS:
+Valid pixels: 211624
 Open fieldline pixels: 2941
 Closed fieldline pixels: 208683
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 92712
+
+Final Summary for sis:
+Valid pixels: 92712
 Open fieldline pixels: 1317
 Closed fieldline pixels: 91395
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 35397
+
+Final Summary for sar:
+Valid pixels: 35397
 Open fieldline pixels: 455
 Closed fieldline pixels: 34942
 
 Beta: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 57506
+Open fieldline pixels: 712
+Closed fieldline pixels: 56794
+B-field range: 1.04 to 2932.86
+B-field mean: 164.51, median: 106.06
+
+
+Final Summary for FeS:
+Valid pixels: 211571
+Open fieldline pixels: 2914
+Closed fieldline pixels: 208657
+B-field range: 1.00 to 2932.86
+B-field mean: 106.79, median: 64.50
+
+
+Final Summary for sis:
+Valid pixels: 92645
+Open fieldline pixels: 1274
+Closed fieldline pixels: 91371
+B-field range: 1.00 to 2509.22
+B-field mean: 111.26, median: 66.91
+
+
+Final Summary for sar:
+Valid pixels: 35388
+Open fieldline pixels: 452
+Closed fieldline pixels: 34936
+B-field range: 1.03 to 2509.22
+B-field mean: 156.30, median: 95.80
 
 raster No. : 1  datetime: 2012_09_27__06_24_43  hale_class: Alpha  AR_IDs: ['11575']
 raster No. : 2  datetime: 2012_09_27__10_19_41  hale_class: Alpha  AR_IDs: ['11575']
@@ -817,35 +845,63 @@ raster No. : 278  datetime: 2020_04_04__08_15_16  hale_class: Alpha  AR_IDs: ['1
 raster No. : 279  datetime: 2020_04_04__09_30_11  hale_class: Alpha  AR_IDs: ['12759']
 Alpha: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 21259
+
+Final Summary for CaAr:
+Valid pixels: 21259
 Open fieldline pixels: 217
 Closed fieldline pixels: 21042
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 107261
+
+Final Summary for FeS:
+Valid pixels: 107261
 Open fieldline pixels: 584
 Closed fieldline pixels: 106677
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 40931
+
+Final Summary for sis:
+Valid pixels: 40931
 Open fieldline pixels: 434
 Closed fieldline pixels: 40497
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 17533
+
+Final Summary for sar:
+Valid pixels: 17533
 Open fieldline pixels: 259
 Closed fieldline pixels: 17274
 
 Alpha: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 21264
+Open fieldline pixels: 217
+Closed fieldline pixels: 21047
+B-field range: 1.32 to 2596.36
+B-field mean: 195.23, median: 121.15
+
+
+Final Summary for FeS:
+Valid pixels: 107262
+Open fieldline pixels: 583
+Closed fieldline pixels: 106679
+B-field range: 1.01 to 2710.20
+B-field mean: 101.52, median: 58.97
+
+
+Final Summary for sis:
+Valid pixels: 40884
+Open fieldline pixels: 419
+Closed fieldline pixels: 40465
+B-field range: 1.02 to 2256.03
+B-field mean: 92.52, median: 55.69
+
+
+Final Summary for sar:
+Valid pixels: 17531
+Open fieldline pixels: 258
+Closed fieldline pixels: 17273
+B-field range: 1.22 to 1997.93
+B-field mean: 129.34, median: 83.79
 
 raster No. : 1  datetime: 2011_03_24__23_25_14  hale_class: Beta-Gamma  AR_IDs: ['11176']
 raster No. : 2  datetime: 2011_03_25__22_27_10  hale_class: Beta-Gamma  AR_IDs: ['11176']
@@ -1031,35 +1087,63 @@ raster No. : 181  datetime: 2017_08_26__21_11_42  hale_class: Beta-Gamma  AR_IDs
 raster No. : 182  datetime: 2017_08_26__21_58_42  hale_class: Beta-Gamma  AR_IDs: ['12672']
 Beta-Gamma: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 44942
+
+Final Summary for CaAr:
+Valid pixels: 44942
 Open fieldline pixels: 1900
 Closed fieldline pixels: 43042
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 92689
+
+Final Summary for FeS:
+Valid pixels: 92689
 Open fieldline pixels: 3330
 Closed fieldline pixels: 89359
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 39160
+
+Final Summary for sis:
+Valid pixels: 39160
 Open fieldline pixels: 1239
 Closed fieldline pixels: 37921
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 18954
+
+Final Summary for sar:
+Valid pixels: 18954
 Open fieldline pixels: 602
 Closed fieldline pixels: 18352
 
 Beta-Gamma: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 44940
+Open fieldline pixels: 1899
+Closed fieldline pixels: 43041
+B-field range: 1.04 to 2153.56
+B-field mean: 198.24, median: 128.02
+
+
+Final Summary for FeS:
+Valid pixels: 92671
+Open fieldline pixels: 3328
+Closed fieldline pixels: 89343
+B-field range: 1.04 to 2153.56
+B-field mean: 149.61, median: 81.73
+
+
+Final Summary for sis:
+Valid pixels: 39148
+Open fieldline pixels: 1236
+Closed fieldline pixels: 37912
+B-field range: 1.01 to 1853.20
+B-field mean: 157.18, median: 87.91
+
+
+Final Summary for sar:
+Valid pixels: 18947
+Open fieldline pixels: 599
+Closed fieldline pixels: 18348
+B-field range: 1.01 to 1853.20
+B-field mean: 211.08, median: 137.45
 
 raster No. : 1  datetime: 2012_06_13__11_05_35  hale_class: Beta-Gamma-Delta  AR_IDs: ['11504']
 raster No. : 2  datetime: 2012_06_14__00_14_03  hale_class: Beta-Gamma-Delta  AR_IDs: ['11504']
@@ -1108,35 +1192,63 @@ raster No. : 44  datetime: 2015_06_23__00_03_26  hale_class: Beta-Gamma-Delta  A
 raster No. : 45  datetime: 2015_06_23__13_19_45  hale_class: Beta-Gamma-Delta  AR_IDs: ['12371']
 Beta-Gamma-Delta: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 33499
+
+Final Summary for CaAr:
+Valid pixels: 33499
 Open fieldline pixels: 485
 Closed fieldline pixels: 33014
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 44741
+
+Final Summary for FeS:
+Valid pixels: 44741
 Open fieldline pixels: 814
 Closed fieldline pixels: 43927
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 18679
+
+Final Summary for sis:
+Valid pixels: 18679
 Open fieldline pixels: 221
 Closed fieldline pixels: 18458
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 12431
+
+Final Summary for sar:
+Valid pixels: 12431
 Open fieldline pixels: 129
 Closed fieldline pixels: 12302
 
 Beta-Gamma-Delta: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 33505
+Open fieldline pixels: 485
+Closed fieldline pixels: 33020
+B-field range: 1.83 to 3746.80
+B-field mean: 264.45, median: 171.36
+
+
+Final Summary for FeS:
+Valid pixels: 44740
+Open fieldline pixels: 814
+Closed fieldline pixels: 43926
+B-field range: 1.04 to 3746.80
+B-field mean: 228.37, median: 131.15
+
+
+Final Summary for sis:
+Valid pixels: 18677
+Open fieldline pixels: 221
+Closed fieldline pixels: 18456
+B-field range: 1.04 to 3746.80
+B-field mean: 254.41, median: 150.14
+
+
+Final Summary for sar:
+Valid pixels: 12431
+Open fieldline pixels: 129
+Closed fieldline pixels: 12302
+B-field range: 1.83 to 3746.80
+B-field mean: 328.46, median: 214.74
 
 raster No. : 1  datetime: 2014_07_01__01_34_41  hale_class: Beta-Delta  AR_IDs: ['12107']
 raster No. : 2  datetime: 2014_07_01__23_00_19  hale_class: Beta-Delta  AR_IDs: ['12107']
@@ -1144,35 +1256,63 @@ raster No. : 3  datetime: 2015_03_09__07_02_41  hale_class: Beta-Delta  AR_IDs: 
 raster No. : 4  datetime: 2015_10_20__00_26_12  hale_class: Beta-Delta  AR_IDs: ['12436']
 Beta-Delta: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 1747
+
+Final Summary for CaAr:
+Valid pixels: 1747
 Open fieldline pixels: 34
 Closed fieldline pixels: 1713
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 3069
+
+Final Summary for FeS:
+Valid pixels: 3069
 Open fieldline pixels: 97
 Closed fieldline pixels: 2972
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 1351
+
+Final Summary for sis:
+Valid pixels: 1351
 Open fieldline pixels: 23
 Closed fieldline pixels: 1328
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 964
+
+Final Summary for sar:
+Valid pixels: 964
 Open fieldline pixels: 13
 Closed fieldline pixels: 951
 
 Beta-Delta: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 1747
+Open fieldline pixels: 34
+Closed fieldline pixels: 1713
+B-field range: 6.00 to 2019.59
+B-field mean: 235.45, median: 135.85
+
+
+Final Summary for FeS:
+Valid pixels: 3066
+Open fieldline pixels: 97
+Closed fieldline pixels: 2969
+B-field range: 1.04 to 2140.46
+B-field mean: 170.09, median: 72.18
+
+
+Final Summary for sis:
+Valid pixels: 1351
+Open fieldline pixels: 23
+Closed fieldline pixels: 1328
+B-field range: 6.52 to 1901.79
+B-field mean: 213.19, median: 125.41
+
+
+Final Summary for sar:
+Valid pixels: 964
+Open fieldline pixels: 13
+Closed fieldline pixels: 951
+B-field range: 9.62 to 1656.86
+B-field mean: 216.67, median: 141.67
 
 raster No. : 1  datetime: 2012_08_25__00_44_43  hale_class: H-alpha Plages  AR_IDs: ['11548']
 raster No. : 2  datetime: 2012_08_25__10_39_41  hale_class: H-alpha Plages  AR_IDs: ['11548']
@@ -1358,33 +1498,61 @@ raster No. : 181  datetime: 2020_04_06__20_35_37  hale_class: H-alpha Plages  AR
 raster No. : 182  datetime: 2020_04_06__22_04_07  hale_class: H-alpha Plages  AR_IDs: ['12759']
 H-alpha Plages: FIP bias vs loop length
 
-=== Final Summary for CaAr ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 8445
+
+Final Summary for CaAr:
+Valid pixels: 8445
 Open fieldline pixels: 388
 Closed fieldline pixels: 8057
 
-=== Final Summary for FeS ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 55483
+
+Final Summary for FeS:
+Valid pixels: 55483
 Open fieldline pixels: 1469
 Closed fieldline pixels: 54014
 
-=== Final Summary for sis ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 47218
+
+Final Summary for sis:
+Valid pixels: 47218
 Open fieldline pixels: 728
 Closed fieldline pixels: 46490
 
-=== Final Summary for sar ===
-Total abundance NaNs: 0
-Total loop length NaNs: 0
-Valid pixels (not NaN in both): 11223
+
+Final Summary for sar:
+Valid pixels: 11223
 Open fieldline pixels: 157
 Closed fieldline pixels: 11066
 
 H-alpha Plages: FIP bias vs mean magnetic field strength
+
+
+Final Summary for CaAr:
+Valid pixels: 8441
+Open fieldline pixels: 387
+Closed fieldline pixels: 8054
+B-field range: 1.51 to 1598.71
+B-field mean: 151.38, median: 98.72
+
+
+Final Summary for FeS:
+Valid pixels: 55438
+Open fieldline pixels: 1463
+Closed fieldline pixels: 53975
+B-field range: 1.01 to 1598.71
+B-field mean: 77.96, median: 44.83
+
+
+Final Summary for sis:
+Valid pixels: 47125
+Open fieldline pixels: 696
+Closed fieldline pixels: 46429
+B-field range: 1.01 to 1481.05
+B-field mean: 55.71, median: 28.66
+
+
+Final Summary for sar:
+Valid pixels: 11212
+Open fieldline pixels: 155
+Closed fieldline pixels: 11057
+B-field range: 1.06 to 1481.05
+B-field mean: 98.55, median: 56.97
 
