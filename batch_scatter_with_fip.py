@@ -145,12 +145,12 @@ for ar_id in ar_list:
             element_data_all[element]["open_mask"].append(open_mask_flat)
 
 
-    fig = plt.figure(figsize=(40, 24))
+    fig = plt.figure(figsize=(45, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs loop length", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
 
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2, width_ratios=[1.0, 2.6, 1.0, 2.6])
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.15, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
     # for idx, element in enumerate(order):
@@ -197,8 +197,17 @@ for ar_id in ar_list:
             # ax_map.set_title("Cleaned ratio map", fontsize=14)
             ax_map.set_title("Uncleaned ratio map", fontsize=20)
             # ax_map.coords[1].set_ticklabel_visible(False)
-            ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
-            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            # ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            # ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            # ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            if row == 1:
+                ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            else:
+                ax_map.coords[0].set_axislabel("")
+            if pair == 0:
+                ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            else:
+                ax_map.coords[1].set_axislabel("")
             ax_map.tick_params(axis="both", which="both", labelsize=20)
             ax_map.coords[0].set_ticklabel_visible(True)
             ax_map.coords[1].set_ticklabel_visible(True)
@@ -274,8 +283,15 @@ for ar_id in ar_list:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)", fontsize=20)
-        ax.set_ylabel("Intensity ratio", fontsize=20)
+        # ax.set_xlabel("Loop length (km)", fontsize=20)
+        if row == 1:
+            ax.set_xlabel("Loop length (km)", fontsize=20)
+        else:
+            ax.set_xlabel("")
+        if pair == 0:
+            ax.set_ylabel("Intensity ratio", fontsize=20)
+        else:
+            ax.set_ylabel("")
         ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
@@ -417,11 +433,11 @@ for ar_id in ar_list:
 
         
     # Plotting
-    fig = plt.figure(figsize=(40, 24))
+    fig = plt.figure(figsize=(45, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
         fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
-    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.2, width_ratios=[1.0, 2.6, 1.0, 2.6])
+    outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.15, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
     for idx, element in enumerate(order):
@@ -463,7 +479,8 @@ for ar_id in ar_list:
 
         if display_map[element] is not None:
             # For the B-figure, keep the same visual scale across elements
-            display_map[element].plot(axes=ax_map, vmin=0, vmax=4.0, cmap="viridis")
+            vmax_map = 1.5 if element == "sar" else 4.0
+            display_map[element].plot(axes=ax_map, vmin=0, vmax=vmax_map, cmap="viridis")
             if display_bbox[element] is not None:
                 x0, x1, y0, y1 = display_bbox[element]
                 ax_map.set_xlim(x0, x1)
@@ -472,8 +489,17 @@ for ar_id in ar_list:
             # ax_map.set_title("Cleaned ratio map", fontsize=14)
             ax_map.set_title("Uncleaned ratio map", fontsize=20)
             # ax_map.coords[1].set_ticklabel_visible(False)
-            ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
-            ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            # ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            # ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            # ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            if row == 1:
+                ax_map.coords[0].set_axislabel("Solar-X [arcsec]", fontsize=20)
+            else:
+                ax_map.coords[0].set_axislabel("")
+            if pair == 0:
+                ax_map.coords[1].set_axislabel("Solar-Y [arcsec]", fontsize=20)
+            else:
+                ax_map.coords[1].set_axislabel("")
             ax_map.tick_params(axis="both", which="both", labelsize=20)
             ax_map.coords[0].set_ticklabel_visible(True)
             ax_map.coords[1].set_ticklabel_visible(True)
@@ -581,13 +607,19 @@ for ar_id in ar_list:
             cbar.ax.tick_params(labelsize=20)
 
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
-        ax.set_ylabel("Intensity ratio", fontsize=20)
+        # ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        # ax.set_ylabel("Intensity ratio", fontsize=20)
+        if row == 1:
+            ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        else:
+            ax.set_xlabel("")
+        if pair == 0:
+            ax.set_ylabel("Intensity ratio", fontsize=20)
+        else:
+            ax.set_ylabel("")
         ax.tick_params(axis="both", which="both", labelsize=20)
-        # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
-        # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(5, 3000)
         fit_lines = []
@@ -645,16 +677,15 @@ for ar_id in ar_list:
 
 with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs loop length diagnostics\n\n")
-
-
-    fig = plt.figure(figsize=(40, 24))
+    fig = plt.figure(figsize=(45, 24))
     fig.suptitle("All ARs: FIP bias vs loop length", fontsize=28, y=0.92)
-    outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.2)
+    outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.15)
     order = ["CaAr", "FeS", "sis", "sar"]
 
     for idx, element in enumerate(order):
         ax = fig.add_subplot(outer_grid[idx])
-        
+        row = idx // 2
+        pair = idx % 2
         if len(element_data_all[element]["abund"]) == 0:
             print(f"{element}: no ALL-AR data appended. Skipping this panel.")
             ax.set_title(f"{title[element]}\n(no data)")
@@ -684,12 +715,6 @@ with open(diagnostics_path, "a") as fdiag:
         
         open_abund = abund_vals[open_mask_flat]
         open_loop = loop_vals[open_mask_flat]
-        
-        # print(f"{element} open fieldline sample values (abund vs loop):")
-        # for i in range(min(10, len(open_abund))):
-        #     print(f"  {i}: Abundance = {open_abund[i]:.2f}, Loop Length = {open_loop[i]:.2f}")
-        # print(f"  Open points out of Y range (>1.5 or >4): {(open_abund > (1.5 if element == 'sar' else 4)).sum()}")
-        # print(f"  Open points out of X range (<1e3 or >3e5): {(open_loop < 1e3).sum()} below, {(open_loop > 3e5).sum()} above")
 
         # Linear regression
         slope_lin, intercept_lin, r_lin, p_lin, err_lin = linregress(loop_vals, abund_vals)
@@ -739,13 +764,19 @@ with open(diagnostics_path, "a") as fdiag:
         # ax.plot(x_fit_log10, y_fit_log, color='red', label=f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}', alpha=1, linewidth=3)
         logfit_label = f'Log Fit: y = {slope_log:.2e}·log₁₀(x) + {intercept_log:.2e}'
         logfit_line, = ax.plot(x_fit_log10, y_fit_log, color='red', alpha=1, linewidth=5)
-        ax.set_xlabel("Loop length (km)", fontsize=20)
-        ax.set_ylabel("Intensity ratio", fontsize=20)
+        # ax.set_xlabel("Loop length (km)", fontsize=20)
+        if row == 1:
+            ax.set_xlabel("Loop length (km)", fontsize=20)
+        else:
+            ax.set_xlabel("")
+        if pair == 0:
+            ax.set_ylabel("Intensity ratio", fontsize=20)
+        else:
+            ax.set_ylabel("")
         ax.tick_params(axis="both", which="both", labelsize=20)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
         ax.grid(True)
         ax.set_xscale("log")
-        # plt.ylim(0, 1.5 if element == "sar" else 4)
         ax.set_ylim(0, 4)
         ax.set_xlim(1e3, 3e5)
 
@@ -772,12 +803,14 @@ with open(diagnostics_path, "a") as fdiag:
     fdiag.write("All ARs: FIP bias vs mean magnetic field strength diagnostics\n\n")
 
     # Plotting
-    fig = plt.figure(figsize=(40, 24))
+    fig = plt.figure(figsize=(45, 24))
     fig.suptitle("All ARs: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.08, hspace=0.2)
     order = ["CaAr", "FeS", "sis", "sar"]
 
     for idx, element in enumerate(order):
+        row = idx // 2
+        pair = idx % 2
         inner_grid = gridspec.GridSpecFromSubplotSpec(1, 2, width_ratios=[24, 1], wspace=0.05,
                                                     subplot_spec=outer_grid[idx])
         ax = fig.add_subplot(inner_grid[0])
@@ -902,8 +935,16 @@ with open(diagnostics_path, "a") as fdiag:
             cbar.ax.tick_params(labelsize=20)
 
         ax.set_xscale("log")
-        ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
-        ax.set_ylabel("Intensity ratio", fontsize=20)
+        # ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        # ax.set_ylabel("Intensity ratio", fontsize=20)
+        if row == 1:
+            ax.set_xlabel("Mean magnetic field strength (G)", fontsize=20)
+        else:
+            ax.set_xlabel("")
+        if pair == 0:
+            ax.set_ylabel("Intensity ratio", fontsize=20)
+        else:
+            ax.set_ylabel("")
         ax.tick_params(axis="both", which="both", labelsize=20)
         # ax.set_title(f"{title[element]} : abundance vs mean magnetic field strength", fontsize = 11)
         ax.set_title(f"{title[element]}", fontsize=20, fontweight="bold")
