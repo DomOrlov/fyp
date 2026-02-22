@@ -148,8 +148,8 @@ for ar_id in ar_list:
     fig = plt.figure(figsize=(45, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs loop length", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
-        fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n\n")
-
+        fdiag.write(f"AR {ar_id}: FIP bias vs loop length\n")
+        fdiag.write(f"Total rasters used: {len(closed_loop_files)}\n\n")
     outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.15, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
@@ -178,7 +178,7 @@ for ar_id in ar_list:
             ax.axis("off")
             ax_map.axis("off")
             with open(diagnostics_path, "a") as fdiag:
-                fdiag.write(f"\nFinal Summary for {element}:\n")
+                fdiag.write(f"Final Summary for {element}:\n")
                 fdiag.write("No data appended for this AR\n\n")
             continue
         abund_vals = np.concatenate(element_data[element]["abund"])
@@ -218,7 +218,7 @@ for ar_id in ar_list:
             ax.set_title(f"{title[element]}\n(no valid pixels)")
             ax.axis("off")
             with open(diagnostics_path, "a") as fdiag:
-                fdiag.write(f"\nFinal Summary for {element}:\n")
+                fdiag.write(f"Final Summary for {element}:\n")
                 fdiag.write(f"Not enough valid points (N={abund_vals.size})\n\n")
             continue
 
@@ -228,7 +228,7 @@ for ar_id in ar_list:
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
 
         with open(diagnostics_path, "a") as fdiag:
-            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Final Summary for {element}:\n")
             fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
             fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
             fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n\n")
@@ -435,7 +435,8 @@ for ar_id in ar_list:
     fig = plt.figure(figsize=(45, 24))
     fig.suptitle(f"AR {ar_id}: FIP bias vs mean magnetic field strength", fontsize=28, y=0.92)
     with open(diagnostics_path, "a") as fdiag:
-        fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n\n")
+        fdiag.write(f"AR {ar_id}: FIP bias vs mean magnetic field strength\n")
+        fdiag.write(f"Total rasters used: {len(mean_B_files)}\n\n")
     outer_grid = gridspec.GridSpec(2, 4, wspace=0.125, hspace=0.15, width_ratios=[1.0, 2.6, 1.0, 2.6])
     order = ["CaAr", "FeS", "sis", "sar"]
 
@@ -467,7 +468,7 @@ for ar_id in ar_list:
             ax.set_title(f"{title[element]}\n(no data)")
             ax.axis("off")
             with open(diagnostics_path, "a") as fdiag:
-                fdiag.write(f"\nFinal Summary for {element}:\n")
+                fdiag.write(f"Final Summary for {element}:\n")
                 fdiag.write("No data appended for this AR\n\n")
             continue
         abund_vals = np.concatenate(element_data_B[element]["abund"])
@@ -511,13 +512,13 @@ for ar_id in ar_list:
         print(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}")
 
         with open(diagnostics_path, "a") as fdiag:
-            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Final Summary for {element}:\n")
             fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
             fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
             fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n")
             fdiag.write(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}\n")
             fdiag.write(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}\n")
-            fdiag.write("\n")
+            fdiag.write("\n\n")
 
         # Split data at {split_gauss} Gauss
         split_gauss = 150
@@ -675,7 +676,7 @@ for ar_id in ar_list:
     print(f"Saved: {outname}")
 
 with open(diagnostics_path, "a") as fdiag:
-    fdiag.write("All ARs: FIP bias vs loop length diagnostics\n\n")
+    fdiag.write("All ARs: FIP bias vs loop length diagnostics\n")
     fig = plt.figure(figsize=(45, 24))
     fig.suptitle("All ARs: FIP bias vs loop length", fontsize=28, y=0.92)
     outer_grid = gridspec.GridSpec(2, 2, wspace=0.125, hspace=0.15)
@@ -707,7 +708,7 @@ with open(diagnostics_path, "a") as fdiag:
         print("Open fieldline pixels:", np.sum(open_mask_flat))
         print("Closed fieldline pixels:", np.sum(closed_mask_flat))
         with open(diagnostics_path, "a") as fdiag:
-            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Final Summary for {element}:\n")
             fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
             fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
             fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n\n")
@@ -799,7 +800,7 @@ with open(diagnostics_path, "a") as fdiag:
 
 
 with open(diagnostics_path, "a") as fdiag:
-    fdiag.write("All ARs: FIP bias vs mean magnetic field strength diagnostics\n\n")
+    fdiag.write("All ARs: FIP bias vs mean magnetic field strength diagnostics\n")
 
     # Plotting
     fig = plt.figure(figsize=(45, 24))
@@ -835,14 +836,12 @@ with open(diagnostics_path, "a") as fdiag:
         print(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}")
 
         with open(diagnostics_path, "a") as fdiag:
-            fdiag.write(f"\nFinal Summary for {element}:\n")
+            fdiag.write(f"Final Summary for {element}:\n")
             fdiag.write(f"Valid pixels: {len(abund_vals)}\n")
             fdiag.write(f"Open fieldline pixels: {np.sum(open_mask_flat)}\n")
             fdiag.write(f"Closed fieldline pixels: {np.sum(closed_mask_flat)}\n")
             fdiag.write(f"B-field range: {B_vals.min():.2f} to {B_vals.max():.2f}\n")
             fdiag.write(f"B-field mean: {B_vals.mean():.2f}, median: {np.median(B_vals):.2f}\n")
-            fdiag.write("\n")
-
 
         # Split data at {split_gauss} Gauss
         split_gauss = 150
