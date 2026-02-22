@@ -1,9 +1,8 @@
 scatter diagnostics
 
 Beta: FIP bias vs loop length
-Total rasters used = 504
-Total ARs (catalogue, this Hale class) = 41
-Total ARs (actually used, dates with rasters) = 40
+Total rasters used: 504
+Total ARs: 40
 ARs used: ['11176', '11204', '11490', '11504', '11512', '11584', '11593', '11633', '11739', '11944', '12063', '12087', '12107', '12132', '12135', '12282', '12289', '12333', '12335', '12351', '12362', '12371', '12376', '12381', '12387', '12401', '12429', '12434', '12436', '12470', '12519', '12524', '12532', '12539', '12546', '12574', '12592', '12602', '12665', '12672']
 
 Final Summary for CaAr:
@@ -35,12 +34,14 @@ Closed fieldline pixels: 56794
 B-field range: 1.04 to 2932.86
 B-field mean: 164.51, median: 106.06
 
+
 Final Summary for FeS:
 Valid pixels: 211571
 Open fieldline pixels: 2914
 Closed fieldline pixels: 208657
 B-field range: 1.00 to 2932.86
 B-field mean: 106.79, median: 64.50
+
 
 Final Summary for sis:
 Valid pixels: 92645
@@ -49,6 +50,7 @@ Closed fieldline pixels: 91371
 B-field range: 1.00 to 2509.22
 B-field mean: 111.26, median: 66.91
 
+
 Final Summary for sar:
 Valid pixels: 35388
 Open fieldline pixels: 452
@@ -56,10 +58,10 @@ Closed fieldline pixels: 34936
 B-field range: 1.03 to 2509.22
 B-field mean: 156.30, median: 95.80
 
+
 Alpha: FIP bias vs loop length
-Total rasters used = 279
-Total ARs (catalogue, this Hale class) = 26
-Total ARs (actually used, dates with rasters) = 26
+Total rasters used: 279
+Total ARs: 26
 ARs used: ['11575', '11584', '11593', '11799', '11838', '12063', '12107', '12282', '12289', '12333', '12351', '12362', '12401', '12470', '12519', '12524', '12532', '12539', '12546', '12553', '12564', '12574', '12665', '12680', '12685', '12759']
 
 Final Summary for CaAr:
@@ -91,12 +93,14 @@ Closed fieldline pixels: 21047
 B-field range: 1.32 to 2596.36
 B-field mean: 195.23, median: 121.15
 
+
 Final Summary for FeS:
 Valid pixels: 107262
 Open fieldline pixels: 583
 Closed fieldline pixels: 106679
 B-field range: 1.01 to 2710.20
 B-field mean: 101.52, median: 58.97
+
 
 Final Summary for sis:
 Valid pixels: 40884
@@ -105,6 +109,7 @@ Closed fieldline pixels: 40465
 B-field range: 1.02 to 2256.03
 B-field mean: 92.52, median: 55.69
 
+
 Final Summary for sar:
 Valid pixels: 17531
 Open fieldline pixels: 258
@@ -112,10 +117,10 @@ Closed fieldline pixels: 17273
 B-field range: 1.22 to 1997.93
 B-field mean: 129.34, median: 83.79
 
+
 Beta-Gamma: FIP bias vs loop length
-Total rasters used = 182
-Total ARs (catalogue, this Hale class) = 26
-Total ARs (actually used, dates with rasters) = 26
+Total rasters used: 182
+Total ARs: 26
 ARs used: ['11176', '11330', '11504', '11512', '11575', '11633', '11785', '11800', '11944', '11967', '12087', '12104', '12107', '12132', '12135', '12282', '12297', '12335', '12371', '12376', '12381', '12434', '12436', '12564', '12665', '12672']
 
 Final Summary for CaAr:
@@ -147,12 +152,14 @@ Closed fieldline pixels: 43041
 B-field range: 1.04 to 2153.56
 B-field mean: 198.24, median: 128.02
 
+
 Final Summary for FeS:
 Valid pixels: 92671
 Open fieldline pixels: 3328
 Closed fieldline pixels: 89343
 B-field range: 1.04 to 2153.56
 B-field mean: 149.61, median: 81.73
+
 
 Final Summary for sis:
 Valid pixels: 39148
@@ -161,6 +168,7 @@ Closed fieldline pixels: 37912
 B-field range: 1.01 to 1853.20
 B-field mean: 157.18, median: 87.91
 
+
 Final Summary for sar:
 Valid pixels: 18947
 Open fieldline pixels: 599
@@ -168,10 +176,10 @@ Closed fieldline pixels: 18348
 B-field range: 1.01 to 1853.20
 B-field mean: 211.08, median: 137.45
 
+
 Beta-Gamma-Delta: FIP bias vs loop length
-Total rasters used = 45
-Total ARs (catalogue, this Hale class) = 8
-Total ARs (actually used, dates with rasters) = 7
+Total rasters used: 45
+Total ARs: 7
 ARs used: ['11504', '11785', '11944', '11967', '12104', '12297', '12371']
 
 Final Summary for CaAr:
@@ -203,12 +211,14 @@ Closed fieldline pixels: 33020
 B-field range: 1.83 to 3746.80
 B-field mean: 264.45, median: 171.36
 
+
 Final Summary for FeS:
 Valid pixels: 44740
 Open fieldline pixels: 814
 Closed fieldline pixels: 43926
 B-field range: 1.04 to 3746.80
 B-field mean: 228.37, median: 131.15
+
 
 Final Summary for sis:
 Valid pixels: 18677
@@ -217,6 +227,7 @@ Closed fieldline pixels: 18456
 B-field range: 1.04 to 3746.80
 B-field mean: 254.41, median: 150.14
 
+
 Final Summary for sar:
 Valid pixels: 12431
 Open fieldline pixels: 129
@@ -224,10 +235,10 @@ Closed fieldline pixels: 12302
 B-field range: 1.83 to 3746.80
 B-field mean: 328.46, median: 214.74
 
+
 Beta-Delta: FIP bias vs loop length
-Total rasters used = 4
-Total ARs (catalogue, this Hale class) = 3
-Total ARs (actually used, dates with rasters) = 3
+Total rasters used: 4
+Total ARs: 3
 ARs used: ['12107', '12297', '12436']
 
 Final Summary for CaAr:
@@ -259,12 +270,14 @@ Closed fieldline pixels: 1713
 B-field range: 6.00 to 2019.59
 B-field mean: 235.45, median: 135.85
 
+
 Final Summary for FeS:
 Valid pixels: 3066
 Open fieldline pixels: 97
 Closed fieldline pixels: 2969
 B-field range: 1.04 to 2140.46
 B-field mean: 170.09, median: 72.18
+
 
 Final Summary for sis:
 Valid pixels: 1351
@@ -273,6 +286,7 @@ Closed fieldline pixels: 1328
 B-field range: 6.52 to 1901.79
 B-field mean: 213.19, median: 125.41
 
+
 Final Summary for sar:
 Valid pixels: 964
 Open fieldline pixels: 13
@@ -280,10 +294,10 @@ Closed fieldline pixels: 951
 B-field range: 9.62 to 1656.86
 B-field mean: 216.67, median: 141.67
 
+
 H-alpha Plages: FIP bias vs loop length
-Total rasters used = 182
-Total ARs (catalogue, this Hale class) = 18
-Total ARs (actually used, dates with rasters) = 17
+Total rasters used: 182
+Total ARs: 17
 ARs used: ['11548', '11799', '12063', '12282', '12289', '12333', '12351', '12362', '12387', '12401', '12429', '12532', '12564', '12592', '12685', '12687', '12759']
 
 Final Summary for CaAr:
@@ -315,12 +329,14 @@ Closed fieldline pixels: 8054
 B-field range: 1.51 to 1598.71
 B-field mean: 151.38, median: 98.72
 
+
 Final Summary for FeS:
 Valid pixels: 55438
 Open fieldline pixels: 1463
 Closed fieldline pixels: 53975
 B-field range: 1.01 to 1598.71
 B-field mean: 77.96, median: 44.83
+
 
 Final Summary for sis:
 Valid pixels: 47125
@@ -329,10 +345,12 @@ Closed fieldline pixels: 46429
 B-field range: 1.01 to 1481.05
 B-field mean: 55.71, median: 28.66
 
+
 Final Summary for sar:
 Valid pixels: 11212
 Open fieldline pixels: 155
 Closed fieldline pixels: 11057
 B-field range: 1.06 to 1481.05
 B-field mean: 98.55, median: 56.97
+
 
