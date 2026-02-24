@@ -354,3 +354,357 @@ B-field range: 1.06 to 1481.05
 B-field mean: 98.55, median: 56.97
 
 
+Pure Alpha: FIP bias vs loop length
+Total rasters used: 79
+Total ARs: 3
+ARs used: ['11838', '12553', '12680']
+
+Final Summary for CaAr:
+Valid pixels: 472
+Open fieldline pixels: 16
+Closed fieldline pixels: 456
+
+Final Summary for FeS:
+Valid pixels: 16921
+Open fieldline pixels: 26
+Closed fieldline pixels: 16895
+
+Final Summary for sis:
+Valid pixels: 6779
+Open fieldline pixels: 16
+Closed fieldline pixels: 6763
+
+Final Summary for sar:
+Valid pixels: 1223
+Open fieldline pixels: 6
+Closed fieldline pixels: 1217
+
+Pure Alpha: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 470
+Open fieldline pixels: 16
+Closed fieldline pixels: 454
+B-field range: 1.47 to 812.29
+B-field mean: 122.19, median: 68.48
+
+
+Final Summary for FeS:
+Valid pixels: 16914
+Open fieldline pixels: 26
+Closed fieldline pixels: 16888
+B-field range: 1.02 to 1362.38
+B-field mean: 74.56, median: 55.83
+
+
+Final Summary for sis:
+Valid pixels: 6761
+Open fieldline pixels: 16
+Closed fieldline pixels: 6745
+B-field range: 1.02 to 1445.87
+B-field mean: 66.94, median: 26.27
+
+
+Final Summary for sar:
+Valid pixels: 1218
+Open fieldline pixels: 6
+Closed fieldline pixels: 1212
+B-field range: 1.42 to 1362.38
+B-field mean: 101.13, median: 48.79
+
+
+Pure Beta: FIP bias vs loop length
+Total rasters used: 70
+Total ARs: 4
+ARs used: ['11204', '11490', '11739', '12602']
+
+Final Summary for CaAr:
+Valid pixels: 3950
+Open fieldline pixels: 25
+Closed fieldline pixels: 3925
+
+Final Summary for FeS:
+Valid pixels: 27453
+Open fieldline pixels: 116
+Closed fieldline pixels: 27337
+
+Final Summary for sis:
+Valid pixels: 16418
+Open fieldline pixels: 117
+Closed fieldline pixels: 16301
+
+Final Summary for sar:
+Valid pixels: 2488
+Open fieldline pixels: 0
+Closed fieldline pixels: 2488
+
+Pure Beta: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 3950
+Open fieldline pixels: 25
+Closed fieldline pixels: 3925
+B-field range: 1.61 to 1196.33
+B-field mean: 126.15, median: 102.64
+
+
+Final Summary for FeS:
+Valid pixels: 27431
+Open fieldline pixels: 110
+Closed fieldline pixels: 27321
+B-field range: 1.00 to 1196.33
+B-field mean: 87.01, median: 63.92
+
+
+Final Summary for sis:
+Valid pixels: 16394
+Open fieldline pixels: 106
+Closed fieldline pixels: 16288
+B-field range: 1.00 to 1196.33
+B-field mean: 81.47, median: 57.28
+
+
+Final Summary for sar:
+Valid pixels: 2488
+Open fieldline pixels: 0
+Closed fieldline pixels: 2488
+B-field range: 1.86 to 1196.33
+B-field mean: 125.44, median: 90.41
+
+
+Alpha/Beta swap: FIP bias vs loop length
+Total rasters used: 167
+Total ARs: 7
+ARs used: ['11584', '11593', '12470', '12524', '12539', '12546', '12574']
+
+Final Summary for CaAr:
+Valid pixels: 24351
+Open fieldline pixels: 248
+Closed fieldline pixels: 24103
+
+Final Summary for FeS:
+Valid pixels: 78136
+Open fieldline pixels: 531
+Closed fieldline pixels: 77605
+
+Final Summary for sis:
+Valid pixels: 23921
+Open fieldline pixels: 306
+Closed fieldline pixels: 23615
+
+Final Summary for sar:
+Valid pixels: 13808
+Open fieldline pixels: 135
+Closed fieldline pixels: 13673
+
+Alpha/Beta swap: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 24357
+Open fieldline pixels: 248
+Closed fieldline pixels: 24109
+B-field range: 1.32 to 2596.36
+B-field mean: 220.38, median: 154.77
+
+
+Final Summary for FeS:
+Valid pixels: 78135
+Open fieldline pixels: 524
+Closed fieldline pixels: 77611
+B-field range: 1.00 to 2710.20
+B-field mean: 124.53, median: 68.74
+
+
+Final Summary for sis:
+Valid pixels: 23912
+Open fieldline pixels: 300
+Closed fieldline pixels: 23612
+B-field range: 1.00 to 2256.03
+B-field mean: 130.75, median: 79.68
+
+
+Final Summary for sar:
+Valid pixels: 13811
+Open fieldline pixels: 135
+Closed fieldline pixels: 13676
+B-field range: 1.48 to 2028.80
+B-field mean: 143.01, median: 84.60
+
+
+Mixed Alpha: FIP bias vs loop length
+Total rasters used: 110
+Total ARs: 3
+ARs used: ['11799', '12685', '12759']
+
+Final Summary for CaAr:
+Valid pixels: 2151
+Open fieldline pixels: 372
+Closed fieldline pixels: 1779
+
+Final Summary for FeS:
+Valid pixels: 15733
+Open fieldline pixels: 899
+Closed fieldline pixels: 14834
+
+Final Summary for sis:
+Valid pixels: 9960
+Open fieldline pixels: 245
+Closed fieldline pixels: 9715
+
+Final Summary for sar:
+Valid pixels: 1172
+Open fieldline pixels: 10
+Closed fieldline pixels: 1162
+
+Mixed Alpha: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 2151
+Open fieldline pixels: 372
+Closed fieldline pixels: 1779
+B-field range: 1.61 to 1259.03
+B-field mean: 64.37, median: 7.77
+
+
+Final Summary for FeS:
+Valid pixels: 15718
+Open fieldline pixels: 899
+Closed fieldline pixels: 14819
+B-field range: 1.01 to 1259.03
+B-field mean: 73.16, median: 38.98
+
+
+Final Summary for sis:
+Valid pixels: 9919
+Open fieldline pixels: 220
+Closed fieldline pixels: 9699
+B-field range: 1.02 to 1081.30
+B-field mean: 64.97, median: 37.39
+
+
+Final Summary for sar:
+Valid pixels: 1168
+Open fieldline pixels: 10
+Closed fieldline pixels: 1158
+B-field range: 2.43 to 620.26
+B-field mean: 78.57, median: 47.56
+
+
+Mixed Beta: FIP bias vs loop length
+Total rasters used: 416
+Total ARs: 24
+ARs used: ['11176', '11330', '11504', '11512', '11633', '11785', '11800', '11944', '11967', '12087', '12104', '12132', '12135', '12297', '12335', '12371', '12376', '12381', '12387', '12429', '12434', '12436', '12592', '12672']
+
+Final Summary for CaAr:
+Valid pixels: 93954
+Open fieldline pixels: 2145
+Closed fieldline pixels: 91809
+
+Final Summary for FeS:
+Valid pixels: 206075
+Open fieldline pixels: 4786
+Closed fieldline pixels: 201289
+
+Final Summary for sis:
+Valid pixels: 104014
+Open fieldline pixels: 2090
+Closed fieldline pixels: 101924
+
+Final Summary for sar:
+Valid pixels: 46301
+Open fieldline pixels: 839
+Closed fieldline pixels: 45462
+
+Mixed Beta: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 93957
+Open fieldline pixels: 2145
+Closed fieldline pixels: 91812
+B-field range: 1.04 to 3746.80
+B-field mean: 211.11, median: 132.34
+
+
+Final Summary for FeS:
+Valid pixels: 206044
+Open fieldline pixels: 4784
+Closed fieldline pixels: 201260
+B-field range: 1.03 to 3746.80
+B-field mean: 149.04, median: 80.28
+
+
+Final Summary for sis:
+Valid pixels: 103984
+Open fieldline pixels: 2079
+Closed fieldline pixels: 101905
+B-field range: 1.00 to 3746.80
+B-field mean: 151.93, median: 81.98
+
+
+Final Summary for sar:
+Valid pixels: 46292
+Open fieldline pixels: 837
+Closed fieldline pixels: 45455
+B-field range: 1.03 to 3746.80
+B-field mean: 225.57, median: 136.90
+
+
+Mixed Alpha+Beta: FIP bias vs loop length
+Total rasters used: 287
+Total ARs: 13
+ARs used: ['11575', '12063', '12107', '12282', '12289', '12333', '12351', '12362', '12401', '12519', '12532', '12564', '12665']
+
+Final Summary for CaAr:
+Valid pixels: 45020
+Open fieldline pixels: 751
+Closed fieldline pixels: 44269
+
+Final Summary for FeS:
+Valid pixels: 146025
+Open fieldline pixels: 2211
+Closed fieldline pixels: 143814
+
+Final Summary for sis:
+Valid pixels: 53875
+Open fieldline pixels: 983
+Closed fieldline pixels: 52892
+
+Final Summary for sar:
+Valid pixels: 31547
+Open fieldline pixels: 607
+Closed fieldline pixels: 30940
+
+Mixed Alpha+Beta: FIP bias vs mean magnetic field strength
+
+Final Summary for CaAr:
+Valid pixels: 45017
+Open fieldline pixels: 749
+Closed fieldline pixels: 44268
+B-field range: 1.04 to 2932.86
+B-field mean: 173.61, median: 109.17
+
+
+Final Summary for FeS:
+Valid pixels: 146016
+Open fieldline pixels: 2194
+Closed fieldline pixels: 143822
+B-field range: 1.00 to 2932.86
+B-field mean: 113.41, median: 64.01
+
+
+Final Summary for sis:
+Valid pixels: 53837
+Open fieldline pixels: 951
+Closed fieldline pixels: 52886
+B-field range: 1.00 to 2509.22
+B-field mean: 112.18, median: 64.48
+
+
+Final Summary for sar:
+Valid pixels: 31539
+Open fieldline pixels: 600
+Closed fieldline pixels: 30939
+B-field range: 1.01 to 2509.22
+B-field mean: 145.60, median: 91.52
+
+
