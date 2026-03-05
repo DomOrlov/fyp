@@ -10,20 +10,10 @@ Valid pixels: 57509
 Open fieldline pixels: 712
 Closed fieldline pixels: 56797
 
-Final Summary for FeS:
-Valid pixels: 211624
-Open fieldline pixels: 2941
-Closed fieldline pixels: 208683
-
 Final Summary for sis:
 Valid pixels: 92712
 Open fieldline pixels: 1317
 Closed fieldline pixels: 91395
-
-Final Summary for sar:
-Valid pixels: 35397
-Open fieldline pixels: 455
-Closed fieldline pixels: 34942
 
 Beta: FIP bias vs mean magnetic field strength
 
@@ -35,28 +25,12 @@ B-field range: 1.04 to 2932.86
 B-field mean: 164.51, median: 106.06
 
 
-Final Summary for FeS:
-Valid pixels: 211571
-Open fieldline pixels: 2914
-Closed fieldline pixels: 208657
-B-field range: 1.00 to 2932.86
-B-field mean: 106.79, median: 64.50
-
-
 Final Summary for sis:
 Valid pixels: 92645
 Open fieldline pixels: 1274
 Closed fieldline pixels: 91371
 B-field range: 1.00 to 2509.22
 B-field mean: 111.26, median: 66.91
-
-
-Final Summary for sar:
-Valid pixels: 35388
-Open fieldline pixels: 452
-Closed fieldline pixels: 34936
-B-field range: 1.03 to 2509.22
-B-field mean: 156.30, median: 95.80
 
 
 Alpha: FIP bias vs loop length
@@ -69,20 +43,10 @@ Valid pixels: 21259
 Open fieldline pixels: 217
 Closed fieldline pixels: 21042
 
-Final Summary for FeS:
-Valid pixels: 107261
-Open fieldline pixels: 584
-Closed fieldline pixels: 106677
-
 Final Summary for sis:
 Valid pixels: 40931
 Open fieldline pixels: 434
 Closed fieldline pixels: 40497
-
-Final Summary for sar:
-Valid pixels: 17533
-Open fieldline pixels: 259
-Closed fieldline pixels: 17274
 
 Alpha: FIP bias vs mean magnetic field strength
 
@@ -94,28 +58,12 @@ B-field range: 1.32 to 2596.36
 B-field mean: 195.23, median: 121.15
 
 
-Final Summary for FeS:
-Valid pixels: 107262
-Open fieldline pixels: 583
-Closed fieldline pixels: 106679
-B-field range: 1.01 to 2710.20
-B-field mean: 101.52, median: 58.97
-
-
 Final Summary for sis:
 Valid pixels: 40884
 Open fieldline pixels: 419
 Closed fieldline pixels: 40465
 B-field range: 1.02 to 2256.03
 B-field mean: 92.52, median: 55.69
-
-
-Final Summary for sar:
-Valid pixels: 17531
-Open fieldline pixels: 258
-Closed fieldline pixels: 17273
-B-field range: 1.22 to 1997.93
-B-field mean: 129.34, median: 83.79
 
 
 Beta-Gamma: FIP bias vs loop length
@@ -128,20 +76,10 @@ Valid pixels: 44942
 Open fieldline pixels: 1900
 Closed fieldline pixels: 43042
 
-Final Summary for FeS:
-Valid pixels: 92689
-Open fieldline pixels: 3330
-Closed fieldline pixels: 89359
-
 Final Summary for sis:
 Valid pixels: 39160
 Open fieldline pixels: 1239
 Closed fieldline pixels: 37921
-
-Final Summary for sar:
-Valid pixels: 18954
-Open fieldline pixels: 602
-Closed fieldline pixels: 18352
 
 Beta-Gamma: FIP bias vs mean magnetic field strength
 
@@ -153,28 +91,12 @@ B-field range: 1.04 to 2153.56
 B-field mean: 198.24, median: 128.02
 
 
-Final Summary for FeS:
-Valid pixels: 92671
-Open fieldline pixels: 3328
-Closed fieldline pixels: 89343
-B-field range: 1.04 to 2153.56
-B-field mean: 149.61, median: 81.73
-
-
 Final Summary for sis:
 Valid pixels: 39148
 Open fieldline pixels: 1236
 Closed fieldline pixels: 37912
 B-field range: 1.01 to 1853.20
 B-field mean: 157.18, median: 87.91
-
-
-Final Summary for sar:
-Valid pixels: 18947
-Open fieldline pixels: 599
-Closed fieldline pixels: 18348
-B-field range: 1.01 to 1853.20
-B-field mean: 211.08, median: 137.45
 
 
 Beta-Gamma-Delta: FIP bias vs loop length
@@ -187,20 +109,10 @@ Valid pixels: 33499
 Open fieldline pixels: 485
 Closed fieldline pixels: 33014
 
-Final Summary for FeS:
-Valid pixels: 44741
-Open fieldline pixels: 814
-Closed fieldline pixels: 43927
-
 Final Summary for sis:
 Valid pixels: 18679
 Open fieldline pixels: 221
 Closed fieldline pixels: 18458
-
-Final Summary for sar:
-Valid pixels: 12431
-Open fieldline pixels: 129
-Closed fieldline pixels: 12302
 
 Beta-Gamma-Delta: FIP bias vs mean magnetic field strength
 
@@ -212,28 +124,12 @@ B-field range: 1.83 to 3746.80
 B-field mean: 264.45, median: 171.36
 
 
-Final Summary for FeS:
-Valid pixels: 44740
-Open fieldline pixels: 814
-Closed fieldline pixels: 43926
-B-field range: 1.04 to 3746.80
-B-field mean: 228.37, median: 131.15
-
-
 Final Summary for sis:
 Valid pixels: 18677
 Open fieldline pixels: 221
 Closed fieldline pixels: 18456
 B-field range: 1.04 to 3746.80
 B-field mean: 254.41, median: 150.14
-
-
-Final Summary for sar:
-Valid pixels: 12431
-Open fieldline pixels: 129
-Closed fieldline pixels: 12302
-B-field range: 1.83 to 3746.80
-B-field mean: 328.46, median: 214.74
 
 
 Beta-Delta: FIP bias vs loop length
@@ -246,20 +142,10 @@ Valid pixels: 1747
 Open fieldline pixels: 34
 Closed fieldline pixels: 1713
 
-Final Summary for FeS:
-Valid pixels: 3069
-Open fieldline pixels: 97
-Closed fieldline pixels: 2972
-
 Final Summary for sis:
 Valid pixels: 1351
 Open fieldline pixels: 23
 Closed fieldline pixels: 1328
-
-Final Summary for sar:
-Valid pixels: 964
-Open fieldline pixels: 13
-Closed fieldline pixels: 951
 
 Beta-Delta: FIP bias vs mean magnetic field strength
 
@@ -271,28 +157,12 @@ B-field range: 6.00 to 2019.59
 B-field mean: 235.45, median: 135.85
 
 
-Final Summary for FeS:
-Valid pixels: 3066
-Open fieldline pixels: 97
-Closed fieldline pixels: 2969
-B-field range: 1.04 to 2140.46
-B-field mean: 170.09, median: 72.18
-
-
 Final Summary for sis:
 Valid pixels: 1351
 Open fieldline pixels: 23
 Closed fieldline pixels: 1328
 B-field range: 6.52 to 1901.79
 B-field mean: 213.19, median: 125.41
-
-
-Final Summary for sar:
-Valid pixels: 964
-Open fieldline pixels: 13
-Closed fieldline pixels: 951
-B-field range: 9.62 to 1656.86
-B-field mean: 216.67, median: 141.67
 
 
 H-alpha Plages: FIP bias vs loop length
@@ -305,20 +175,10 @@ Valid pixels: 8445
 Open fieldline pixels: 388
 Closed fieldline pixels: 8057
 
-Final Summary for FeS:
-Valid pixels: 55483
-Open fieldline pixels: 1469
-Closed fieldline pixels: 54014
-
 Final Summary for sis:
 Valid pixels: 47218
 Open fieldline pixels: 728
 Closed fieldline pixels: 46490
-
-Final Summary for sar:
-Valid pixels: 11223
-Open fieldline pixels: 157
-Closed fieldline pixels: 11066
 
 H-alpha Plages: FIP bias vs mean magnetic field strength
 
@@ -330,28 +190,12 @@ B-field range: 1.51 to 1598.71
 B-field mean: 151.38, median: 98.72
 
 
-Final Summary for FeS:
-Valid pixels: 55438
-Open fieldline pixels: 1463
-Closed fieldline pixels: 53975
-B-field range: 1.01 to 1598.71
-B-field mean: 77.96, median: 44.83
-
-
 Final Summary for sis:
 Valid pixels: 47125
 Open fieldline pixels: 696
 Closed fieldline pixels: 46429
 B-field range: 1.01 to 1481.05
 B-field mean: 55.71, median: 28.66
-
-
-Final Summary for sar:
-Valid pixels: 11212
-Open fieldline pixels: 155
-Closed fieldline pixels: 11057
-B-field range: 1.06 to 1481.05
-B-field mean: 98.55, median: 56.97
 
 
 Pure Alpha: FIP bias vs loop length
@@ -364,20 +208,10 @@ Valid pixels: 472
 Open fieldline pixels: 16
 Closed fieldline pixels: 456
 
-Final Summary for FeS:
-Valid pixels: 16921
-Open fieldline pixels: 26
-Closed fieldline pixels: 16895
-
 Final Summary for sis:
 Valid pixels: 6779
 Open fieldline pixels: 16
 Closed fieldline pixels: 6763
-
-Final Summary for sar:
-Valid pixels: 1223
-Open fieldline pixels: 6
-Closed fieldline pixels: 1217
 
 Pure Alpha: FIP bias vs mean magnetic field strength
 
@@ -389,28 +223,12 @@ B-field range: 1.47 to 812.29
 B-field mean: 122.19, median: 68.48
 
 
-Final Summary for FeS:
-Valid pixels: 16914
-Open fieldline pixels: 26
-Closed fieldline pixels: 16888
-B-field range: 1.02 to 1362.38
-B-field mean: 74.56, median: 55.83
-
-
 Final Summary for sis:
 Valid pixels: 6761
 Open fieldline pixels: 16
 Closed fieldline pixels: 6745
 B-field range: 1.02 to 1445.87
 B-field mean: 66.94, median: 26.27
-
-
-Final Summary for sar:
-Valid pixels: 1218
-Open fieldline pixels: 6
-Closed fieldline pixels: 1212
-B-field range: 1.42 to 1362.38
-B-field mean: 101.13, median: 48.79
 
 
 Pure Beta: FIP bias vs loop length
@@ -423,20 +241,10 @@ Valid pixels: 3950
 Open fieldline pixels: 25
 Closed fieldline pixels: 3925
 
-Final Summary for FeS:
-Valid pixels: 27453
-Open fieldline pixels: 116
-Closed fieldline pixels: 27337
-
 Final Summary for sis:
 Valid pixels: 16418
 Open fieldline pixels: 117
 Closed fieldline pixels: 16301
-
-Final Summary for sar:
-Valid pixels: 2488
-Open fieldline pixels: 0
-Closed fieldline pixels: 2488
 
 Pure Beta: FIP bias vs mean magnetic field strength
 
@@ -448,28 +256,12 @@ B-field range: 1.61 to 1196.33
 B-field mean: 126.15, median: 102.64
 
 
-Final Summary for FeS:
-Valid pixels: 27431
-Open fieldline pixels: 110
-Closed fieldline pixels: 27321
-B-field range: 1.00 to 1196.33
-B-field mean: 87.01, median: 63.92
-
-
 Final Summary for sis:
 Valid pixels: 16394
 Open fieldline pixels: 106
 Closed fieldline pixels: 16288
 B-field range: 1.00 to 1196.33
 B-field mean: 81.47, median: 57.28
-
-
-Final Summary for sar:
-Valid pixels: 2488
-Open fieldline pixels: 0
-Closed fieldline pixels: 2488
-B-field range: 1.86 to 1196.33
-B-field mean: 125.44, median: 90.41
 
 
 Alpha/Beta swap: FIP bias vs loop length
@@ -482,20 +274,10 @@ Valid pixels: 24351
 Open fieldline pixels: 248
 Closed fieldline pixels: 24103
 
-Final Summary for FeS:
-Valid pixels: 78136
-Open fieldline pixels: 531
-Closed fieldline pixels: 77605
-
 Final Summary for sis:
 Valid pixels: 23921
 Open fieldline pixels: 306
 Closed fieldline pixels: 23615
-
-Final Summary for sar:
-Valid pixels: 13808
-Open fieldline pixels: 135
-Closed fieldline pixels: 13673
 
 Alpha/Beta swap: FIP bias vs mean magnetic field strength
 
@@ -507,28 +289,12 @@ B-field range: 1.32 to 2596.36
 B-field mean: 220.38, median: 154.77
 
 
-Final Summary for FeS:
-Valid pixels: 78135
-Open fieldline pixels: 524
-Closed fieldline pixels: 77611
-B-field range: 1.00 to 2710.20
-B-field mean: 124.53, median: 68.74
-
-
 Final Summary for sis:
 Valid pixels: 23912
 Open fieldline pixels: 300
 Closed fieldline pixels: 23612
 B-field range: 1.00 to 2256.03
 B-field mean: 130.75, median: 79.68
-
-
-Final Summary for sar:
-Valid pixels: 13811
-Open fieldline pixels: 135
-Closed fieldline pixels: 13676
-B-field range: 1.48 to 2028.80
-B-field mean: 143.01, median: 84.60
 
 
 Mixed Alpha: FIP bias vs loop length
@@ -541,20 +307,10 @@ Valid pixels: 2151
 Open fieldline pixels: 372
 Closed fieldline pixels: 1779
 
-Final Summary for FeS:
-Valid pixels: 15733
-Open fieldline pixels: 899
-Closed fieldline pixels: 14834
-
 Final Summary for sis:
 Valid pixels: 9960
 Open fieldline pixels: 245
 Closed fieldline pixels: 9715
-
-Final Summary for sar:
-Valid pixels: 1172
-Open fieldline pixels: 10
-Closed fieldline pixels: 1162
 
 Mixed Alpha: FIP bias vs mean magnetic field strength
 
@@ -566,28 +322,12 @@ B-field range: 1.61 to 1259.03
 B-field mean: 64.37, median: 7.77
 
 
-Final Summary for FeS:
-Valid pixels: 15718
-Open fieldline pixels: 899
-Closed fieldline pixels: 14819
-B-field range: 1.01 to 1259.03
-B-field mean: 73.16, median: 38.98
-
-
 Final Summary for sis:
 Valid pixels: 9919
 Open fieldline pixels: 220
 Closed fieldline pixels: 9699
 B-field range: 1.02 to 1081.30
 B-field mean: 64.97, median: 37.39
-
-
-Final Summary for sar:
-Valid pixels: 1168
-Open fieldline pixels: 10
-Closed fieldline pixels: 1158
-B-field range: 2.43 to 620.26
-B-field mean: 78.57, median: 47.56
 
 
 Mixed Beta: FIP bias vs loop length
@@ -600,20 +340,10 @@ Valid pixels: 93954
 Open fieldline pixels: 2145
 Closed fieldline pixels: 91809
 
-Final Summary for FeS:
-Valid pixels: 206075
-Open fieldline pixels: 4786
-Closed fieldline pixels: 201289
-
 Final Summary for sis:
 Valid pixels: 104014
 Open fieldline pixels: 2090
 Closed fieldline pixels: 101924
-
-Final Summary for sar:
-Valid pixels: 46301
-Open fieldline pixels: 839
-Closed fieldline pixels: 45462
 
 Mixed Beta: FIP bias vs mean magnetic field strength
 
@@ -625,28 +355,12 @@ B-field range: 1.04 to 3746.80
 B-field mean: 211.11, median: 132.34
 
 
-Final Summary for FeS:
-Valid pixels: 206044
-Open fieldline pixels: 4784
-Closed fieldline pixels: 201260
-B-field range: 1.03 to 3746.80
-B-field mean: 149.04, median: 80.28
-
-
 Final Summary for sis:
 Valid pixels: 103984
 Open fieldline pixels: 2079
 Closed fieldline pixels: 101905
 B-field range: 1.00 to 3746.80
 B-field mean: 151.93, median: 81.98
-
-
-Final Summary for sar:
-Valid pixels: 46292
-Open fieldline pixels: 837
-Closed fieldline pixels: 45455
-B-field range: 1.03 to 3746.80
-B-field mean: 225.57, median: 136.90
 
 
 Mixed Alpha+Beta: FIP bias vs loop length
@@ -659,20 +373,10 @@ Valid pixels: 45020
 Open fieldline pixels: 751
 Closed fieldline pixels: 44269
 
-Final Summary for FeS:
-Valid pixels: 146025
-Open fieldline pixels: 2211
-Closed fieldline pixels: 143814
-
 Final Summary for sis:
 Valid pixels: 53875
 Open fieldline pixels: 983
 Closed fieldline pixels: 52892
-
-Final Summary for sar:
-Valid pixels: 31547
-Open fieldline pixels: 607
-Closed fieldline pixels: 30940
 
 Mixed Alpha+Beta: FIP bias vs mean magnetic field strength
 
@@ -684,27 +388,11 @@ B-field range: 1.04 to 2932.86
 B-field mean: 173.61, median: 109.17
 
 
-Final Summary for FeS:
-Valid pixels: 146016
-Open fieldline pixels: 2194
-Closed fieldline pixels: 143822
-B-field range: 1.00 to 2932.86
-B-field mean: 113.41, median: 64.01
-
-
 Final Summary for sis:
 Valid pixels: 53837
 Open fieldline pixels: 951
 Closed fieldline pixels: 52886
 B-field range: 1.00 to 2509.22
 B-field mean: 112.18, median: 64.48
-
-
-Final Summary for sar:
-Valid pixels: 31539
-Open fieldline pixels: 600
-Closed fieldline pixels: 30939
-B-field range: 1.01 to 2509.22
-B-field mean: 145.60, median: 91.52
 
 
