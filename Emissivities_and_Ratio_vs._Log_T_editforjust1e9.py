@@ -1,5 +1,13 @@
 #================================================================================
 import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OMP_DYNAMIC"] = "FALSE"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["MKL_DYNAMIC"] = "FALSE"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["BLIS_NUM_THREADS"] = "1"
 import re
 import ChiantiPy.core as ch  # type: ignore
 import numpy as np
@@ -10,10 +18,7 @@ import matplotlib.cm as cm
 from datetime import datetime
 from matplotlib import gridspec
 
-
-
 template_dir = "/home/ug/orlovsd2/eispac/eispac/data/templates"
-
 error_log = []
 
 # Get all .h5 template files
