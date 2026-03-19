@@ -18,9 +18,10 @@ data_dir = Path("/mnt/scratch/data/orlovsd2/sunpy/data").resolve()
 pickle_dir = data_dir / "pfss_pickles"
 Path(pickle_dir).mkdir(parents=True, exist_ok=True)
 
-full_geometry = False
-test_mode = False
-test_target = "2014_02_05__10_41_27"
+full_geometry = True # saves space
+test_mode = True
+# test_target = "2014_02_05__10_41_27"
+test_target = "2015_04_29__23_02_57"
 
 fe12_dir = data_dir / "aligned_fe12_intensity_maps"
 fits_files = sorted(glob.glob(f"{fe12_dir}/*.fits"))
@@ -59,8 +60,12 @@ def _work(fits_file):
     if test_mode and test_target not in base_name:
         return  
 
-    open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines.pickle"
-    closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines.pickle"
+    if full_geometry == True:
+        open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines_fullgeom.pickle"
+        closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines_fullgeom.pickle"
+    else:
+        open_pickle_filename = f"{pickle_dir}/{base_name}_open_fieldlines.pickle"
+        closed_pickle_filename = f"{pickle_dir}/{base_name}_closed_fieldlines.pickle"
 
     if os.path.isfile(open_pickle_filename) and os.path.isfile(closed_pickle_filename):
         print(f"Skipping {base_name} (pickles already exist).")
