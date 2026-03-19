@@ -21,7 +21,7 @@ Path(pickle_dir).mkdir(parents=True, exist_ok=True)
 full_geometry = True # saves space
 test_mode = True
 # test_target = "2014_02_05__10_41_27"
-test_target = "2015_04_29__23_02_57"
+test_target = "2015_07_10__22_43_27"
 
 fe12_dir = data_dir / "aligned_fe12_intensity_maps"
 fits_files = sorted(glob.glob(f"{fe12_dir}/*.fits"))
