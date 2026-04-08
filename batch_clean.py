@@ -143,8 +143,8 @@ def _work(fits_file):
     labels, nlab = label(valid_mask)
     sizes = np.bincount(labels.ravel())
     
-    keep_lab = sizes >= min_feature_size   # keep only features >= min_feature_size pixels
-    keep_lab[0] = False                    # label 0 is not a feature
+    keep_lab = sizes >= min_feature_size # keep only features >= min_feature_size pixels
+    keep_lab[0] = False # label 0 is not a feature
     
     ratio_arr[~keep_lab[labels]] = np.nan
     after_feature_valid = int(np.isfinite(ratio_arr).sum())

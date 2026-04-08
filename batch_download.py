@@ -35,7 +35,6 @@ def log(msg: str):
     line = f"{ts} | {msg}"
     print(line)
 
-    # also persist to disk
     try:
         with log_file.open("a", encoding="utf-8") as f:
             f.write(line + "\n")
@@ -109,13 +108,12 @@ ar_catalogue = [
 
 def read_study_id(hdr_path):
     with h5py.File(hdr_path, "r") as f:
-        # the location in your files
+        # the location in files
         if "index/study_id" in f:
             v = f["index/study_id"][()]
             if hasattr(v, "shape") and v.shape != ():
                 v = v.reshape(()).item()  # handles array([437], dtype=int32)
             return int(v)
-        # fallbacks (some datasets use these)
         for p in ("/header/STUDY_ID","/header/study_id",
                 "/eis_header/STUDY_ID","/eis_header/study_id",
                 "/header/PROGRAM_ID","/header/PROG_NUM"):
@@ -146,10 +144,10 @@ def hmi_day_cached(day_time):
     # What to look for (cover compact + dotted dates; allow extra suffixes like .data.fits)
     y, m, d = day.split("-")
     pats_rel = [
-        f"hmi.mrdailysynframe_720s.{y}{m}{d}_*.fits",   # e.g. ...20151022_120000_TAI.data.fits
-        f"hmi.mrdailysynframe_720s.{y}{m}{d}*.fits",    # compact without underscore-time (belt & braces)
-        f"hmi.mrdailysynframe_720s.{y}.{m}.{d}*.fits",  # dotted date variant
-        f"*mrdailysynframe*{y}{m}{d}*.fits",            # safety nets
+        f"hmi.mrdailysynframe_720s.{y}{m}{d}_*.fits", 
+        f"hmi.mrdailysynframe_720s.{y}{m}{d}*.fits",  
+        f"hmi.mrdailysynframe_720s.{y}.{m}.{d}*.fits", 
+        f"*mrdailysynframe*{y}{m}{d}*.fits",    
         f"*mrdailysynframe*{y}.{m}.{d}*.fits",
     ]
 
@@ -162,7 +160,6 @@ def hmi_day_cached(day_time):
     if hits:
         chosen = str(Path(hits[-1]))  # latest if multiple
         print(f"[HMI cache] using disk: {chosen}")
-        # IMPORTANT: run through your header-fixing routine
         m = PrepHMIdaily(chosen)
         _hmi_mem_cache[day] = m
         return m

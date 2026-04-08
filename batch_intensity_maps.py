@@ -66,12 +66,12 @@ def _work(filename):
         print(f"skipping Fe XII already exists: {fe12_out.name}")
     else:
         print(f"\nGenerating Fe XII {fe12_line} for {filename}")
-        m_fe = a.ash.get_intensity(
+        m_fe = a.ash.get_intensity( # normal intensity Map (with metadata) to save the Fe XII intensity FITS.
             fe12_line,
             outdir=fe12_dir,
             refit=False,
             plot=True,
-            mcmc=False,
+            mcmc=False, # a Map to save a simple intensity FITS.
             calib=True,
             calib_year="2014"
         )
@@ -88,20 +88,20 @@ def _work(filename):
                 print(f"skipping already exists: {out_fits.name} (+err)")
                 continue
             try:
-                I_data, I_err = a.ash.get_intensity(
+                I_data, I_err = a.ash.get_intensity( # uncertainties (intensity, error) arrays.
                     line,
                     outdir=custom_intensity_dir,
                     refit=(not out_fits.exists() or not err_fits.exists()),
                     plot=True,
-                    mcmc=True,
+                    mcmc=True, # intensity + uncertainty arrays.
                     calib=True,
                     calib_year="2014"
                 )
             except Exception as e:
-                print(f"[SKIP LINE] {timestamp} {line}: {e}")
+                print(f"Skipping {timestamp} {line}: {e}")
                 continue
 
-            m = a.ash.get_intensity(
+            m = a.ash.get_intensity( # metadata/header to write the intensity and error arrays to FITS with the correct WCS/units.
                 line,
                 outdir=custom_intensity_dir,
                 refit=False,
