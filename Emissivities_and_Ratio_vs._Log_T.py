@@ -38,6 +38,7 @@ unique_pairs = [
 T_range = np.logspace(5.8, 7.0, num=120)  # Extend to log(T) = 7 
 logT = np.log10(T_range)
 electron_densities = [1e8, 1e9, 1e10]
+density_labels = {1e8: r"1e8 cm$^{-3}$", 1e9: r"1e9 cm$^{-3}$", 1e10: r"1e10 cm$^{-3}$"}
 emissivity_data = {}
 
 def find_line_index(ion_obj, target_wavelength):
@@ -159,8 +160,8 @@ def plot_emissivity_ratios(emissivity_data, logT, unique_pairs):
                 error_log.append(f"Warning: No valid emissivity data for {low_ion} {low_wvl}Å / {high_ion} {high_wvl}Å at ne=1e9")            
                 #ax.plot(logT, low_emiss_norm, 'k-', label=f'{low_ion.upper()} {low_wvl}Å at 1e9')
             #ax.plot(logT, high_emiss_norm, 'k--', label=f'{high_ion.upper()} {high_wvl}Å at 1e9')
-            ax.plot(logT, low_emiss_norm, 'k-', label=f'{low_label} at 1e9')
-            ax.plot(logT, high_emiss_norm, 'k--', label=f'{high_label} at 1e9')
+            ax.plot(logT, low_emiss_norm, 'k-', label=f'{low_label} at {density_labels[ne_ref]}')
+            ax.plot(logT, high_emiss_norm, 'k--', label=f'{high_label} at {density_labels[ne_ref]}')
         # Plot ratios at different densities
         for ne, color, linestyle in zip([1e8, 1e9, 1e10], colors_ratio, [':', '--', '-.']):
             key = (low_ion, low_wvl, high_ion, high_wvl, ne)
@@ -172,7 +173,7 @@ def plot_emissivity_ratios(emissivity_data, logT, unique_pairs):
                 valid_ratio_indices = (high_emiss > 1e-30)  # Only compute ratio where high_emiss is significant
                 ratio[valid_ratio_indices] = low_emiss[valid_ratio_indices] / high_emiss[valid_ratio_indices]
                 #ax.plot(logT, ratio, color=color, linestyle=linestyle, label=f'{low_ion.upper()} / {high_ion.upper()} at {int(ne):.0e}')
-                ax.plot(logT, ratio, color=color, linestyle=linestyle, label=f'{low_label} / {high_label} at {int(ne):.0e}')
+                ax.plot(logT, ratio, color=color, linestyle=linestyle, label=f'{low_label} / {high_label} at {density_labels[ne]}')
         ax.axhline(1.0, color='gray', linewidth=1)
         ax.legend(loc='best')
         #plt.title(f"{title[element_key]} emissivities and ratio vs log T")
