@@ -1,0 +1,11 @@
+fyp_data.rar
+fyp_data/
+fyp_data - Copy/
+aia/
+hmi_daily/
+__pycache__/
+.ipynb_checkpoints/
+*.rar
+*.fits
+*.h5
+*.pickle
